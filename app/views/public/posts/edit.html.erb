@@ -1,2 +1,17 @@
-<h1>Public::Posts#edit</h1>
-<p>Find me in app/views/public/posts/edit.html.erb</p>
+<%= form_with model: @post, local: true do |f| %>
+  <div class = "field" >
+    <%= f.label :タイトル %>
+    <%= f.text_field :title, value: @post.title %>
+  </div>
+
+  <div class = "field" >
+    <%= f.label :本文 %>
+    <%= f.text_area :body, value: @post.body %>
+  </div>
+
+  <div class = "action">
+    <%= f.submit "変更を保存する" %>
+  </div>
+<% end %>
+
+   
