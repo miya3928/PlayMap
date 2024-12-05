@@ -4,7 +4,13 @@ class Public::UsersController < ApplicationController
   end
 
   def edit
+    @user = current_user
+  end
+
+def destroy
     @user = User.find(params[:id])
+    @user.destroy
+    redirect_to root_path, notice: "退会しました"
   end
 
   def show
@@ -20,16 +26,12 @@ class Public::UsersController < ApplicationController
     end
   end
 
-  def destroy
-    @user = User.find(params[:id])
-    @user.destroy
-    redirect_to root_path, notice: "退会しました"
-  end
+  
 
   private
 
  def user_params
-   params.require(:user),permit(:name :introduction)
+   params.require(:user).permit(:name, :introduction, :email)
  end
 
 end
