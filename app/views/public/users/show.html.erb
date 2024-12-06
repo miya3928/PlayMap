@@ -1,2 +1,4 @@
-<h1>Public::Users#show</h1>
-<p>Find me in app/views/public/users/show.html.erb</p>
+<h2>アカウント管理</h2>
+
+<%= link_to "アカウント情報を編集", edit_user_registration_path, class: "btn btn-primary" %>
+<%= button_to "退会する", user_path(current_user), method: :delete, data: { confirm: "本当に退会しますか？" }, class: "btn btn-danger" %>
