@@ -20,9 +20,22 @@ class Public::RegistrationsController < Devise::RegistrationsController
   # end
 
   # PUT /resource
-  # def update
-  #   super
-  # end
+  def update_resource(resource, params)
+    # パスワードフィールドが空白の場合、パスワード更新をスキップ
+    if params[:password].blank? && params[:password_confirmation].blank?
+      # current_password をパラメータから削除
+      params.delete(:password)
+      params.delete(:password_confirmation)
+      
+      # current_password を手動で渡さないようにします
+      params.delete(:current_password)
+      
+      # パスワードなしで更新を実行
+      resource.update_without_password(params)
+    else
+      super
+    end
+  end
 
   # DELETE /resource
   # def destroy
