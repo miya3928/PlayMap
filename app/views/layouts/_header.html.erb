@@ -1,34 +1,47 @@
 <header>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-    <%= link_to "top",root_path, class: "navbar-brand"  %>
-  
-<% if current_user %> <!-- Publicログイン時 -->
+      <!-- ロゴリンク -->
+      <%= link_to "PlayMap", root_path, class: "navbar-brand" %>
 
-  <li class="nav-item">
-    <span class="navbar-text me-3">ようこそ、<%= current_user.name %>さん！</span>
-  </li>
-  <li class="nav-item">
-    <%= link_to "マイページ", mypage_path(current_user), class: "btn btn-outline-primary mx-3" %>
-  </li>
-  <li class="nav-item">
-    <%= link_to "投稿一覧", posts_path, class: "btn btn-outline-primary mx-3" %>
-  </li>
-  <li class="nav-item">
-    <%= link_to "新規投稿", new_post_path, class: "btn btn-outline-primary mx-3" %>
-  </li>
-  <li class="nav-item">
-    <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-outline-danger mx-3" %>
-  </li>
+      <!-- ハンバーガーメニュー（画面サイズが小さい時に表示） -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-<% else %>
-
-<%= link_to "About", about_path %>
-<%= link_to "新規登録", new_user_registration_path %>
-<%= link_to "ログイン", new_user_session_path %>
-<%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
-<% end %>
-
-</div>
-</nav>
+      <!-- ナビゲーションリンク -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto"> 
+          <% if current_user %> <!-- ログイン時 -->
+            <li class="nav-item">
+              <span class="navbar-text me-3">ようこそ、<%= current_user.name %>さん！</span>
+            </li>
+            <li class="nav-item">
+              <%= link_to "マイページ", mypage_path(current_user), class: "btn btn-outline-primary mx-3" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "投稿一覧", posts_path, class: "btn btn-outline-primary mx-3" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "新規投稿", new_post_path, class: "btn btn-outline-primary mx-3" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-outline-danger mx-3" %>
+            </li>
+            
+          <% else %> <!-- ログアウト時 -->
+            <li class="nav-item">
+              <%= link_to "About", about_path, class: "btn btn-outline-secondary mx-3" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "新規登録", new_user_registration_path, class: "btn btn-outline-primary mx-3" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "ログイン", new_user_session_path, class: "btn btn-outline-primary mx-3" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </nav>
 </header>

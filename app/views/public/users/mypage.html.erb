@@ -1,12 +1,20 @@
-<h1>マイページ</h1>
+<h1 class="text-center my-4">My page</h1>
 
-<h1><%= current_user.name %> さんの投稿一覧</h1>
-<ul>
-  <% @posts.each do |post| %>
-    <li><%= post.title %> - <%= post.body %></li>
-  <% end %>
-</ul>
+<h2 class="text-center mb-4"><%= current_user.name %> さんの投稿一覧</h2>
 
-<%= link_to "新規投稿",new_post_path %>
-<%= link_to "投稿一覧",posts_path %>
-<%= link_to "ユーザー編集",edit_user_registration_path %>
+<div class="container">
+  <ul class="list-group">
+    <% @posts.each do |post| %>
+      <li class="list-group-item">
+        <h5><%= post.title %></h5>
+        <p><%= post.body %></p>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
+<div class="text-center mt-4">
+  <%= link_to "新規投稿", new_post_path, class: "btn btn-primary mx-2" %>
+  <%= link_to "投稿一覧", posts_path, class: "btn btn-secondary mx-2" %>
+  <%= link_to "ユーザー編集", edit_user_registration_path, class: "btn btn-warning mx-2" %>
+</div>
