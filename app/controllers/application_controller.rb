@@ -16,11 +16,11 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(resource_or_scope)
-    your_path # ログアウト後にリダイレクトするパスを指定
+    root_path # ログアウト後にリダイレクトするパスを指定
   end
 
   def after_sign_up_path_for(resource)
-    your_path # サインアップ後にリダイレクトするパスを指定
+    mypage_path # サインアップ後にリダイレクトするパスを指定
   end
 end
 

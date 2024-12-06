@@ -1,7 +1,7 @@
 <h1>新規投稿</h1>
 <%= form_with model: @post, local: true do |form| %>
   <% if @post.errors.any? %>
-    <div id="error_explanation">
+    <div class = "error_explanation">
       <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
       <ul>
         <% @post.errors.full_messages.each do |message| %>
@@ -11,17 +11,17 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class = "field">
     <%= form.label :タイトル %>
     <%= form.text_field :title %>
   </div>
 
-  <div class="field">
+  <div class = "field">
     <%= form.label :本文 %>
     <%= form.text_area :body %>
   </div>
 
-  <div class="actions">
+  <div class = "actions">
     <%= form.submit "投稿する" %>
   </div>
 <% end %>

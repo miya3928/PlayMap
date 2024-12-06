@@ -8,9 +8,11 @@ class Public::PostsController < ApplicationController
   def create
     @post = current_user.posts.build(post_params)
     if @post.save
-      redirect_to posts_path, notice: '投稿に成功しました！'
+      flash.now[:alert] = '投稿に成功しました'
+      redirect_to posts_path
     else
-      render :new,  notice: '投稿に失敗しました。'
+      flash.now[:alert] = '投稿に失敗しました'
+      render :new 
     end  
   end
 
@@ -29,9 +31,11 @@ class Public::PostsController < ApplicationController
   def update
     @post = Post.find(params[:id])
     if @post.update(post_params)
-      redirect_to @post, notice: '投稿が更新されました！'
+      flash.now[:alert] = '投稿が更新されました'
+      redirect_to @post
     else
-      render :edit, alert: '更新に失敗しました!'
+      flash.now[:alert] = '更新に失敗しました'
+      render :edit
     end
   end
 
