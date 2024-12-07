@@ -1,35 +1,17 @@
-# frozen_string_literal: true
-
 class Public::SessionsController < Devise::SessionsController
-  # before_action :configure_sign_in_params, only: [:create]
-    
-    def guest_sign_in
-      user = User.guest
-      sign_in user
-      flash.now[:alert] = 'ゲストユーザーとしてログインしました'
-      redirect_to root_path
-    end  
+  def create
+    if params[:guest]
+      guest_user = User.find_or_create_by!(email: 'guest@example.com') do |user|
+        user.password = SecureRandom.hex(10)
+        user.name = 'ゲストユーザー'
+        # 必要に応じて以下を追加
+        # user.confirmed_at = Time.current # メール認証を有効にしている場合
+      end
 
-
-  # GET /resource/sign_in
-  # def new
-  #   super
-  # end
-
-  # POST /resource/sign_in
-  # def create
-  #   super
-  # end
-
-  # DELETE /resource/sign_out
-  # def destroy
-  #   super
-  # end
-
-  # protected
-
-  # If you have extra params to permit, append them to the sanitizer.
-  # def configure_sign_in_params
-  #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
-  # end
+      sign_in(guest_user)
+      redirect_to root_path, notice: 'ゲストユーザーとしてログインしました。'
+    else
+      super
+    end
+  end
 end

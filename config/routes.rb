@@ -1,13 +1,15 @@
 Rails.application.routes.draw do
   # user用
   # URL /users/sign_in ...
+   get '/guest_login', to: 'public/sessions#guest_login', as: 'guest_login'
+
   devise_for :users, skip: [:passwords], controllers: {
     registrations: "public/registrations",
     sessions: "public/sessions"
   }
 
   devise_scope :user do
-    post 'users/guest_sign_in', to: 'public/sessions#guest_sign_in'
+    post 'users/guest_sign_in', to: 'public/sessions#create'
     get '/users/sign_in' => 'devise/sessions#new'
   end
 
