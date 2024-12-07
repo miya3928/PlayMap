@@ -12,7 +12,19 @@
       <!-- ナビゲーションリンク -->
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto"> 
-          <% if current_user %> <!-- ログイン時 -->
+
+        <% if current_user && current_user.guest? %> <!-- ゲストユーザー時 -->
+            <li class="nav-item">
+              <span class="navbar-text me-3">ようこそ、ゲストさん！</span>
+            </li>
+            <li class="nav-item">
+              <%= link_to "投稿一覧", posts_path, class: "btn btn-outline-secondary mx-3" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "新規登録", new_user_registration_path, class: "btn btn-outline-primary mx-3" %>
+            </li>
+
+          <% elsif current_user %> <!-- ログイン時 -->
             <li class="nav-item">
               <span class="navbar-text me-3">ようこそ、<%= current_user.name %>さん！</span>
             </li>
@@ -20,7 +32,7 @@
               <%= link_to "マイページ", mypage_path(current_user), class: "btn btn-outline-primary mx-3" %>
             </li>
             <li class="nav-item">
-              <%= link_to "投稿一覧", posts_path, class: "btn btn-outline-primary mx-3" %>
+              <%= link_to "投稿一覧", posts_path, class: "btn btn-outline-secondary mx-3" %>
             </li>
             <li class="nav-item">
               <%= link_to "新規投稿", new_post_path, class: "btn btn-outline-primary mx-3" %>
@@ -28,16 +40,21 @@
             <li class="nav-item">
               <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-outline-danger mx-3" %>
             </li>
-            
+
+          
+
           <% else %> <!-- ログアウト時 -->
             <li class="nav-item">
-              <%= link_to "About", about_path, class: "btn btn-outline-secondary mx-3" %>
+              <%= link_to "About", about_path, class: "btn btn-outline-success mx-3 " %>
             </li>
             <li class="nav-item">
               <%= link_to "新規登録", new_user_registration_path, class: "btn btn-outline-primary mx-3" %>
             </li>
             <li class="nav-item">
               <%= link_to "ログイン", new_user_session_path, class: "btn btn-outline-primary mx-3" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'ゲストログイン', users_guest_sign_in_path, class: "nav-link btn btn-outline-secondary mx-3", method: :post %>
             </li>
           <% end %>
         </ul>
