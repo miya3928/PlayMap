@@ -25,6 +25,7 @@ class Public::PostsController < ApplicationController
 
   def index
     @posts = Post.all
+    @posts = Post.includes(:user).order(created_at: :desc).page(params[:page]).per(6) # 1ページあたり6件    
   end
 
   def show

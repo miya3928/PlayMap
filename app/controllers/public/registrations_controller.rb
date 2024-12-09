@@ -3,23 +3,6 @@
 class Public::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
-
-  # GET /resource/sign_up
-  # def new
-  #   super
-  # end
-
-  # POST /resource
-  # def create
-  #   super
-  # end
-
-  # GET /resource/edit
-  # def edit
-  #   super
-  # end
-
-  # PUT /resource
   def update_resource(resource, params)
     # パスワードフィールドが空白の場合、パスワード更新をスキップ
     if params[:password].blank? && params[:password_confirmation].blank?
@@ -33,9 +16,13 @@ class Public::RegistrationsController < Devise::RegistrationsController
       # パスワードなしで更新を実行
       resource.update_without_password(params)
     else
-      super
     end
   end
+
+
+#
+  # PUT /resource
+ 
 
   # DELETE /resource
   # def destroy

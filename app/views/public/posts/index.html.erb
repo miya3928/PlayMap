@@ -9,6 +9,10 @@
               <%= link_to post.title, post_path(post), class: "text-decoration-none text-primary" %>
             </h5>
             <p class="card-text"><%= truncate(post.body, length: 100) %></p>
+            <p class="text-muted">
+              投稿者: 
+              <%= link_to post.user.name, user_path(post.user), class: "text-decoration-none" %> <!-- ユーザー詳細ページへのリンク -->
+            </p>
           </div>
           <div class="card-footer text-end">
             <%= link_to "詳細を見る", post_path(post), class: "btn btn-primary btn-sm" %>
@@ -16,5 +20,10 @@
         </div>
       </div>
     <% end %>
+  </div>
+
+  <!-- ページネーション -->
+  <div class="d-flex justify-content-center mt-4">
+    <%= paginate @posts %>
   </div>
 </div>
