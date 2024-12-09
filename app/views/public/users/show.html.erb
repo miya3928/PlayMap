@@ -1,4 +1,56 @@
-<h2>アカウント管理</h2>
+<h2 class="text-center my-4">ユーザー情報</h2>
 
-<%= link_to "アカウント情報を編集", edit_user_registration_path, class: "btn btn-primary" %>
-<%= button_to "退会する", user_path(current_user), method: :delete, data: { confirm: "本当に退会しますか？" }, class: "btn btn-danger" %>
+<div class="container">
+  <div class="row">
+    <!-- ユーザー情報セクション -->
+    <div class="col-md-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <!-- ユーザー情報の表示 -->
+          <div class="mb-3">
+            <strong>ユーザー名:</strong> </br> <%= @user.name %>
+          </div>
+          <div class="mb-3">
+            <strong>ユーザー紹介:</strong> </br> <%= @user.introduction %>
+          </div>
+          <div class="mb-3">
+            <strong>アカウント作成日:</strong> </br> <%= l(@user.created_at, format: :long) %>
+          </div>
+          
+         <% if @user == current_user %>
+          <!-- アクションボタン -->
+          <div class="d-grid gap-2 mt-4">
+            <%= link_to "アカウント情報を編集", edit_user_registration_path, class: "btn btn-primary" %>
+          </div>
+
+          <div class="d-grid gap-2 mt-2">
+            <%= button_to "退会する", user_path(current_user), method: :delete, data: { confirm: "本当に退会しますか？" }, class: "btn btn-danger" %>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- ユーザーの投稿セクション -->
+    <div class="col-md-8">
+    <h3 class="text-center my-4">ユーザーの投稿</h3>
+    <ul class="list-group">
+      <% if @posts.present? %>
+        <% @posts.each do |post| %>
+          <li class="list-group-item">
+            <!-- 投稿タイトルと本文 -->
+            <h5><%= post.title %></h5>
+            <p><%= truncate(post.body, length: 30) %></p>
+            <!-- 編集・削除ボタン（投稿者本人のみ表示） -->
+            <% if post.user == current_user %>
+              <div class="d-flex justify-content-end">
+                <%= link_to "編集", edit_post_path(post), class: "btn btn-outline-success btn-sm mx-2" %>
+                <%= link_to "削除", post_path(post), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-outline-danger btn-sm mx-2" %>
+              </div>
+            <% end %>
+          </li>
+        <% end %>
+      <% else %>
+        <li class="list-group-item">投稿がありません。</li>
+      <% end %>
+    </ul>

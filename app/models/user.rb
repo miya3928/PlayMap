@@ -5,5 +5,19 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :email, presence: true, uniqueness: true
-  validates :password, presence: true, length: {minimum: 6 }, on:create 
+  validates :password, presence: true, length: {minimum: 6 }, on:create ,unless: -> { guest_user? } 
+
+GUEST_USER_EMAIL = "guest@example.com"
+
+  def self.guest
+    find_or_create_by!(email: GUEST_USER_EMAIL )do |user|
+     user.password = SecureRandom.urlsafe_base64
+     user.name = "ゲストユーザー"
+   end
+  end
+
+  def guest?
+    email == GUEST_USER_EMAIL
+  end
+
 end

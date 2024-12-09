@@ -1,12 +1,22 @@
 <div class="container text-center my-5">
   <!-- タイトルセクション -->
-  <h1 class="display-3 fw-bold text-primary mb-4">ようこそ！PlayMapへ！</h1>
-  <p class="lead text-muted mb-5">あなたの情報をより楽しく、簡単に管理するための場所です。</p>
+  <h1 class="display-3 fw-bold text-success mb-4">ようこそ！PlayMapへ！</h1>
+  <p class="lead text-muted mb-5">あなたの情報で育児のアップデートをしよう！</p>
 
-  <!-- アクションボタンセクション -->
-  <div class="d-flex justify-content-center gap-4">
-    <%= link_to '新規投稿', new_post_path, class: 'btn btn-primary btn-lg' %>
-    <%= link_to '投稿一覧', posts_path, class: 'btn btn-secondary btn-lg' %>
+  <!-- 新規投稿セクション -->
+  <h2 class="fw-bold text-secondary mb-4">最新の投稿</h2>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <% @posts.limit(3).each do |post| %>
+      <div class="col">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title"><%= post.title %></h5>
+            <p class="card-text"><%= truncate(post.body, length: 20) %></p>
+            <%= link_to '続きを読む', post_path(post), class: 'btn btn-link p-0' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
 
   <!-- サービス紹介セクション -->

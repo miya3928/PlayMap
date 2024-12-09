@@ -1,5 +1,12 @@
 class Public::PostsController < ApplicationController
+  before_action :guest_check, only: [:create, :update, :destroy]
   before_action :authenticate_user!, only: [:create]  
+
+  def guest_check
+    if current_user.guest?
+      redirect_to root_path, notice: "このページを利用するには会員登録が必要です。"
+    end
+  end
 
   def new
     @post = Post.new
@@ -18,6 +25,7 @@ class Public::PostsController < ApplicationController
 
   def index
     @posts = Post.all
+    @posts = Post.includes(:user).order(created_at: :desc).page(params[:page]).per(6) # 1ページあたり6件    
   end
 
   def show
@@ -42,7 +50,8 @@ class Public::PostsController < ApplicationController
   def destroy
     @post =Post.find(params[:id])
     @post.destroy
-    redirect_to posts_path, notice: '投稿が削除されました！'
+    flash.now[:alert] =  '投稿が削除されました！'
+    redirect_to redirect_to request.referer
   end
 
   private
