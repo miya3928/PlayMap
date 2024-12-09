@@ -5,17 +5,17 @@
       <%= link_to "PlayMap", root_path, class: "navbar-brand" %>
 
       <!-- ハンバーガーメニュー（画面サイズが小さい時に表示） -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <!-- ナビゲーションリンク -->
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto"> 
+        <ul class="navbar-nav ml-auto"> 
 
         <% if current_user && current_user.guest? %> <!-- ゲストユーザー時 -->
             <li class="nav-item">
-              <span class="navbar-text me-3">ようこそ、ゲストさん！</span>
+              <span class="navbar-text mr-3">ようこそ、ゲストさん！</span>
             </li>
             <li class="nav-item">
               <%= link_to "投稿一覧", posts_path, class: "btn btn-outline-secondary mx-3" %>
@@ -24,13 +24,12 @@
               <%= link_to "新規登録", new_user_registration_path, class: "btn btn-outline-primary mx-3" %>
             </li>
             <li class="nav-item">
-            <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-outline-danger mx-3" %>
-          </li>
-
+              <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-outline-danger mx-3" %>
+            </li>
 
           <% elsif current_user %> <!-- ログイン時 -->
             <li class="nav-item">
-              <span class="navbar-text me-3">ようこそ、<%= current_user.name %>さん！</span>
+              <span class="navbar-text mr-3">ようこそ、<%= current_user.name %>さん！</span>
             </li>
             <li class="nav-item">
               <%= link_to "マイページ", mypage_path(current_user), class: "btn btn-outline-primary mx-3" %>
@@ -45,11 +44,9 @@
               <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-outline-danger mx-3" %>
             </li>
 
-          
-
           <% else %> <!-- ログアウト時 -->
             <li class="nav-item">
-              <%= link_to "About", about_path, class: "btn btn-outline-success mx-3 " %>
+              <%= link_to "About", about_path, class: "btn btn-outline-success mx-3" %>
             </li>
             <li class="nav-item">
               <%= link_to "新規登録", new_user_registration_path, class: "btn btn-outline-primary mx-3" %>
