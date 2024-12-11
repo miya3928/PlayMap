@@ -1,2 +1,52 @@
-<h1>ようこそ！PlayMapへ！</h1>
-<p>topページです</p>
+<div class="container text-center my-5">
+  <!-- タイトルセクション -->
+  <h1 class="display-3 fw-bold text-success mb-4">ようこそ！PlayMapへ！</h1>
+  <p class="lead text-muted mb-5">あなたの情報で育児のアップデートをしよう！</p>
+
+  <!-- 新規投稿セクション -->
+  <h2 class="fw-bold text-secondary mb-4">最新の投稿</h2>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <% @posts.limit(3).each do |post| %>
+      <div class="col">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title"><%= post.title %></h5>
+            <p class="card-text"><%= truncate(post.body, length: 20) %></p>
+            <%= link_to '続きを読む', post_path(post), class: 'btn btn-link p-0' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- サービス紹介セクション -->
+  <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
+    <div class="col">
+      <div class="card shadow-sm">
+        <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="サービス1">
+        <div class="card-body">
+          <h5 class="card-title">簡単な投稿</h5>
+          <p class="card-text">誰でも簡単に投稿ができ、内容をシェアできます。シンプルな操作で情報発信が可能です。</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow-sm">
+        <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="サービス2">
+        <div class="card-body">
+          <h5 class="card-title">すぐに見つかる情報</h5>
+          <p class="card-text">タグやカテゴリで情報を簡単に検索でき、探している内容がすぐに見つかります。</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow-sm">
+        <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="サービス3">
+        <div class="card-body">
+          <h5 class="card-title">ユーザー同士の交流</h5>
+          <p class="card-text">投稿にコメントを追加したり、他のユーザーと意見を交換することができます。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

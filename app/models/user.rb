@@ -1,9 +1,23 @@
 class User < ApplicationRecord
-  has_many :posts
+  has_many :posts, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
   validates :email, presence: true, uniqueness: true
-  validates :password, presence: true, length: {minimum: 6 }    
+  validates :password, presence: true, length: {minimum: 6 }, on:create ,unless: -> { guest_user? } 
+
+GUEST_USER_EMAIL = "guest@example.com"
+
+  def self.guest
+    find_or_create_by!(email: GUEST_USER_EMAIL )do |user|
+     user.password = SecureRandom.urlsafe_base64
+     user.name = "ゲストユーザー"
+   end
+  end
+
+  def guest?
+    email == GUEST_USER_EMAIL
+  end
+
 end
