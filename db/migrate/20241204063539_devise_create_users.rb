@@ -35,9 +35,9 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.1]
 
       # Uncomment below if timestamps were not included in your original model.
        t.string :name
-       t.timestamps null: false
-
        t.text :introduction 
+
+       t.timestamps null: false
     end
 
     add_index :users, :email,                unique: true
