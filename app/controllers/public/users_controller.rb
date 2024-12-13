@@ -1,5 +1,6 @@
 class Public::UsersController < ApplicationController
   before_action :authenticate_user!
+  before_action :correct_user, only: [:edit, :update]
 
   def mypage
     @user = current_user
@@ -34,6 +35,13 @@ def destroy
 
 
   private
+
+  def correct_user
+    user = User.find(params[:id])
+    unless current_user == user
+      redirect_to mypage_path, alert: "他のユーザー情報を編集することはできません"
+    end
+  end    
 
   def ensure_guest_user
     @user = User.find(params[:id])

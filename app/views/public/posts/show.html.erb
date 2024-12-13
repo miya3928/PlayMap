@@ -2,6 +2,10 @@
   <div class="card shadow-sm">
     <div class="card-body">
       <h1 class="card-title"><%= @post.title %></h1>
+      <p class ="text-muted mt-2">
+      投稿者：
+      <%= link_to @post.user.name, user_path(@post.user),class: "text-decoration-none text-primary" %>
+      </p>
       <p class="card-text mt-3"><%= @post.body %></p>
     </div>
     <% if @post.user == current_user %>

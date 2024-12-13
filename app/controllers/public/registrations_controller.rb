@@ -1,62 +1,31 @@
-# frozen_string_literal: true
-
 class Public::RegistrationsController < Devise::RegistrationsController
-  # before_action :configure_sign_up_params, only: [:create]
-  # before_action :configure_account_update_params, only: [:update]
+  protected
+
+  # current_password を確認せずにパスワード変更を許可する
   def update_resource(resource, params)
-    # パスワードフィールドが空白の場合、パスワード更新をスキップ
+    # パスワードが空白の場合、password と password_confirmation を削除
     if params[:password].blank? && params[:password_confirmation].blank?
-      # current_password をパラメータから削除
       params.delete(:password)
       params.delete(:password_confirmation)
-      
-      # current_password を手動で渡さないようにします
-      params.delete(:current_password)
-      
-      # パスワードなしで更新を実行
-      resource.update_without_password(params)
-    else
     end
+
+    # current_password を削除しないように
+    # current_password が空でない場合のみ削除
+    if params[:current_password].blank? && !params[:password].present?
+      params.delete(:current_password)
+    end
+
+    super
   end
 
+  # 編集後のリダイレクト先を指定するメソッド
+  def after_update_path_for(resource)
+    mypage_path
+  end
 
-#
-  # PUT /resource
- 
+  private
 
-  # DELETE /resource
-  # def destroy
-  #   super
-  # end
-
-  # GET /resource/cancel
-  # Forces the session data which is usually expired after sign
-  # in to be expired now. This is useful if the user wants to
-  # cancel oauth signing in/up in the middle of the process,
-  # removing all OAuth session data.
-  # def cancel
-  #   super
-  # end
-
-  # protected
-
-  # If you have extra params to permit, append them to the sanitizer.
-  # def configure_sign_up_params
-  #   devise_parameter_sanitizer.permit(:sign_up, keys: [:attribute])
-  # end
-
-  # If you have extra params to permit, append them to the sanitizer.
-  # def configure_account_update_params
-  #   devise_parameter_sanitizer.permit(:account_update, keys: [:attribute])
-  # end
-
-  # The path used after sign up.
-  # def after_sign_up_path_for(resource)
-  #   super(resource)
-  # end
-
-  # The path used after sign up for inactive accounts.
-  # def after_inactive_sign_up_path_for(resource)
-  #   super(resource)
-  # end
+  def account_update_params
+    params.require(:user).permit(:name, :introduction, :email, :password, :password_confirmation, :current_password)
+  end
 end

@@ -11,7 +11,7 @@
             <strong>ユーザー名:</strong> </br> <%= @user.name %>
           </div>
           <div class="mb-3">
-            <strong>ユーザー紹介:</strong> </br> <%= @user.introduction %>
+            <strong>自己紹介:</strong> </br> <%= @user.introduction %>
           </div>
           <div class="mb-3">
             <strong>アカウント作成日:</strong> </br> <%= l(@user.created_at, format: :long) %>
@@ -20,7 +20,7 @@
          <% if @user == current_user %>
           <!-- アクションボタン -->
           <div class="d-grid gap-2 mt-4">
-            <%= link_to "アカウント情報を編集", edit_user_registration_path, class: "btn btn-primary" %>
+            <%= link_to "ユーザー情報を編集", edit_user_registration_path, class: "btn btn-primary" %>
           </div>
 
           <div class="d-grid gap-2 mt-2">

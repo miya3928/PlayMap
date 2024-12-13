@@ -1,6 +1,7 @@
 class Public::PostsController < ApplicationController
   before_action :guest_check, only: [:create, :update, :destroy]
-  before_action :authenticate_user!, only: [:create]  
+  before_action :authenticate_user!
+  before_action :current_post_user, only:[:edit, :update]  
 
   def guest_check
     if current_user.guest?
@@ -16,7 +17,7 @@ class Public::PostsController < ApplicationController
     @post = current_user.posts.build(post_params)
     if @post.save
       flash.now[:alert] = '投稿に成功しました'
-      redirect_to posts_path
+      redirect_to @post
     else
       flash.now[:alert] = '投稿に失敗しました'
       render :new 
@@ -51,7 +52,7 @@ class Public::PostsController < ApplicationController
     @post =Post.find(params[:id])
     @post.destroy
     flash.now[:alert] =  '投稿が削除されました！'
-    redirect_to redirect_to request.referer
+    redirect_to mypage_path
   end
 
   private
@@ -60,4 +61,10 @@ class Public::PostsController < ApplicationController
     params.require(:post).permit(:title, :body)
   end
 
+  def current_post_user
+    post = Post.find(params[:id])
+    unless current_user == post.user
+      redirect_to posts_path, alert: "他のユーザーの投稿を編集することはできません"
+    end
+  end   
 end

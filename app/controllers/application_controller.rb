@@ -27,6 +27,7 @@ class ApplicationController < ActionController::Base
 
   private
 
+
   # ゲストユーザーが新規登録ページにアクセスしようとする場合の制限
   def check_guest_user
     if current_user.guest?

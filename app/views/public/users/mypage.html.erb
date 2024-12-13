@@ -1,12 +1,21 @@
 <h1 class="text-center my-4">My Page</h1>
 
-<% if current_user && current_user.guest? %>
-  <h2 class="text-center mb-4">ゲストさんの投稿一覧</h2>
-<% else %>
-  <h2 class="text-center mb-4"><%= current_user.name %> さんの投稿一覧</h2>
-<% end %>
-
 <div class="container">
+  <!-- ユーザー名と自己紹介 -->
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h2><%= current_user.name %> さんのプロフィール</h2>
+      <p><%= current_user.introduction %></p>
+    </div>
+  </div>
+
+  <!-- 投稿一覧 -->
+  <% if current_user && current_user.guest? %>
+    <h2 class="text-center mb-4">ゲストさんの投稿一覧</h2>
+  <% else %>
+    <h2 class="text-center mb-4"><%= current_user.name %> さんの投稿一覧</h2>
+  <% end %>
+
   <ul class="list-group">
     <% @posts.each do |post| %>
       <li class="list-group-item">
@@ -27,10 +36,10 @@
 </div>
 
 <div class="text-center mt-4">
-  <!-- ゲストユーザーの場合、新規投稿のリンクは表示しない -->
+  <!-- ゲストユーザーの場合、新規投稿、ユーザー編集のリンクは表示しない -->
   <% unless current_user.guest? %>
     <%= link_to "新規投稿", new_post_path, class: "btn btn-primary mx-2" %>
-    <%= link_to "アカウント編集", edit_user_registration_path, class: "btn btn-warning mx-2" %>
+    <%= link_to "ユーザー編集", edit_user_registration_path, class: "btn btn-warning mx-2" %>
   <% end %>
   
   <%= link_to "投稿一覧", posts_path, class: "btn btn-secondary mx-2" %>
