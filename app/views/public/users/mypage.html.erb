@@ -1,46 +1,48 @@
-<h1 class="text-center my-4">My Page</h1>
-
-<div class="container">
-  <!-- ユーザー名と自己紹介 -->
-  <div class="row mb-4">
-    <div class="col-md-8">
-      <h2><%= current_user.name %> さんのプロフィール</h2>
-      <p><%= current_user.introduction %></p>
-    </div>
+<<div class="container">
+<h1>マイページ</h1>
+<!-- プロフィールセクション -->
+<div class="row mb-5">
+  <div class="col-12">
+    <h1 class="text-center text-primary"><strong><%= current_user.name %></strong></h1>
+    <p class="text-center text-muted">自己紹介</p>
+    <p class="border rounded p-3 bg-light text-center"><%= current_user.introduction.presence || "自己紹介がまだ登録されていません。" %></p>
   </div>
-
-  <!-- 投稿一覧 -->
-  <% if current_user && current_user.guest? %>
-    <h2 class="text-center mb-4">ゲストさんの投稿一覧</h2>
-  <% else %>
-    <h2 class="text-center mb-4"><%= current_user.name %> さんの投稿一覧</h2>
-  <% end %>
-
-  <ul class="list-group">
-    <% @posts.each do |post| %>
-      <li class="list-group-item">
-        <!-- 投稿タイトルと本文 -->
-        <h5><%= post.title %></h5>
-        <p><%= truncate(post.body, length: 30) %></p>
-        
-        <!-- 編集・削除ボタン（投稿者本人のみ表示） -->
-        <% if post.user == current_user %>
-          <div class="d-flex justify-content-end">
-            <%= link_to "編集", edit_post_path(post), class: "btn btn-outline-success btn-lg mx-3" %>
-            <%= link_to "削除", post_path(post), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-outline-danger btn-lg mx-3" %>
-          </div>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
 </div>
 
+<!-- 投稿一覧セクション -->
+<div class="mb-5">
+  <% if current_user.guest? %>
+    <h2 class="text-center text-warning">ゲストさんの投稿一覧</h2>
+  <% else %>
+    <h2 class="text-center text-primary"><%= current_user.name %> さんの投稿一覧</h2>
+  <% end %>
+
+  <% if @posts.any? %>
+    <div class="mt-4">
+      <% @posts.each do |post| %>
+        <div class="border rounded p-3 mb-3 bg-white shadow-sm">
+          <h5 class="mb-2 text-dark"><%= post.title %></h5>
+          <p class="mb-2 text-muted"><%= truncate(post.body, length: 50) %></p>
+          <% if post.user == current_user %>
+            <div class="d-flex justify-content-end">
+              <%= link_to "編集", edit_post_path(post), class: "btn btn-outline-success btn-sm mx-2" %>
+              <%= link_to "削除", post_path(post), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-outline-danger btn-sm mx-2" %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-center mt-4">まだ投稿がありません。</p>
+  <% end %>
+</div>
+
+<!-- アクションボタン -->
 <div class="text-center mt-4">
-  <!-- ゲストユーザーの場合、新規投稿、ユーザー編集のリンクは表示しない -->
   <% unless current_user.guest? %>
     <%= link_to "新規投稿", new_post_path, class: "btn btn-primary mx-2" %>
     <%= link_to "ユーザー編集", edit_user_registration_path, class: "btn btn-warning mx-2" %>
   <% end %>
-  
   <%= link_to "投稿一覧", posts_path, class: "btn btn-secondary mx-2" %>
+</div>
 </div>
