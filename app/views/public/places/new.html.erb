@@ -1,0 +1,23 @@
+<%= form_with model: @place do |f| %>
+  <div>
+    <%= f.label :name, '場所名' %>
+    <%= f.text_field :name %>
+  </div>
+  <div>
+    <%= f.label :address, '住所' %>
+    <%= f.text_field :address %>
+  </div>
+  <div>
+    <%= f.label :description, '説明' %>
+    <%= f.text_area :description %>
+  </div>
+  <div>
+    <%= f.label :latitude, '緯度' %>
+    <%= f.text_field :latitude %>
+  </div>
+  <div>
+    <%= f.label :longitude, '経度' %>
+    <%= f.text_field :longitude %>
+  </div>
+  <%= f.submit '登録' %>
+<% end %>
