@@ -11,18 +11,41 @@ class Public::PostsController < ApplicationController
 
   def new
     @post = Post.new
+    @places = Place.all
+    @events = Event.all
   end
 
   def create
-    @post = current_user.posts.build(post_params)
-    if @post.save
-      flash.now[:alert] = '投稿に成功しました'
-      redirect_to @post
+    selected_postables = []
+
+    # 選択された Place を取得
+    if params[:post][:place_ids].present?
+      selected_postables += Place.where(id: params[:post][:place_ids])
+    end
+
+    # 選択された Event を取得
+    if params[:post][:event_ids].present?
+      selected_postables += Event.where(id: params[:post][:event_ids])
+    end
+
+    # 選択された postable に対してポストを作成
+    if selected_postables.present?
+      selected_postables.each do |postable|
+        Post.create(
+          title: params[:post][:title],
+          body: params[:post][:body],
+          user: current_user,
+          postable: postable
+        )
+      end
+      redirect_to posts_path, notice: "投稿に成功しました"
     else
-      flash.now[:alert] = '投稿に失敗しました'
-      render :new 
-    end  
-  end
+      flash.now[:alert] = "場所またはイベントを選択してください"
+      @places = Place.all
+      @events = Event.all
+      render :new
+    end
+  end  
 
   def index
     @posts = Post.all

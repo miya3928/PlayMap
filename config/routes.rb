@@ -19,9 +19,13 @@ Rails.application.routes.draw do
     get '/mypage', to: 'users#mypage', as: 'mypage'
     resources :users, only: [:create, :show, :edit, :update, :destroy]
     resources :posts
-    resources :places
-    resources :events
 
+    resources :places do
+      resources :posts,only:[:new, :create]
+    end  
+    resources :events do
+      resources :posts, only:[:new, :create]
+    end  
   end
 
   # 管理者用
