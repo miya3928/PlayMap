@@ -1,6 +1,7 @@
 class Public::EventsController < ApplicationController
   def index
     @events = Event.all
+    @events = Event.page(params[:page]).per(10)
   end
 
   def show
@@ -19,6 +20,20 @@ class Public::EventsController < ApplicationController
       redirect_to @event, notice: 'イベントを登録しました'
     else
       render :new
+    end
+  end
+
+  def edit
+    @event = Event.find(params[:id])
+  end  
+
+  def update
+    @event = Event.find(params[:id])
+    if @event.update(event_params)
+      flash.now[:alert] = '場所が更新されました'
+      redirect_to event_path
+    else
+      render :edit
     end
   end
 

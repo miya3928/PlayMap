@@ -1,23 +1,17 @@
-<div class="container my-5">
-  <div class="card shadow-sm">
-    <div class="card-body">
-      <h1 class="card-title"><%= @place.name %></h1>
-      <p class="text-muted mt-2">住所: <%= @place.address %></p>
-      <p class="card-text mt-3"><%= @place.description %></p>
-      <% if @place.event %>
-        <h2 class="mt-4">関連イベント</h2>
-        <p class="text-muted">イベント名: <%= @place.event.title %></p>
-        <p>開始日時: <%= @place.event.start_date %></p>
-        <p>終了時刻: <%= @place.event.end_date %></p>
-      <% else %>
-        <p class="text-muted mt-4">関連するイベントはありません。</p>
-      <% end %>
-    </div>
-    <div class="card-footer text-end">
-      <% if current_user&.admin? || current_user == @place.user %>
-        <%= link_to "編集", edit_place_path(@place), class: "btn btn-outline-success btn-lg mb-6" %>
-      <% end %>
-      <%= link_to "場所一覧", places_path, class: "btn btn-outline-success btn-lg mb-6" %>
-    </div>
-  </div>
-</div>
+<%= render "public/shared/card",
+  title: @event.title,
+  description: @event.body,
+  related_title: "関連場所",
+  related_items: @event.places,
+  empty_message: "関連する場所はありません。",
+  related_content: -> (place) {
+    concat(content_tag(:p, "場所名: #{place.name}", class: "text-muted"))
+    concat(content_tag(:p, "イベント内容: #{place.description}"))
+    concat(content_tag(:p, "住所: #{place.address}"))
+  },
+  footer_links: (
+    link_to("編集", edit_event_path(@event), class: "btn btn-outline-success btn-lg mb-6") +
+    link_to("イベント一覧", events_path, class: "btn btn-outline-secondary btn-lg mb-6") +
+    link_to("場所追加", new_place_path, class: "btn btn-outline-primary btn-lg mb-6")
+  )
+%>
