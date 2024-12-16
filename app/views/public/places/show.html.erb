@@ -1,0 +1,15 @@
+<h1>場所詳細</h1>
+<div class="container my-5">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h1 class="card-title"><%= @place.name %></h1>
+      <p class ="text-muted mt-2"> 住所: <%= @place.address %></p>
+      <p class="card-text mt-3"><%= @place.description %></p>
+      <p class ="text-muted mt-2"> 関連イベント: <%= @place.event.title %></p>
+    </div>
+      <div class="card-footer text-end">
+        <%= link_to "編集", edit_place_path(@place), class: "btn btn-outline-success btn-lg mb-6" %>
+        <%= link_to "場所一覧", places_path, class: "btn btn-outline-success btn-lg mb-6" %>
+      </div>
+  </div>
+</div>

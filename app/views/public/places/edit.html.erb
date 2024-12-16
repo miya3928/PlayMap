@@ -1,0 +1,23 @@
+<h1 class="text-center my-4">場所編集</h1>
+<%= form_with model: @place, local: true do |f| %>
+  <div class="container my-5">
+    <div class="mb-3">
+      <%= f.label :name, "名前", class: "form-label" %>
+      <%= f.text_field :name, value: @place.name, class: "form-control" %>
+    </div>
+
+    <div>
+    <%= f.label :address, '住所' %>
+    <%= f.text_field :address, value: @place.address, class: "form-control" %>
+  </div>
+
+    <div class="mb-3">
+      <%= f.label :description, "本文", class: "form-label" %>
+      <%= f.text_area :description, value: @place.description, class: "form-control", rows: 6 %>
+    </div>
+
+    <div class="d-grid">
+      <%= f.submit "変更を保存する", class: "btn btn-success btn-block" %>
+    </div>
+  </div>
+<% end %>

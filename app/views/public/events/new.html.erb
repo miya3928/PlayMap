@@ -1,0 +1,24 @@
+<%= form_with model: @event do |f| %>
+ <div>
+  <%= f.label :title, 'イベント名' %>
+  <%= f.text_field :title %>
+ </div>
+ <div>
+  <%= f.label :body, 'イベント内容' %>
+  <%= f.text_area :body %>
+</div>
+<div>
+  <%= f.label :start_date, '開始日時' %>
+  <%= f.text_field :start_date %>
+</div>
+<div>
+  <%= f.label :end_date, '終了日時' %>
+  <%= f.text_field :end_date %>
+</div>
+<div>
+  <%= f.label :places, '関連場所' %>
+  <%= f.text_field :places %>
+</div>
+<%= f.submit '登録' %>
+<% end %> 
+
