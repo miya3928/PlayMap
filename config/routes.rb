@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'reviews/create'
+  get 'reviews/destroy'
   # user用
   # URL /users/sign_in ...
    get '/guest_login', to: 'public/sessions#guest_login', as: 'guest_login'
@@ -25,7 +27,10 @@ Rails.application.routes.draw do
     resources :events do
       resources :posts, only:[:new, :create]
     end  
-    resources :posts
+    
+    resources :posts do
+      resources :reviews, only:[:create, destroy]
+    end
   end
 
   # 管理者用

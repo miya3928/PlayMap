@@ -12,8 +12,30 @@
       <div class="card-footer text-end">
         <%= link_to "編集", edit_post_path(@post), class: "btn btn-outline-success btn-lg mb-6" %>
         <%= link_to "削除", post_path(@post), method: :delete, class: "btn btn-outline-danger btn-lg mb-6", data: { confirm: '本当に削除しますか？' } %>
-        
       </div>
     <% end %>
+    <h2>レビュー一覧</h2>
+    <% @post.reviews.each do |review| %>
+      <div class = "review>
+       <P><strong>投稿者：</strong><%= review.user.name %></p>
+       <div class = "review-score" date-score = "<$= review.score %>"></div>
+       <p><strong>内容:</strong><%= review.body %></p>
+      </div>
+     <% end %> 
   </div>
 </div>
+
+document.addEventListner("DOMContentLoaded", () => {
+  document.querySelectorAll("#review-score").forEach(elem) =>{
+    const score = elem.detaset.score;
+
+  raty(elem,{
+    readonly: true,
+    score: score,
+    number: 5,
+    starOn: "assets/images/star-on.png"
+    starOff:  "assets/images/star-off.png"
+    starHalf:  "assets/images/star-half.png"
+    }); 
+  });
+});
