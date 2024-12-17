@@ -58,6 +58,10 @@
         <p class="text-muted">まだレビューがありません。</p>
       <% end %>
     </div>
+    <h2>コメント</h2>
+    <%= render 'comments/form', commetable: @post %>
+    h3>コメント一覧</h3>
+    <%= render 'comments/comments_list', commetable: @post %>
   </div>
 </div>
 

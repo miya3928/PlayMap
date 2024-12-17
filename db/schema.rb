@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_12_17_032416) do
+ActiveRecord::Schema.define(version: 2024_12_17_153020) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -22,6 +22,17 @@ ActiveRecord::Schema.define(version: 2024_12_17_032416) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.text "body"
+    t.string "commetable_type", null: false
+    t.integer "commetable_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["commetable_type", "commetable_id"], name: "index_comments_on_commetable"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "event_places", force: :cascade do |t|
@@ -89,6 +100,7 @@ ActiveRecord::Schema.define(version: 2024_12_17_032416) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "comments", "users"
   add_foreign_key "event_places", "events"
   add_foreign_key "event_places", "places"
   add_foreign_key "posts", "users"
