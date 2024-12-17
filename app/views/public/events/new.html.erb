@@ -9,15 +9,20 @@
 </div>
 <div>
   <%= f.label :start_date, '開始日時' %>
-  <%= f.text_field :start_date %>
+  <%= f.datetime_select :start_date %>
 </div>
 <div>
   <%= f.label :end_date, '終了日時' %>
-  <%= f.text_field :end_date %>
+  <%= f.datetime_select :end_date %>
 </div>
 <div>
-  <%= f.label :place, '関連場所' %>
-  <%= f.text_field :place %>
+<h4>関連する場所を選択</h4>
+<% @places.each do |place| %>
+  <div>
+    <%= check_box_tag "event[place_ids][]", place.id, @event.place_ids.include?(place.id) %>
+    <%= place.name %>
+  </div> 
+<% end %>   
 </div>
 <%= f.submit '登録' %>
 <% end %> 

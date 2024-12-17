@@ -18,14 +18,14 @@ Rails.application.routes.draw do
     get "/about", to: "homes#about", as: 'about'
     get '/mypage', to: 'users#mypage', as: 'mypage'
     resources :users, only: [:create, :show, :edit, :update, :destroy]
-    resources :posts
-
     resources :places do
       resources :posts,only:[:new, :create]
     end  
+
     resources :events do
       resources :posts, only:[:new, :create]
     end  
+    resources :posts
   end
 
   # 管理者用

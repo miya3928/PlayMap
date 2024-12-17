@@ -11,16 +11,18 @@ class Public::PlacesController < ApplicationController
   
   def new
     @place = Place.new
+    @events = Event.all
   end
   
   def create
-    @place =Place.new(place_params)
+    @place = Place.new(place_params)
     if @place.save
-      redirect_to @place, notice: "場所を登録しました。"
+      redirect_to @place, notice: '場所が作成されました！'
     else
       render :new
     end
   end
+
 
   def edit
     @place = Place.find(params[:id])
@@ -39,6 +41,6 @@ class Public::PlacesController < ApplicationController
  private
 
   def place_params
-    params.require(:place).permit(:name, :address, :description, :latitude, :longitude)
+    params.require(:place).permit(:name, :address, :description, :latitude, :longitude, event_ids: [])
   end
 end
