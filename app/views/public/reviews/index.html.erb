@@ -1,0 +1,29 @@
+<h1 class="text-center my-4">レビュー一覧</h1>
+<div class="container">
+  <div class="row">
+    <% @reviews.each do |review| %>
+      <div class="col-md-4 mb-4"> <!-- 3列レイアウト -->
+        <div class="card h-100"> <!-- 高さを揃える -->
+          <div class="card-body">
+            <h5 class="card-title text-decoration-none text-primary">
+              <%= review.score %>
+            </h5>
+            <p class="card-text"><%= truncate(review.body, length: 100) %></p>
+            <p class="text-muted">
+              投稿元: 
+              <%= link_to review.post.title, post_path(review.post), class: "text-decoration-none" %> <!-- 投稿詳細ページへのリンク -->
+            </p>
+          </div>
+          <div class="card-footer text-end">
+            <%= link_to "詳細を見る",review_path(review), class: "btn btn-primary btn-sm" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- ページネーション -->
+  <div class="d-flex justify-content-center mt-4">
+    <%= paginate @reviews %>
+  </div>
+</div>

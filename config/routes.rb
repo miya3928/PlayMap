@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'reviews/create'
-  get 'reviews/destroy'
   # user用
   # URL /users/sign_in ...
    get '/guest_login', to: 'public/sessions#guest_login', as: 'guest_login'
@@ -21,15 +19,15 @@ Rails.application.routes.draw do
     get '/mypage', to: 'users#mypage', as: 'mypage'
     resources :users, only: [:create, :show, :edit, :update, :destroy]
     resources :places do
-      resources :posts,only:[:new, :create]
+      resources :posts,only: [:new, :create]
     end  
 
     resources :events do
-      resources :posts, only:[:new, :create]
+      resources :posts, only: [:new, :create]
     end  
 
     resources :posts do
-      resources :reviews, only:[:create, :destroy]
+      resources :reviews, only: [:new, :create, :index, :destroy]
     end
   end
 

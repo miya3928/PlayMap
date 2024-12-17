@@ -3,23 +3,25 @@
  <%= form_with model: [@post, @review], local: true do |f| %>
   <%= f.hidden_field :score, id: "score-input" %>
   <%= f.text_area :body, placeholder:"レビュー内容を記入してください" %>
-  <%= f.submit "レビューを投稿", class: btn btn-primary %>
+  <%= f.submit "レビューを投稿", class: "btn btn-primary" %>
  <% end %>
 </div>    
 
-document.addEventListner("DOMContentLoaded", () => {
+<script>
+document.addEventListener("DOMContentLoaded", () => {
   const elem = document.querySelector("#review-score");
   const scoreInput = document.querySelector("#score-input");
 
-  raty(elem,{
-    scoreName:"#review[score]"
+  raty(elem, {
+    scoreName: "review[score]",
     number: 5,
     half: true,
-    starOn: "assets/images/star-on.png"
-    starOff:  "assets/images/star-off.png"
-    starHalf:  "assets/images/star-half.png"
-    click; (score) => {
+    starOn: "<%= asset_path('star-on.png') %>",
+    starOff: "<%= asset_path('star-off.png') %>",
+    starHalf: "<%= asset_path('star-half.png') %>",
+    click: (score) => {
       scoreInput.value = score;
-    };
+    },
   });
 });
+</script>
