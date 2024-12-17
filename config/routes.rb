@@ -27,9 +27,9 @@ Rails.application.routes.draw do
     resources :events do
       resources :posts, only:[:new, :create]
     end  
-    
+
     resources :posts do
-      resources :reviews, only:[:create, destroy]
+      resources :reviews, only:[:create, :destroy]
     end
   end
 
