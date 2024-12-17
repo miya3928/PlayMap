@@ -1,0 +1,34 @@
+<div class="container my-5">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h1 class="card-title">レビュー詳細</h1>
+      <p class="text-muted mt-2">
+        投稿者：
+        <%= link_to @review.user.name, user_path(@review.user), class: "text-decoration-none text-primary" %>
+      </p>
+      <div class="review-score mb-3" data-score="<%= @review.score %>"></div>
+      <p><strong>内容:</strong> <%= simple_format(@review.body) %></p>
+    </div>
+    <div class="card-footer text-end">
+      <%= link_to "編集", edit_post_review_path(@review.post, @review), class: "btn btn-outline-success me-2" %>
+      <%= link_to "削除", post_review_path(@review.post, @review), method: :delete, class: "btn btn-outline-danger", data: { confirm: '本当に削除しますか？' } %>
+      <%= link_to "投稿詳細に戻る", post_path(@review.post), class: "btn btn-outline-secondary" %>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("turbolinks:load", () => {
+  const elem = document.querySelector(".review-score");
+  const score = elem.dataset.score;
+
+  raty(elem, {
+    readonly: true,
+    score: parseFloat(score),
+    number: 5,
+    starOn: "<%= asset_path('star-on.png') %>",
+    starOff: "<%= asset_path('star-off.png') %>",
+    starHalf: "<%= asset_path('star-half.png') %>",
+  });
+});
+</script>

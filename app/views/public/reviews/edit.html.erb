@@ -1,0 +1,42 @@
+<div class="container my-5">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h1 class="card-title">レビュー編集</h1>
+
+      <%= form_with model: [@review.post, @review], local: true do |f| %>
+        <div class="mb-3">
+          <%= f.label :score, "評価", class: "form-label" %>
+          <div id="raty-score"></div>
+          <%= f.hidden_field :score, id: "review-score" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :body, "レビュー内容", class: "form-label" %>
+          <%= f.text_area :body, class: "form-control", rows: 5 %>
+        </div>
+
+        <div class="text-end">
+          <%= f.submit "更新する", class: "btn btn-success me-2" %>
+          <%= link_to "キャンセル", post_review_path(@review.post, @review), class: "btn btn-outline-secondary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("turbolinks:load", () => {
+  const elem = document.querySelector("#raty-score");
+
+  raty(elem, {
+    score: parseFloat(<%= @review.score || 0 %>),
+    number: 5,
+    starOn: "<%= asset_path('star-on.png') %>",
+    starOff: "<%= asset_path('star-off.png') %>",
+    starHalf: "<%= asset_path('star-half.png') %>",
+    click: (score) => {
+      document.querySelector("#review-score").value = score;
+    },
+  });
+});
+</script>
