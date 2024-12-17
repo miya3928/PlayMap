@@ -40,7 +40,7 @@ class Public::EventsController < ApplicationController
   private
 
   def event_params
-    params.require(:event).permit(:title, :body, :start_date, :end_date, place_id)
+    params.require(:event).permit(:title, :body, :start_date, :end_date, place_ids:[])
   end
 end
 

@@ -1,4 +1,4 @@
-<%= form_with model: @place do |f| %>
+<%= form_with model: @place, local: true do |f| %>
   <div>
     <%= f.label :name, '場所名' %>
     <%= f.text_field :name %>
@@ -18,6 +18,15 @@
   <div>
     <%= f.label :longitude, '経度' %>
     <%= f.text_field :longitude %>
+  </div>
+  <div>
+    <h4>関連するイベントを選択</h4>
+    <% @events.each do |event| %>
+      <div>
+        <%= check_box_tag "place[event_ids][]", event.id, @place.event_ids.include?(event.id) %>
+        <%= event.title %>
+      </div> 
+    <% end %>
   </div>
   <%= f.submit '登録' %>
 <% end %>
