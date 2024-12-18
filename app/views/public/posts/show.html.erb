@@ -59,9 +59,9 @@
       <% end %>
     </div>
     <h2>コメント</h2>
-    <%= render 'comments/form', commetable: @post %>
-    h3>コメント一覧</h3>
-    <%= render 'comments/comments_list', commetable: @post %>
+    <%= render 'public/comments/form', commetable: @post %>
+    <h3>コメント一覧</h3>
+    <%= render 'public/comments/lists', commetable: @post %>
   </div>
 </div>
 
@@ -81,4 +81,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+  const commentSection = document.querySelector('#comment-section');
+  const newComment = `<%= j render 'public/comments/lists', comment: @comment %>`;
+
+  commentSection.insertAdjacentHTML('beforeend', newComment);
+});
+
 </script>

@@ -1,5 +1,13 @@
-<% commetable.comments.each do |comment| %>
-  <div>
-   <p><%= comment.user.name %>:<strong><%= comment.body %></strong></p>
-  </div>
-<% end %>   
+<div id="comments-list">
+  <!-- コメント一覧 -->
+  <% if commetable.comments.any? %>
+    <% commetable.comments.each do |comment| %>
+      <div class="comment">
+        <p><%= comment.body %></p>
+        <p><%= comment.user.name %></p>
+      </div>
+    <% end %>
+  <% else %>
+    <p>コメントはまだありません。</p>
+  <% end %>
+</div>

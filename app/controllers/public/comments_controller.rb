@@ -1,29 +1,39 @@
-class CommentsController < ApplicationController
+class Public::CommentsController < ApplicationController
   before_action :authenticate_user!
 
-  def create
-    @commetable = find_commetable
-    @comment = @commetable.comments.new(comment_params)
-    @comment.user = current_user
+  # app/controllers/public/comments_controller.rb
+def create
+  @commetable = find_commetable
+  @comment = @commetable.comments.new(comment_params)
+  @comment.user = current_user
 
-    if @comment.save
-      # 成功した場合は、コメント一覧とフォームの部分テンプレートをレンダリング
-      respond_to do |format|
-        format.js   # create.js.erb を呼び出す
-      end
-    else
-      # 失敗した場合
-      redirect_to @commetable, alert: 'コメントの投稿に失敗しました。'
+  if @comment.save
+    respond_to do |format|
+      format.js { render 'create' }
+    end
+  else
+    respond_to do |format|
+      format.js { render 'create' }
     end
   end
+end
 
   private
 
   def find_commetable
-    params[:commetable_type].constantize.find(params[:commetable_id])
+    commetable_type = params[:comment][:commetable_type]
+    commetable_id = params[:comment][:commetable_id]
+
+    Rails.logger.debug "Commetable type: #{commetable_type}, id: #{commetable_id}"
+
+    if commetable_type.present? && commetable_id.present?
+      commetable_type.constantize.find(commetable_id)
+    else
+      raise ActiveRecord::RecordNotFound, "Invalid commetable type or id"
+    end  
   end
 
   def comment_params
-    params.require(:comment).permit(:body)
+    params.require(:comment).permit(:body, :commetable_type, :commetable_id)
   end
 end

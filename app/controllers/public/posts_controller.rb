@@ -55,6 +55,7 @@ class Public::PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     @reviews = Review.all
+    
   end
 
   def edit
