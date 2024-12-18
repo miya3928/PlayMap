@@ -1,6 +1,6 @@
 <div id="comments-list">
   <!-- コメント一覧 -->
-  <% if commetable.comments.any? %>
+  <% if defined?(commetable) && commetable.present? && commetable.comments.present? %>
     <% commetable.comments.each do |comment| %>
       <div class="comment">
         <p><%= comment.body %></p>

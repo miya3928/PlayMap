@@ -1,7 +1,7 @@
 class Public::CommentsController < ApplicationController
   before_action :authenticate_user!
 
-  # app/controllers/public/comments_controller.rb
+
 def create
   @commetable = find_commetable
   @comment = @commetable.comments.new(comment_params)
