@@ -15,9 +15,9 @@
       <%= link_to "投稿詳細に戻る", post_path(@review.post), class: "btn btn-outline-secondary" %>
     </div>
     <h3>投稿にコメントする</h3>
-    <%= render 'comments/form', commetable: @review %>
+    <%= render 'public/comments/form', commetable: @review %>
     <h3>コメント一覧</h3>
-    <%= render 'comments/lists', commetable: @review %>
+    <%= render 'public/comments/lists', commetable: @review %>
   </div>
 </div>
 
