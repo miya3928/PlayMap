@@ -85,7 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("turbolinks:load", function() {
   const commentSection = document.querySelector('#comments-list');
   const newComment = `<%= j render 'public/comments/lists', comment: @comment %>`;
-
   commentSection.insertAdjacentHTML('beforeend', newComment);
 });
 

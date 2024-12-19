@@ -2,8 +2,8 @@
   <%= f.hidden_field :commetable_type, value: commetable.class.name %>
   <%= f.hidden_field :commetable_id, value: commetable.id %>
 
-  <div class = "form-group">
-   <%= f.text_area :body, placeholder: "コメントを入力してください", class: "form-control", id: "comment_body" %>
+  <div class="form-group">
+    <%= f.text_area :body, placeholder: "コメントを入力してください", class: "form-control", id: "comment_body" %>
   </div>
   <%= f.submit "コメント投稿", class: "btn btn-primary" %>
-<% end %>   
+<% end %>

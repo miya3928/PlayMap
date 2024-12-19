@@ -20,6 +20,10 @@ window.raty = function (elem, opt) {
   return raty;
 };
 
+import $ from 'jquery';
+window.$ = $;
+window.jQuery = $;
+
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()

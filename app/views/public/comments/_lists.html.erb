@@ -2,7 +2,7 @@
   <!-- コメント一覧 -->
   <% if defined?(commetable) && commetable.present? && commetable.comments.present? %>
     <% commetable.comments.each do |comment| %>
-      <div class="comment">
+      <div class="comment-body">
         <p><%= comment.body %></p>
         <p><%= comment.user.name %></p>
       </div>

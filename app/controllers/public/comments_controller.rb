@@ -1,22 +1,21 @@
 class Public::CommentsController < ApplicationController
   before_action :authenticate_user!
 
-
-def create
-  @commetable = find_commetable
-  @comment = @commetable.comments.new(comment_params)
-  @comment.user = current_user
-
-  if @comment.save
+  def create
+    @commetable = find_commetable
+    @comment = @commetable.comments.new(comment_params)
+    @comment.user = current_user
+  
     respond_to do |format|
-      format.js { render 'create' }
-    end
-  else
-    respond_to do |format|
-      format.js { render 'create' }
+      if @comment.save
+        format.html { redirect_to @commetable, notice: 'コメントを追加しました。' }
+        format.js   # 成功時にJSレスポンスを返す
+      else
+        format.html { render 'public/posts/show', alert: 'コメントの追加に失敗しました。' }
+        format.js   # 失敗時にもJSレスポンスを返す
+      end
     end
   end
-end
 
   private
 
