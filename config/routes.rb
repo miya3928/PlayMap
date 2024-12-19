@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :public do
+    get 'comments/create'
+  end
   # user用
   # URL /users/sign_in ...
    get '/guest_login', to: 'public/sessions#guest_login', as: 'guest_login'
@@ -28,6 +31,14 @@ Rails.application.routes.draw do
 
     resources :posts do
       resources :reviews
+    end
+
+    resources :posts do
+      resources :comments, only: [:create, :destroy]
+    end
+
+    resources :reviews do
+      resources :comments, only: [:create, :destroy]
     end
   end
 
