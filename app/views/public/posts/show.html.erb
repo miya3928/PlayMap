@@ -18,7 +18,7 @@
     <!-- レビューを書くボタン -->
     <div class="text-end m-3">
       <%= link_to "この投稿にレビューを書く", new_post_review_path(@post), class: "btn btn-primary btn-lg" %>
-    </div> 
+    </div>
 
     <% if @post.user == current_user %>
       <!-- 投稿の編集と削除ボタン -->
@@ -31,7 +31,7 @@
 
   <!-- レビューセクション -->
   <div class="mt-5">
-    <h2>この<%= @postable_type %>へのレビュー</h2>
+    <h2>この投稿へのレビュー</h2>
     <% if @post.reviews.any? %>
       <div class="row row-cols-1 row-cols-md-2 g-4">
         <% @post.reviews.each do |review| %>
@@ -71,7 +71,7 @@
 
     <!-- コメント一覧 -->
     <div class="mt-4" id="comments-list">
-      <h4>コメント一覧</h4>
+      <h4>みんなのコメント</h4>
       <% if @post.comments.any? %>
         <%= render 'public/comments/lists', commetable: @post %>
       <% else %>

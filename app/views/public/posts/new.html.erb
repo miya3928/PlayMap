@@ -1,38 +1,143 @@
 <%= form_with model: @post, url: posts_path, local: true do |form| %>
-  <!-- タイトル -->
-  <div class="mb-3">
-    <%= form.label :title, "タイトル" %>
-    <%= form.text_field :title, class: "form-control" %>
-  </div>
+  <div class="container my-5">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <!-- 投稿カテゴリ選択 -->
+        <div class="mb-3">
+          <%= form.label :postable_type, "投稿カテゴリー", class: "form-label" %>
+         <%= form.select :postable_type, options_for_select([['場所', 'Place'], ['イベント', 'Event']]), { prompt: "選択してください（場所またはイベント）" }, class: "form-select" %>
+        </div>
 
-  <!-- 本文 -->
-  <div class="mb-3">
-    <%= form.label :body, "本文" %>
-    <%= form.text_area :body, class: "form-control" %>
-  </div>
+        <!-- タイトル -->
+        <div class="mb-3">
+          <%= form.label :title, "タイトル", class: "form-label" %>
+          <%= form.text_field :title, class: "form-control" %>
+        </div>
 
-  <!-- 場所のチェックボックス -->
-  <div class="mb-3">
-    <h4>場所を選択</h4>
-    <% @places.each do |place| %>
-      <div>
-        <%= check_box_tag "post[place_ids][]", place.id %>
-        <%= place.name %>
+        <!-- 本文 -->
+        <div class="mb-3">
+          <%= form.label :body, "本文", class: "form-label" %>
+          <%= form.text_area :body, class: "form-control", rows: 5 %>
+        </div>
+
+        <!-- 場所の選択 (チェックボックス) -->
+        <div class="mb-3" id="place-selection" style="display:none;">
+          <h5>場所を選択</h5>
+          <div class="d-flex flex-wrap">
+            <% @places.each do |place| %>
+              <div class="form-check me-3">
+                <%= check_box_tag "post[place_ids][]", place.id, false, class: "form-check-input" %>
+                <%= form.label "post_place_#{place.id}", place.name, class: "form-check-label" %>
+              </div>
+            <% end %>
+          </div>
+          <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#addPlaceModal">場所を追加</button>
+        </div>
+        
+        <!-- イベントの選択 (チェックボックス) -->
+        <div class="mb-3" id="event-selection" style="display:none;">
+          <h5>イベントを選択</h5>
+          <div class="d-flex flex-wrap">
+            <% @events.each do |event| %>
+              <div class="form-check me-3">
+                <%= check_box_tag "post[event_ids][]", event.id, false, class: "form-check-input" %>
+                <%= form.label "post_event_#{event.id}", event.title, class: "form-check-label" %>
+              </div>
+            <% end %>
+          </div>
+          <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#addEventModal">イベントを追加</button>
+        </div>
+
+        <!-- 投稿ボタン -->
+        <div class="text-end">
+          <%= form.submit "投稿する", class: "btn btn-primary" %>
+        </div>
       </div>
-    <% end %>
+    </div>
   </div>
 
-  <!-- イベントのチェックボックス -->
-  <div class="mb-3">
-    <h4>イベントを選択</h4>
-    <% @events.each do |event| %>
-      <div>
-        <%= check_box_tag "post[event_ids][]", event.id %>
-        <%= event.title %>
+  <!-- モーダル：場所追加 -->
+  <div class="modal fade" id="addPlaceModal" tabindex="-1" aria-labelledby="addPlaceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <%= form_with model: @place, url: places_path, local: true do |f| %>
+          <div class="modal-header">
+            <h5 class="modal-title" id="addPlaceModalLabel">場所を追加</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <%= f.label :name, "場所名", class: "form-label" %>
+              <%= f.text_field :name, class: "form-control" %>
+            </div>
+            <div class="mb-3">
+              <%= f.label :address, "住所", class: "form-label" %>
+              <%= f.text_field :address, class: "form-control" %>
+            </div>
+            <div class="mb-3">
+              <%= f.label :description, "説明", class: "form-label" %>
+              <%= f.text_area :description, class: "form-control" %>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <%= f.submit "登録", class: "btn btn-primary" %>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+          </div>
+        <% end %>
       </div>
-    <% end %>
+    </div>
   </div>
 
-  <!-- 投稿ボタン -->
-  <%= form.submit "投稿する", class: "btn btn-primary" %>
+  <!-- モーダル：イベント追加 -->
+  <div class="modal fade" id="addEventModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <%= form_with model: @event, url: events_path, local: true do |f| %>
+          <div class="modal-header">
+            <h5 class="modal-title" id="addEventModalLabel">イベントを追加</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <%= f.label :title, "イベント名", class: "form-label" %>
+              <%= f.text_field :title, class: "form-control" %>
+            </div>
+            <div class="mb-3">
+              <%= f.label :body, "イベント内容", class: "form-label" %>
+              <%= f.text_area :body, class: "form-control" %>
+            </div>
+            <div class="mb-3">
+              <%= f.label :start_date, "開始日時", class: "form-label" %>
+              <%= f.datetime_select :start_date, class: "form-control" %>
+            </div>
+            <div class="mb-3">
+              <%= f.label :end_date, "終了日時", class: "form-label" %>
+              <%= f.datetime_select :end_date, class: "form-control" %>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <%= f.submit "登録", class: "btn btn-primary" %>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 <% end %>
+
+<script>
+document.addEventListener("turbolinks:load", () => {
+  const postableTypeSelect = document.querySelector("select[name='post[postable_type]']");
+  const placeSelection = document.getElementById("place-selection");
+  const eventSelection = document.getElementById("event-selection");
+
+  function toggleSelection() {
+    const selectedValue = postableTypeSelect.value;
+    placeSelection.style.display = selectedValue === "Place" ? "block" : "none";
+    eventSelection.style.display = selectedValue === "Event" ? "block" : "none";
+  }
+
+  postableTypeSelect.addEventListener("change", toggleSelection);
+  toggleSelection(); // 初期状態を設定
+});
+</script>

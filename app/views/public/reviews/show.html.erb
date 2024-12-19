@@ -14,9 +14,9 @@
       <%= link_to "削除", post_review_path(@review.post, @review), method: :delete, class: "btn btn-outline-danger", data: { confirm: '本当に削除しますか？' } %>
       <%= link_to "投稿詳細に戻る", post_path(@review.post), class: "btn btn-outline-secondary" %>
     </div>
-    <h3>投稿にコメントする</h3>
+    <h3>Comment</h3>
     <%= render 'public/comments/form', commetable: @review %>
-    <h3>コメント一覧</h3>
+    <h3>みんなのコメント</h3>
     <%= render 'public/comments/lists', commetable: @review %>
   </div>
 </div>
