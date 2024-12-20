@@ -1,4 +1,17 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    get 'reviews/index'
+    get 'reviews/show'
+    get 'reviews/destroy'
+  end
+  namespace :admin do
+    get 'users/index'
+    get 'users/show'
+    get 'users/update'
+  end
+  namespace :admin do
+    get 'dashboard/index'
+  end
   namespace :public do
     get 'comments/create'
   end
@@ -46,4 +59,11 @@ Rails.application.routes.draw do
   devise_for :admin, skip: [:registrations, :passwords], controllers: {
     sessions: "admin/sessions"
   }
+
+  namespace :admin do 
+    root to: "dashboard#index"
+    resources :users, only: [:index, :show, :update]
+    resources :posts, only: [:index, :show, :destroy]
+    resources :reviews, only: [:index, :show, :destroy] 
+  end  
 end

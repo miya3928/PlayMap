@@ -1,0 +1,25 @@
+<h1>レビュー管理</h1>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>投稿タイトル</th>
+      <th>５段階評価</th>
+      <th>レビュー内容</th>
+      <th>アクション</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @reviews.each do |review| %>
+      <tr>
+        <td><%= review.id %></td>
+        <td><%= review.post.title %></td>
+        <td><%= review.score %></td>
+        <td><%= truncate(review.body, length: 50) %></td>
+        <td>
+          <%= button_to "削除", admin_review_path(review), method: :delete, class: "btn btn-danger", data: { confirm: "本当に削除しますか？" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
