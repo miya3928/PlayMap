@@ -2,9 +2,13 @@
   <!-- コメント一覧 -->
   <% if defined?(commetable) && commetable.present? && commetable.comments.present? %>
     <% commetable.comments.each do |comment| %>
-      <div class="comment-body">
-        <p><%= comment.body %></p>
-        <p><%= comment.user.name %></p>
+      <div id="comment-<%= comment.id %>">
+        <p><strong><%= comment.user.name %></strong>: <%= comment.body %></p>
+        <% if comment.user == current_user %>
+          <%= link_to '削除', polymorphic_path([commetable, comment]), method: :delete, 
+                      data: { confirm: '本当に削除しますか？' }, 
+                      class: 'btn btn-danger btn-sm' %>
+        <% end %>
       </div>
     <% end %>
   <% else %>

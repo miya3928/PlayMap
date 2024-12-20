@@ -1,4 +1,5 @@
 <div class="container my-5">
+  <!-- 投稿カード -->
   <div class="card shadow-sm">
     <div class="card-body">
       <!-- 投稿タイトル -->
@@ -16,76 +17,90 @@
 
     <!-- レビューを書くボタン -->
     <div class="text-end m-3">
-      <%= link_to "レビューを書く", new_post_review_path(@post), class: "btn btn-primary btn-lg" %>
-    </div> 
+      <%= link_to "この投稿にレビューを書く", new_post_review_path(@post), class: "btn btn-primary btn-lg" %>
+    </div>
 
     <% if @post.user == current_user %>
       <!-- 投稿の編集と削除ボタン -->
       <div class="card-footer text-end">
-        <%= link_to "編集", edit_post_path(@post), class: "btn btn-outline-success me-2" %>
-        <%= link_to "削除", post_path(@post), method: :delete, class: "btn btn-outline-danger", data: { confirm: '本当に削除しますか？' } %>
+        <%= link_to "投稿を編集", edit_post_path(@post), class: "btn btn-outline-success me-2" %>
+        <%= link_to "投稿を削除", post_path(@post), method: :delete, class: "btn btn-outline-danger", data: { confirm: '本当に削除しますか？' } %>
       </div>
     <% end %>
+  </div>
 
-    <!-- レビュー一覧 -->
-    <div class="mt-4">
-      <h4>Review</h4>
+  <!-- レビューセクション -->
+  <div class="mt-5">
+    <h2>この投稿へのレビュー</h2>
+    <% if @post.reviews.any? %>
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        <% @post.reviews.each do |review| %>
+          <div class="col">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <!-- レビュー投稿者 -->
+                <p class="text-muted mb-2">
+                  <strong>レビュー投稿者：</strong>
+                  <%= link_to review.user.name, user_path(review.user), class: "text-decoration-none text-primary" %>
+                </p>
 
-      <% if @post.reviews.any? %>
-        <div class="row row-cols-1 row-cols-md-2 g-4">
-          <% @post.reviews.each do |review| %>
-            <div class="col">
-              <div class="card h-100">
-                <div class="card-body">
-                  <!-- レビュー投稿者 -->
-                  <p class="text-muted mb-2">
-                    <strong>投稿者：</strong>
-                    <%= link_to review.user.name, user_path(review.user), class: "text-decoration-none text-primary" %>
-                  </p>
-                  
-                  <!-- レビュー評価 -->
-                  <div class="review-score mb-2" data-score="<%= review.score %>"></div>
+                <!-- レビュー評価 -->
+                <div class="review-score mb-2" data-score="<%= review.score %>"></div>
 
-                  <!-- レビュー内容 -->
-                  <p class="mb-0"><strong>内容:</strong> <%= simple_format(review.body) %></p>
-                  <%= link_to "続きを読む", post_review_path(@post, review), class: "text-decoration-none text-primary" %>
-                </div>
+                <!-- レビュー内容 -->
+                <p class="mb-0"><strong>レビュー内容:</strong> <%= simple_format(review.body) %></p>
+                <%= link_to "レビューを読む", post_review_path(@post, review), class: "text-decoration-none text-primary" %>
               </div>
             </div>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-muted">まだレビューがありません。この投稿に対する最初のレビューを書いてみましょう！</p>
+    <% end %>
+  </div>
+
+  <!-- コメントセクション -->
+  <div class="mt-5">
+    <h2>この投稿へのコメント</h2>
+
+    <!-- コメント投稿フォーム -->
+    <div class="mt-3">
+      <%= render 'public/comments/form', commetable: @post %>
+    </div>
+
+    <!-- コメント一覧 -->
+    <div class="mt-4" id="comments-list">
+      <h4>みんなのコメント</h4>
+      <% if @post.comments.any? %>
+        <%= render 'public/comments/lists', commetable: @post %>
       <% else %>
-        <p class="text-muted">まだレビューがありません。</p>
+        <p class="text-muted">まだコメントがありません。この投稿にコメントを追加しましょう！</p>
       <% end %>
     </div>
-    <h2>コメント</h2>
-    <%= render 'public/comments/form', commetable: @post %>
-    <h3>コメント一覧</h3>
-    <%= render 'public/comments/lists', commetable: @post %>    
   </div>
 </div>
 
 <!-- Ratyの初期化スクリプト -->
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".review-score").forEach((elem) => {
-    const score = elem.dataset.score;
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".review-score").forEach((elem) => {
+      const score = elem.dataset.score;
 
-    raty(elem, {
-      readonly: true,
-      score: parseFloat(score),
-      number: 5,
-      starOn: "<%= asset_path('star-on.png') %>",
-      starOff: "<%= asset_path('star-off.png') %>",
-      starHalf: "<%= asset_path('star-half.png') %>",
+      raty(elem, {
+        readonly: true,
+        score: parseFloat(score),
+        number: 5,
+        starOn: "<%= asset_path('star-on.png') %>",
+        starOff: "<%= asset_path('star-off.png') %>",
+        starHalf: "<%= asset_path('star-half.png') %>",
+      });
     });
   });
-});
 
-document.addEventListener("turbolinks:load", function() {
-  const commentSection = document.querySelector('#comments-list');
-  const newComment = `<%= j render 'public/comments/lists', comment: @comment %>`;
-  commentSection.insertAdjacentHTML('beforeend', newComment);
-});
-
+  document.addEventListener("turbolinks:load", () => {
+    const commentSection = document.querySelector('#comments-list');
+    const newComment = `<%= j render 'public/comments/lists', comment: @comment %>`;
+    commentSection.insertAdjacentHTML('beforeend', newComment);
+  });
 </script>

@@ -1,5 +1,6 @@
 class Public::CommentsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_comment, only: [:destroy]
 
   def create
     @commetable = find_commetable
@@ -12,6 +13,20 @@ class Public::CommentsController < ApplicationController
         format.js   # 成功時にJSレスポンスを返す
       else
         format.html { render 'public/posts/show', alert: 'コメントの追加に失敗しました。' }
+        format.js   # 失敗時にもJSレスポンスを返す
+      end
+    end
+  end
+
+  def destroy
+    if @comment.destroy
+      respond_to do |format|
+        format.html { redirect_to @comment.commetable, notice: 'コメントを削除しました。' }
+        format.js   # 成功時にJSレスポンスを返す
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to @comment.commetable, alert: 'コメントの削除に失敗しました。' }
         format.js   # 失敗時にもJSレスポンスを返す
       end
     end
@@ -30,6 +45,10 @@ class Public::CommentsController < ApplicationController
     else
       raise ActiveRecord::RecordNotFound, "Invalid commetable type or id"
     end  
+  end
+
+  def set_comment
+    @comment = Comment.find(params[:id])
   end
 
   def comment_params
