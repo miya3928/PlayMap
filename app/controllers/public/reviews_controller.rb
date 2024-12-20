@@ -52,6 +52,7 @@ class Public::ReviewsController < ApplicationController
     end    
   end
 
+
   private
 
   def set_post

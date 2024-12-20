@@ -1,0 +1,8 @@
+<h1>管理者ダッシュボード</h1>
+<p>登録ユーザー数: <%= @users.count %></p>
+<p>投稿数: <%= @posts.count %></p>
+<p>投稿レビュー数: <%= @reviews.count %></p>
+
+<%= link_to "ユーザー管理", admin_users_path, class: "btn btn-primary" %>
+<%= link_to "投稿管理", admin_posts_path, class: "btn btn-primary" %>
+<%= link_to "レビュー管理", admin_reviews_path, class: "btn btn-secondary" %>

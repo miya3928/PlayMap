@@ -1,0 +1,9 @@
+<h1>ユーザー詳細</h1>
+<p>名前：<%= @user.name %></p>
+<p>メール：<%= @user.email %></p>
+<p>ステータス：<%= @user.is_active %></p>
+
+<% if @user.is_active %>
+ <%= button_to "退会させる", admin_user_path(@user), method: :patch, class: "btn btn-danger", data: { confirm: "本当に退会させますか？" } %>
+<% end %>
+<%= link_to "戻る", admin_users_path, class: "btn btn-secondary" %> 
