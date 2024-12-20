@@ -35,4 +35,8 @@ class Post < ApplicationRecord
   rescue StandardError => e
     "情報取得エラー: #{e.message}"
   end
+  
+  scope :search_by_keyword, ->(keyword) {
+    where("title LIKE ? OR body LIKE ?", "%#{keyword}%", "%#{keyword}%") if keyword.present?
+  }
 end

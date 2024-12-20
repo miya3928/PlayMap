@@ -79,6 +79,11 @@ class Public::PostsController < ApplicationController
     redirect_to mypage_path
   end
 
+  def search
+    @keyword = params[:keyword] # 検索キーワードを取得
+    @posts = Post.search_by_keyword(@keyword)
+  end
+
   private
 
   def post_params

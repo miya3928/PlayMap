@@ -31,10 +31,10 @@ Rails.application.routes.draw do
 
     resources :posts do
       resources :reviews
-    end
-
-    resources :posts do
       resources :comments, only: [:create, :destroy]
+      collection do
+        get :search # searchアクションを追加
+      end
     end
 
     resources :reviews do

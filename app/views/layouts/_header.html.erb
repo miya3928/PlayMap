@@ -18,6 +18,9 @@
               <span class="navbar-text mr-3">ようこそ、ゲストさん！</span>
             </li>
             <li class="nav-item">
+               <%= render 'layouts/form' %>
+            </li>
+            <li class="nav-item">
               <%= link_to "投稿一覧", posts_path, class: "btn btn-outline-secondary mx-3" %>
             </li>
             <li class="nav-item">
@@ -30,6 +33,9 @@
           <% elsif current_user %> <!-- ログイン時 -->
             <li class="nav-item">
               <span class="navbar-text mr-3">ようこそ、<%= current_user.name %>さん！</span>
+            </li>
+            <li class="nav-item">
+               <%= render 'layouts/form' %>
             </li>
             <li class="nav-item">
               <%= link_to "マイページ", mypage_path, class: "btn btn-outline-primary mx-3" %>
@@ -45,6 +51,9 @@
             </li>
 
           <% else %> <!-- ログアウト時 -->
+            <li class="nav-item">
+               <%= render 'layouts/form' %>
+            </li>  
             <li class="nav-item">
               <%= link_to "About", about_path, class: "btn btn-outline-success mx-3" %>
             </li>
