@@ -4,7 +4,7 @@ class Admin::ReviewsController < ApplicationController
   end
 
   def show
-    @review = Review.find(params[:id])
+    @reviews = Review.includes(:post).order(created_at: :desc).page(params[:page]).per(6)
   end
 
   def destroy

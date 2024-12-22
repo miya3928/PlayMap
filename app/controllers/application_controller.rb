@@ -18,7 +18,11 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(resource_or_scope)
-    root_path # ログアウト後にリダイレクトするパスを指定
+    if resource_or_scope == :admin
+      new_admin_session_path # 管理者用ログインページ
+    else
+      root_path # 一般ユーザー用トップページ
+   end
   end
 
   def after_sign_up_path_for(resource)
