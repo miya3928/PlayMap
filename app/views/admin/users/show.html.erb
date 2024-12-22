@@ -1,9 +1,31 @@
-<h1>ユーザー詳細</h1>
-<p>名前：<%= @user.name %></p>
-<p>メール：<%= @user.email %></p>
-<p>ステータス：<%= @user.is_active %></p>
-
-<% if @user.is_active %>
- <%= button_to "退会させる", admin_user_path(@user), method: :patch, class: "btn btn-danger", data: { confirm: "本当に退会させますか？" } %>
-<% end %>
-<%= link_to "戻る", admin_users_path, class: "btn btn-secondary" %> 
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-header text-white bg-primary">
+      <h1 class="text-center">ユーザー詳細</h1>
+    </div>
+    <div class="card-body">
+      <p><strong>名前：</strong> <%= @user.name %></p>
+      <p><strong>メール：</strong> <%= @user.email %></p>
+      <p><strong>ステータス：</strong> 
+        <% if @user.is_active %>
+          <span class="badge bg-success">アクティブ</span>
+        <% else %>
+          <span class="badge bg-secondary">退会済み</span>
+        <% end %>
+      </p>
+      
+      <% if @user.is_active %>
+        <div class="mt-4">
+          <%= button_to "退会させる", 
+                        admin_user_path(@user), 
+                        method: :patch, 
+                        class: "btn btn-danger", 
+                        data: { confirm: "本当に退会させますか？" } %>
+        </div>
+      <% end %>
+    </div>
+    <div class="card-footer text-center">
+      <%= link_to "戻る", admin_users_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+</div>
