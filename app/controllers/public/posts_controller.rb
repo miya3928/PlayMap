@@ -45,6 +45,14 @@ class Public::PostsController < ApplicationController
       @events = Event.all
       render :new
     end
+
+    if params[:post][:tag_list].present?
+      tag_names = params[:post][:tag_list].split(',').map(&:strip).uniq
+      tag_names.each do |name|
+        tag = Tag find_or_create_by(name: name)
+        @post.tags << tag unless @post.tags.include?(tag)
+      end
+    end    
   end  
 
   def index
@@ -81,7 +89,14 @@ class Public::PostsController < ApplicationController
 
   def search
     @keyword = params[:keyword] # 検索キーワードを取得
-    @posts = Post.search_by_keyword(@keyword)
+    @tag_name = params[:tag_name]
+
+    if tag_name.present?
+      @tag = Tag.find_by(name: @tag_name)
+      @posts = @tag ? @tag.posts : Post.none
+    else
+      @posts = Post.search_by_keyword(@keyword) 
+    end   
   end
 
   private

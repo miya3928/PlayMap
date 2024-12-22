@@ -20,6 +20,11 @@
           <%= form.text_area :body, class: "form-control", rows: 5 %>
         </div>
 
+        <div class="mb-3">
+          <%= f.label :tags, "タグ (カンマ区切りで入力)" %>
+          <%= f.text_field :tag_list, class:"form-control", placeholder: "例: カフェ,クリスマス " %>
+        </div>
+
         <!-- 場所の選択 (チェックボックス) -->
         <div class="mb-3" id="place-selection" style="display:none;">
           <h5>場所を選択</h5>

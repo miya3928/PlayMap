@@ -26,4 +26,9 @@
   <div class="d-flex justify-content-center mt-4">
     <%= paginate @posts %>
   </div>
+
+  <%= form_tag posts_path, method: :get do %>
+    <%= text_field_tag :tag_name, params[:tag_name], placeholder: 'タグ名で検索' %>
+    <%= submit_tag '検索' %>
+  <% end %>
 </div>

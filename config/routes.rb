@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :public do
+    get 'tags/show'
+  end
   # user用
   # URL /users/sign_in ...
    get '/guest_login', to: 'public/sessions#guest_login', as: 'guest_login'
@@ -36,6 +39,10 @@ Rails.application.routes.draw do
 
     resources :reviews do
       resources :comments, only: [:create, :destroy]
+    end
+
+    resources :tags, only: [:show] do
+      resources :posts, only: [:index]
     end
   end
 
