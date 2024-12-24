@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     root to: "homes#top"
     get "/about", to: "homes#about", as: 'about'
     get '/mypage', to: 'users#mypage', as: 'mypage'
-    get '/search', to: 'searchs#search', as: 'search'
+    get '/search', to: 'searches#search', as: 'search'
     resources :users, only: [:create, :show, :edit, :update, :destroy]
     resources :tags, only: [:index, :show] do
       collection do
