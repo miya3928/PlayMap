@@ -13,7 +13,7 @@
           <h2 class="post-title">
             <%= link_to post.title, post_path(post), class: "post-link" %>
           </h2>
-          <p class="post-snippet"><%= truncate(post.body, length: 100) %></p>
+          <p class="post-snippet"><%= truncate(post.body, length: 50) %></p>
         </li>
       <% end %>
     </ul>
