@@ -17,26 +17,34 @@ class Public::PostsController < ApplicationController
 
   def create
     selected_postables = []
-
+  
     # 選択された Place を取得
     if params[:post][:place_ids].present?
       selected_postables += Place.where(id: params[:post][:place_ids])
     end
-
+  
     # 選択された Event を取得
     if params[:post][:event_ids].present?
       selected_postables += Event.where(id: params[:post][:event_ids])
     end
-
-    # 選択された postable に対してポストを作成
+  
     if selected_postables.present?
       selected_postables.each do |postable|
-        Post.create(
+        post = Post.create(
           title: params[:post][:title],
           body: params[:post][:body],
           user: current_user,
           postable: postable
         )
+  
+        # タグの紐付け
+        if params[:post][:tag_list].present?
+          tag_names = params[:post][:tag_list].split(',').map(&:strip).uniq
+          tag_names.each do |name|
+            tag = Tag.find_or_create_by(name: name)
+            post.tags << tag unless post.tags.include?(tag)
+          end
+        end
       end
       redirect_to posts_path, notice: "投稿に成功しました"
     else
@@ -45,19 +53,19 @@ class Public::PostsController < ApplicationController
       @events = Event.all
       render :new
     end
-
-    if params[:post][:tag_list].present?
-      tag_names = params[:post][:tag_list].split(',').map(&:strip).uniq
-      tag_names.each do |name|
-        tag = Tag find_or_create_by(name: name)
-        @post.tags << tag unless @post.tags.include?(tag)
-      end
-    end    
-  end  
-
+  end
+  
   def index
     @posts = Post.all
-    @posts = Post.includes(:user).order(created_at: :desc).page(params[:page]).per(6) # 1ページあたり6件    
+  
+    if params[:tag_name].present?
+      @posts = @posts.joins(:tags).where(tags: { name: params[:tag_name] }).distinct
+    elsif params[:tag_id].present?
+      @tag = Tag.find(params[:tag_id])
+      @posts = @tag.posts
+    end
+  
+    @posts = @posts.includes(:user).order(created_at: :desc).page(params[:page]).per(6)
   end
 
   def show
@@ -84,7 +92,7 @@ class Public::PostsController < ApplicationController
     @post =Post.find(params[:id])
     @post.destroy
     flash.now[:alert] =  '投稿が削除されました！'
-    redirect_to mypage_path
+    redirect_to posts_path
   end
 
   def search

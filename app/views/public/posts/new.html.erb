@@ -1,4 +1,4 @@
-<%= form_with model: @post, url: posts_path, local: true do |form| %>
+<%= form_with model: @post, url: posts_path, local: false do |form| %>
   <div class="container my-5">
     <div class="card shadow-sm">
       <div class="card-body">
@@ -21,8 +21,8 @@
         </div>
 
         <div class="mb-3">
-          <%= f.label :tags, "タグ (カンマ区切りで入力)" %>
-          <%= f.text_field :tag_list, class:"form-control", placeholder: "例: カフェ,クリスマス " %>
+          <%= form.label :tags, "タグ追加 (カンマ区切りで入力)" %>
+          <%= form.text_field :tag_list, class:"form-control", placeholder: "例: カフェ,クリスマス " %>
         </div>
 
         <!-- 場所の選択 (チェックボックス) -->
