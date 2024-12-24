@@ -20,7 +20,11 @@ Rails.application.routes.draw do
     root to: "homes#top"
     get "/about", to: "homes#about", as: 'about'
     get '/mypage', to: 'users#mypage', as: 'mypage'
-    resources :users, only: [:create, :show, :edit, :update, :destroy]
+    resources :users, only: [:create, :show, :edit, :update, :destroy]do
+      collection do
+        get 'search'
+      end
+    end    
     resources :tags, only: [:index, :show] do
       collection do
         get 'search', to: 'tags#search'
@@ -45,7 +49,6 @@ Rails.application.routes.draw do
     resources :reviews do
       resources :comments, only: [:create, :destroy]
     end
-   
   end
 
   # 管理者用

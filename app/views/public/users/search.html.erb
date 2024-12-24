@@ -1,0 +1,21 @@
+<h1 class="text-center my-4">ユーザー検索結果</h1>
+
+<div class="container">
+  <% if @users.any? %>
+    <div class="row">
+      <% @users.each do |user| %>
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">
+                <%= link_to user.name, user_path(user), class: "text-decoration-none text-primary" %>
+              </h5>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-center">検索結果が見つかりませんでした。</p>
+  <% end %>
+</div>
