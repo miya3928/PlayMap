@@ -1,4 +1,10 @@
-<h1>検索結果</h1>
+<h1>投稿検索</h1>
+<%= form_tag posts_path, method: :get do %>
+  <%= text_field_tag :keyword, params[:keyword], placeholder: 'キーワードで検索' %>
+  <%= text_field_tag :tag_name, params[:tag_name], placeholder: 'タグ名で検索' %>
+  <%= submit_tag '検索' %>
+<% end %>
+
 <div class="search-results">
   <% if @posts.any? %>
     <ul class="post-list">
@@ -7,7 +13,7 @@
           <h2 class="post-title">
             <%= link_to post.title, post_path(post), class: "post-link" %>
           </h2>
-          <p class="post-snippet"><%= truncate(post.body, length: 100) %></p>
+          <p class="post-snippet"><%= truncate(post.body, length: 50) %></p>
         </li>
       <% end %>
     </ul>

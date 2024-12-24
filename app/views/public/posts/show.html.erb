@@ -10,6 +10,12 @@
         投稿者：
         <%= link_to @post.user.name, user_path(@post.user), class: "text-decoration-none text-primary" %>
       </p>
+      <p class="text-muted mt-2">
+      タグ: 
+       <% @post.tags.each do |tag| %>
+        <%= link_to tag.name, tag_path(tag) %> 
+       <% end %>
+      </p>
 
       <!-- 投稿内容 -->
       <p class="card-text mt-3"><%= simple_format(@post.body) %></p>
@@ -56,7 +62,7 @@
         <% end %>
       </div>
     <% else %>
-      <p class="text-muted">まだレビューがありません。この投稿に対する最初のレビューを書いてみましょう！</p>
+      <p class="text-muted">まだレビューがありません。最初のレビューを書いてみましょう！</p>
     <% end %>
   </div>
 

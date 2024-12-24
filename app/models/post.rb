@@ -3,6 +3,8 @@ class Post < ApplicationRecord
   belongs_to :user
   has_many :reviews, dependent: :destroy
   has_many :comments, as: :commetable, dependent: :destroy
+  has_many :post_tags, dependent: :destroy
+  has_many :tags, through: :post_tags
 
   scope :for_places, -> { where(postable_type: 'Place')}
   scope :for_events, -> { where(postable_type: 'Event')}

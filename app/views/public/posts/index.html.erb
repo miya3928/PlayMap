@@ -1,5 +1,18 @@
 <h1 class="text-center my-4">投稿一覧</h1>
 <div class="container">
+  <!-- 検索フォーム -->
+  <div class="row mb-4">
+    <div class="col-md-6 offset-md-3">
+      <%= form_with url: search_tags_path, method: :get, local: true do |f| %>
+        <div class="input-group">
+          <%= f.text_field :tag_name, value: params[:tag_name], placeholder: 'タグ名で検索', class: "form-control" %>
+          <%= f.submit 'タグ検索', class: "btn btn-success" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- 投稿リスト -->
   <div class="row">
     <% @posts.each do |post| %>
       <div class="col-md-4 mb-4"> <!-- 3列レイアウト -->
@@ -11,7 +24,7 @@
             <p class="card-text"><%= truncate(post.body, length: 100) %></p>
             <p class="text-muted">
               投稿者: 
-              <%= link_to post.user.name, user_path(post.user), class: "text-decoration-none" %> <!-- ユーザー詳細ページへのリンク -->
+              <%= link_to post.user.name, user_path(post.user), class: "text-decoration-none" %>
             </p>
           </div>
           <div class="card-footer text-end">
@@ -24,6 +37,6 @@
 
   <!-- ページネーション -->
   <div class="d-flex justify-content-center mt-4">
-    <%= paginate @posts %>
+    <%= paginate @posts %> 
   </div>
 </div>
