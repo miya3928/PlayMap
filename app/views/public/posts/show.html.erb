@@ -1,34 +1,36 @@
 <div class="container my-5">
   <!-- 投稿カード -->
-  <div class="card shadow-sm">
+  <div class="card shadow-lg border-0">
     <div class="card-body">
       <!-- 投稿タイトル -->
-      <h1 class="card-title"><%= @post.title %></h1>
+      <h1 class="card-title mb-3 text-primary"><%= @post.title %></h1>
 
       <!-- 投稿者情報 -->
-      <p class="text-muted mt-2">
+      <p class="text-muted">
         投稿者：
-        <%= link_to @post.user.name, user_path(@post.user), class: "text-decoration-none text-primary" %>
+        <%= link_to @post.user.name, user_path(@post.user), class: "fw-bold text-decoration-none text-primary" %>
       </p>
-      <p class="text-muted mt-2">
-      タグ: 
-       <% @post.tags.each do |tag| %>
-        <%= link_to tag.name, tag_path(tag) %> 
-       <% end %>
+      <p class="text-muted">
+        タグ: 
+        <% @post.tags.each do |tag| %>
+          <span class="badge bg-secondary"><%= link_to tag.name, tag_path(tag), class: "text-white text-decoration-none" %></span>
+        <% end %>
       </p>
 
       <!-- 投稿内容 -->
-      <p class="card-text mt-3"><%= simple_format(@post.body) %></p>
+      <div class="mt-4">
+        <p class="card-text"><%= simple_format(@post.body) %></p>
+      </div>
     </div>
 
     <!-- レビューを書くボタン -->
-    <div class="text-end m-3">
+    <div class="text-end p-3">
       <%= link_to "この投稿にレビューを書く", new_post_review_path(@post), class: "btn btn-primary btn-lg" %>
     </div>
 
     <% if @post.user == current_user %>
       <!-- 投稿の編集と削除ボタン -->
-      <div class="card-footer text-end">
+      <div class="card-footer bg-light text-end">
         <%= link_to "投稿を編集", edit_post_path(@post), class: "btn btn-outline-success me-2" %>
         <%= link_to "投稿を削除", post_path(@post), method: :delete, class: "btn btn-outline-danger", data: { confirm: '本当に削除しますか？' } %>
       </div>
@@ -37,12 +39,12 @@
 
   <!-- レビューセクション -->
   <div class="mt-5">
-    <h2>この投稿へのレビュー</h2>
+    <h2 class="text-success">この投稿へのレビュー</h2>
     <% if @post.reviews.any? %>
       <div class="row row-cols-1 row-cols-md-2 g-4">
         <% @post.reviews.each do |review| %>
           <div class="col">
-            <div class="card h-100 shadow-sm">
+            <div class="card h-100 border-0 shadow">
               <div class="card-body">
                 <!-- レビュー投稿者 -->
                 <p class="text-muted mb-2">
@@ -55,7 +57,9 @@
 
                 <!-- レビュー内容 -->
                 <p class="mb-0"><strong>レビュー内容:</strong> <%= simple_format(review.body) %></p>
-                <%= link_to "レビューを読む", post_review_path(@post, review), class: "text-decoration-none text-primary" %>
+                <div class="text-end">
+                  <%= link_to "レビューを読む", post_review_path(@post, review), class: "btn btn-outline-primary btn-sm mt-2" %>
+                </div>
               </div>
             </div>
           </div>
@@ -68,45 +72,78 @@
 
   <!-- コメントセクション -->
   <div class="mt-5">
-    <h2>この投稿へのコメント</h2>
-
+    <h2 class="text-info">この投稿へのコメント</h2>
+  
     <!-- コメント投稿フォーム -->
-    <div class="mt-3">
+    <div class="mt-4 p-3 bg-light rounded shadow-sm">
+      <h5>コメントを追加する</h5>
       <%= render 'public/comments/form', commetable: @post %>
     </div>
-
+  
     <!-- コメント一覧 -->
     <div class="mt-4" id="comments-list">
-      <h4>みんなのコメント</h4>
+      <h4 class="fw-bold text-secondary">みんなのコメント</h4>
       <% if @post.comments.any? %>
-        <%= render 'public/comments/lists', commetable: @post %>
+        <% @post.comments.each do |comment| %>
+          <div class="card my-3 shadow-sm border-0">
+            <div class="card-body">
+              <!-- コメント投稿者 -->
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <p class="mb-1">
+                    <strong class="text-primary"><%= comment.user.name %></strong>
+                  </p>
+                  <p class="text-muted small mb-0"><%= comment.created_at.strftime('%Y年%m月%d日 %H:%M') %></p>
+                </div>
+                <!-- 編集・削除ボタン (投稿者のみ表示) -->
+                <% if comment.user == current_user %>
+                  <div>
+                    <%= link_to '削除', post_comment_path(comment), method: :delete, data: { confirm: 'コメントを削除しますか？' }, class: 'btn btn-outline-danger btn-sm' %>
+                  </div>
+                <% end %>
+              </div>
+  
+              <!-- コメント内容 -->
+              <p class="mt-3"><%= simple_format(comment.body) %></p>
+            </div>
+          </div>
+        <% end %>
       <% else %>
         <p class="text-muted">まだコメントがありません。この投稿にコメントを追加しましょう！</p>
       <% end %>
     </div>
   </div>
-</div>
 
-<!-- Ratyの初期化スクリプト -->
+
+
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".review-score").forEach((elem) => {
-      const score = elem.dataset.score;
+document.addEventListener("turbolinks:load", () => {
+  document.querySelectorAll(".review-score:not(.raty-applied)").forEach((elem) => {
+    const score = parseFloat(elem.dataset.score);
+    
+    raty(elem, {
+      readonly: true,
+      score: score,
+      number: 5,
+      starOn: "<%= asset_path('star-on.png') %>",
+      starOff: "<%= asset_path('star-off.png') %>",
+      starHalf: "<%= asset_path('star-half.png') %>",
+    });
 
-      raty(elem, {
-        readonly: true,
-        score: parseFloat(score),
-        number: 5,
-        starOn: "<%= asset_path('star-on.png') %>",
-        starOff: "<%= asset_path('star-off.png') %>",
-        starHalf: "<%= asset_path('star-half.png') %>",
-      });
+    elem.classList.add('raty-applied'); // 適用済みの要素にクラスを付与
+    elem.querySelectorAll('img').forEach((star) => {
+      star.style.pointerEvents = 'none'; // 星マーク画像のクリックイベントを無効化
     });
   });
+});
 
-  document.addEventListener("turbolinks:load", () => {
-    const commentSection = document.querySelector('#comments-list');
+// コメントの非同期通信化
+document.addEventListener("turbolinks:load", () => {
+  const commentSection = document.querySelector('#comments-list');
+  if (<%= @comment.present? %>) {
     const newComment = `<%= j render 'public/comments/lists', comment: @comment %>`;
     commentSection.insertAdjacentHTML('beforeend', newComment);
-  });
+  }
+});
+  
 </script>
