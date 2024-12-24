@@ -1,0 +1,44 @@
+<div class="container my-5">
+  <h1 class="text-center my-4">検索結果</h1>
+
+  <% if @search_type == 'users' %>
+    <h3 class="mb-4 text-primary">【ユーザー検索結果】</h3>
+    <% if @results.any? %>
+      <div class="row">
+        <% @results.each do |user| %>
+          <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+              <div class="card-body text-center">
+                <h5 class="card-title"><%= user.name %>さん</h5>
+                <%= link_to "詳細を見る", user_path(user), class: "btn btn-outline-primary btn-sm" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-muted">該当するユーザーが見つかりませんでした。</p>
+    <% end %>
+  <% elsif @search_type == 'posts' %>
+    <h3 class="mb-4 text-success">【投稿検索結果】</h3>
+    <% if @results.any? %>
+      <div class="row">
+        <% @results.each do |post| %>
+          <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title"><%= truncate(post.title, length: 30) %></h5>
+                <p class="card-text text-muted"><%= truncate(post.body, length: 50) %></p>
+                <div class="text-end">
+                  <%= link_to "詳細を見る", post_path(post), class: "btn btn-outline-success btn-sm" %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-muted">該当する投稿が見つかりませんでした。</p>
+    <% end %>
+  <% end %>
+</div>
