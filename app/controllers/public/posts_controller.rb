@@ -95,18 +95,6 @@ class Public::PostsController < ApplicationController
     redirect_to posts_path
   end
 
-  def search
-    @keyword = params[:keyword] # 検索キーワードを取得
-    @tag_name = params[:tag_name]
-
-    if tag_name.present?
-      @tag = Tag.find_by(name: @tag_name)
-      @posts = @tag ? @tag.posts : Post.none
-    else
-      @posts = Post.search_by_keyword(@keyword) 
-    end   
-  end
-
   private
 
   def post_params

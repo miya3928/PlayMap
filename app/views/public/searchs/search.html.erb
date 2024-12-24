@@ -1,0 +1,25 @@
+<h1 class="text-center my-4">検索結果</h1>
+
+<% if @search_type == 'users' %>
+  <h3>【ユーザー検索結果】</h3>
+  <% if @results.any? %>
+    <ul>
+      <% @results.each do |user| %>
+        <li><%= link_to user.name, user_path(user) %></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>該当するユーザーが見つかりませんでした。</p>
+  <% end %>
+<% elsif @search_type == 'posts' %>
+  <h3>【投稿検索結果】</h3>
+  <% if @results.any? %>
+    <ul>
+      <% @results.each do |post| %>
+        <li><%= link_to post.title, post_path(post) %></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>該当する投稿が見つかりませんでした。</p>
+  <% end %>
+<% end %>

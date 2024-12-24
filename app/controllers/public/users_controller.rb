@@ -33,14 +33,6 @@ def destroy
     end
   end
 
-  def search
-    if params[:search_query]
-      @users = User.where('name LIKE ?', "%#{params[:search_query]}%")
-    else
-      @users = User.none  
-    end  
-  end  
-
   private
 
   def correct_user
