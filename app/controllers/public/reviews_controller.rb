@@ -1,6 +1,6 @@
 class Public::ReviewsController < ApplicationController
- before_action :set_post
- before_action :authenticate_user!
+  before_action :set_post, except: [:index, :show]
+  before_action :authenticate_user!
 
   def new
     @review = @post.reviews.new
@@ -25,7 +25,7 @@ class Public::ReviewsController < ApplicationController
   def show
     @review = Review.find(params[:id])
     rescue ActiveRecord::RecordNotFound
-     redirect_to post_path(params[:post_id]), alert: "指定されたレビューが見つかりません。"
+      redirect_to posts_path, alert: "指定されたレビューが見つかりません。"
   end
   
   def edit
@@ -52,14 +52,17 @@ class Public::ReviewsController < ApplicationController
     end    
   end
 
-
   private
 
   def set_post
-    @post = Post.find(params[:post_id] || params[:id])
+    if params[:post_id].present?
+      @post = Post.find(params[:post_id])
+    else
+      redirect_to posts_path, alert: "関連する投稿が見つかりません。"
+    end
   end  
 
   def review_params
-    params.require(:review).permit(:score,:body)
+    params.require(:review).permit(:score, :body)
   end 
 end

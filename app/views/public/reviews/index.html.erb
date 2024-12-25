@@ -5,12 +5,16 @@
       <div class="col-md-4 mb-4"> <!-- 3列レイアウト -->
         <div class="card h-100"> <!-- 高さを揃える -->
           <div class="card-body">
-            <h5 class="card-title text-decoration-none text-primary">
-              <%= review.score %>
+            <h5 class="card-title">
+            <div class="review-score mb-2" data-score="<%= review.score %>"></div>
             </h5>
-            <p class="card-text"><%= truncate(review.body, length: 100) %></p>
+            <p class="card-text"><%= truncate(review.body, length: 30) %></p>
+            <p class="text-muted mb-2">
+              <strong>レビュー投稿者：</strong>
+              <%= link_to review.user.name, user_path(review.user), class: "text-decoration-none text-primary" %>
+            </p>
             <p class="text-muted">
-              投稿元: 
+              投稿タイトル: 
               <%= link_to review.post.title, post_path(review.post), class: "text-decoration-none" %> <!-- 投稿詳細ページへのリンク -->
             </p>
           </div>
@@ -27,3 +31,25 @@
     <%= paginate @reviews %>
   </div>
 </div>
+
+<script>
+document.addEventListener("turbolinks:load", () => {
+  document.querySelectorAll(".review-score:not(.raty-applied)").forEach((elem) => {
+    const score = parseFloat(elem.dataset.score);
+    
+    raty(elem, {
+      readonly: true,
+      score: score,
+      number: 5,
+      starOn: "<%= asset_path('star-on.png') %>",
+      starOff: "<%= asset_path('star-off.png') %>",
+      starHalf: "<%= asset_path('star-half.png') %>",
+    });
+
+    elem.classList.add('raty-applied'); // 適用済みの要素にクラスを付与
+    elem.querySelectorAll('img').forEach((star) => {
+      star.style.pointerEvents = 'none'; // 星マーク画像のクリックイベントを無効化
+    });
+  });
+});
+</script>

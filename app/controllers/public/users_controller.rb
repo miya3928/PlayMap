@@ -5,6 +5,7 @@ class Public::UsersController < ApplicationController
   def mypage
     @user = current_user
     @posts = current_user.posts
+    @reviews = current_user.reviews
   end
 
   def edit
