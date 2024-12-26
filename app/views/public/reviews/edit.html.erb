@@ -24,23 +24,31 @@
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raty/2.9.0/jquery.raty.min.js"></script>
 <script>
-  $(document).on('turbolinks:load', function() {
-    const $elem = $("#raty-score");
-    const $scoreInput = $("#review-score");
+document.addEventListener("turbolinks:load", function() {
+  // jQueryが正しく読み込まれているか確認
+  if (typeof $ !== 'undefined' && $.fn.raty) {
+    const $elem = $("#review-score");
+    const $scoreInput = $("#score-input");
 
-    // Raty スコアの初期化
-    $elem.raty({
-      scoreName: "review[score]",
-      number: 5,
-      half: true,
-      starOn: "<%= asset_path('star-on.png') %>",  // 画像パスを確認
-      starOff: "<%= asset_path('star-off.png') %>",  // 画像パスを確認
-      starHalf: "<%= asset_path('star-half.png') %>",  // 画像パスを確認
-      score: <%= @review.score || 0 %>,  // 初期スコアを設定
-      click: function(score) {
-        $scoreInput.val(score);  // スコアが選ばれた時にhidden_fieldにその値をセット
-      }
-    });
-  });
+    if ($elem.length && $scoreInput.length) {
+      // Ratyを初期化
+      $elem.raty({
+        scoreName: "review[score]",
+        number: 5,
+        half: true,
+        starOn: "<%= asset_path('star-on.png') %>",
+        starOff: "<%= asset_path('star-off.png') %>",
+        starHalf: "<%= asset_path('star-half.png') %>",
+        score: 0,
+        click: function(score) {
+          $scoreInput.val(score); // スコアが選ばれた時にhidden_fieldにその値をセット
+        }
+      });
+    }
+  } else {
+    console.error("Raty is not loaded correctly.");
+  }
+});
 </script>
