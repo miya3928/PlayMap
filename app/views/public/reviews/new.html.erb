@@ -32,13 +32,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raty/2.9.0/jquery.raty.min.js"></script>
 <script>
 document.addEventListener("turbolinks:load", function() {
-  // jQueryが読み込まれていることを確認
+  // jQueryが正しく読み込まれているか確認
   if (typeof $ !== 'undefined' && $.fn.raty) {
     const $elem = $("#review-score");
     const $scoreInput = $("#score-input");
 
     if ($elem.length && $scoreInput.length) {
-      $.fn.raty.call($elem, {
+      // Ratyを初期化
+      $elem.raty({
         scoreName: "review[score]",
         number: 5,
         half: true,

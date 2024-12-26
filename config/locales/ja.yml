@@ -9,6 +9,7 @@ ja:
       already_authenticated: "既にログインしています"
     sessions:
       signed_in: "ログインしました"
+      already_signed_out: "既にサインアウトしています"  # 追加
     registrations:
       signed_up: "アカウントが作成されました"
       updated: "アカウント情報が更新されました"
@@ -21,7 +22,6 @@ ja:
       about_x_hours:
         one: 約1時間
         other: 約%{count}時間
-      # 他の時間表現も必要ならここに追加できます
     prompts:
       year: 年
       month: 月
