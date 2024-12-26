@@ -73,6 +73,11 @@ class Public::PostsController < ApplicationController
     @post = Post.find(params[:id])
     @postable = @post.postable
     @reviews = Review.all
+    
+    unless @postable.present?
+      flash[:alert] = "関連情報が見つかりません。"
+      redirect_to posts_path
+    end
   end
 
   def edit

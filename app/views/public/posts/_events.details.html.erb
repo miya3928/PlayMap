@@ -1,0 +1,6 @@
+<div class="alert alert-info">
+  <strong><%= event.title %></strong><br>
+  <%= simple_format(event.body) %>
+  開始日時: <%= event.start_date.strftime('%Y年%m月%d日 %H:%M') %><br>
+  終了日時: <%= event.end_date.strftime('%Y年%m月%d日 %H:%M') %>
+</div>

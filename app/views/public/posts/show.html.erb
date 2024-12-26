@@ -1,5 +1,5 @@
 <div class="container my-5">
-
+  <!-- 戻るボタン -->
   <div class="mb-4 d-flex justify-content-between align-items-center">
     <%= link_to posts_path, class: "btn btn-secondary rounded-circle p-3 d-flex justify-content-center align-items-center shadow-sm hover-shadow-lg", style: "width:3rem;height:3rem;" do %>
       <i class="fa-solid fa-arrow-left"></i> 
@@ -31,28 +31,10 @@
         <p class="card-text"><%= simple_format(@post.body) %></p>
       </div>
 
-      <!-- 場所の表示 -->
-      <% if @postable.is_a?(Place) %>
-        <div class="mt-4">
-          <h5>場所</h5>
-          <div class="alert alert-info">
-            <strong><%= @postable.name %></strong><br>
-            <%= @postable.address %><br>
-            <%= simple_format(@postable.description) %>
-          </div>
-        </div>
-      <% else %>
-        <!-- イベントの表示 -->
-        <div class="mt-4">
-          <h5>イベント</h5>
-          <div class="alert alert-info">
-            <strong><%= @postable.title %></strong><br>
-            <%= simple_format(@postable.body) %>
-            開始日時: <%= @postable.start_date.strftime('%Y年%m月%d日 %H:%M') %><br>
-            終了日時: <%= @postable.end_date.strftime('%Y年%m月%d日 %H:%M') %>
-          </div>
-        </div>
-      <% end %>
+      <!-- 関連情報 (Place/Event) -->
+      <div class="mt-4">
+        <%= render_postable_details(@postable) %>
+      </div>
 
       <!-- レビューセクション -->
       <div class="mt-5">
@@ -145,8 +127,7 @@ document.addEventListener("turbolinks:load", () => {
 // コメントの非同期通信化
 document.addEventListener("turbolinks:load", () => {
   const commentSection = document.querySelector('#comments-list');
-  if (<%= @comment.present? %>) {
-    const newComment = `<%= j render 'public/comments/lists', comment: @comment %>`;
+  if (typeof newComment !== "undefined" && newComment) {
     commentSection.insertAdjacentHTML('beforeend', newComment);
   }
 });
