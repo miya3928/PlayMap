@@ -24,19 +24,24 @@
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raty/2.7.0/jquery.raty.js"></script>
 <script>
-document.addEventListener("turbolinks:load", () => {
-  const elem = document.querySelector("#raty-score");
+  $(document).on('turbolinks:load', function() {
+    const $elem = $("#raty-score");
+    const $scoreInput = $("#review-score");
 
-  raty(elem, {
-    score: parseFloat(<%= @review.score || 0 %>),
-    number: 5,
-    starOn: "<%= asset_path('star-on.png') %>",
-    starOff: "<%= asset_path('star-off.png') %>",
-    starHalf: "<%= asset_path('star-half.png') %>",
-    click: (score) => {
-      document.querySelector("#review-score").value = score;
-    },
+    // Raty スコアの初期化
+    $elem.raty({
+      scoreName: "review[score]",
+      number: 5,
+      half: true,
+      starOn: "<%= asset_path('star-on.png') %>",  // 画像パスを確認
+      starOff: "<%= asset_path('star-off.png') %>",  // 画像パスを確認
+      starHalf: "<%= asset_path('star-half.png') %>",  // 画像パスを確認
+      score: <%= @review.score || 0 %>,  // 初期スコアを設定
+      click: function(score) {
+        $scoreInput.val(score);  // スコアが選ばれた時にhidden_fieldにその値をセット
+      }
+    });
   });
-});
 </script>
