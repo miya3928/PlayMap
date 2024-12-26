@@ -1,6 +1,7 @@
 ja:
   devise:
     failure:
+      unauthenticated: "サインインまたはサインアップして続行する必要があります"
       user:
         invalid: "無効なメールアドレスまたはパスワードです"
       invalid: "無効な入力です"
