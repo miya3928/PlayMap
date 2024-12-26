@@ -30,4 +30,54 @@ Post.find_or_create_by!(title: "ShoreditchBar") do |post|
   post.user = lucas
 end
 
-puts "seedの実行が完了しました"
+puts "追加のテストデータを作成します"
+
+# コメントデータ
+post1 = Post.find_by(title: "Cavello")
+post2 = Post.find_by(title: "和食屋 百花繚乱")
+post3 = Post.find_by(title: "ShoreditchBar")
+
+Comment.find_or_create_by!(body: "とても良いお店でした！また行きたいです。") do |comment|
+  comment.user = User.find_by(name: "Olivia")
+  comment.commetable = post1
+end
+
+Comment.find_or_create_by!(body: "家族連れにはぴったりですね！") do |comment|
+  comment.user = User.find_by(name: "James")
+  comment.commetable = post2
+end
+
+Comment.find_or_create_by!(body: "味は良かったですが、ちょっと高いかも。") do |comment|
+  comment.user = User.find_by(name: "Lucas")
+  comment.commetable = post3
+end
+
+# タグデータ
+Tag.find_or_create_by!(name: "子供向け")
+Tag.find_or_create_by!(name: "家族連れ")
+Tag.find_or_create_by!(name: "カフェ")
+Tag.find_or_create_by!(name: "和食")
+Tag.find_or_create_by!(name: "バー")
+
+# Postにタグを追加
+post1.tags << Tag.find_by(name: "カフェ")
+post2.tags << Tag.find_by(name: "和食")
+post3.tags << Tag.find_by(name: "バー")
+
+# レビューの追加
+Review.find_or_create_by!(score: 5, body: "本当に素晴らしいお店でした！") do |review|
+  review.user = User.find_by(name: "Olivia")
+  review.post = post1
+end
+
+Review.find_or_create_by!(score: 4, body: "また行きたいと思います！") do |review|
+  review.user = User.find_by(name: "James")
+  review.post = post2
+end
+
+Review.find_or_create_by!(score: 3, body: "子供向けではなかったですが、味は美味しかったです。") do |review|
+  review.user = User.find_by(name: "Lucas")
+  review.post = post3
+end
+
+puts "テストデータの作成が完了しました"
