@@ -1,9 +1,23 @@
-<h1><%= @tag.name %> のタグが付いた投稿</h1>
+<div class="container my-5">
+  <h1 class="text-center text-dark mb-4"><strong><%= @tag.name %></strong> のタグが付いた投稿</h1>
 
-<ul>
-  <% @posts.each do |post| %>
-    <li>
-      <%= link_to post.title, post_path(post) %>
-    </li>
-  <% end %>
-</ul>
+  <div class="row">
+    <% @posts.each do |post| %>
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">
+              <strong><%= link_to post.title, post_path(post), class: 'text-primary' %></strong>
+            </h5>
+            <p class="card-text">
+              <%= truncate(post.body, length: 100) %>
+            </p>
+            <div class="text-muted">
+              <%= time_ago_in_words(post.created_at) %> 前に投稿
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

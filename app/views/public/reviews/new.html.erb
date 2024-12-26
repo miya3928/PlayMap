@@ -31,22 +31,27 @@
 
 <script>
 document.addEventListener("turbolinks:load", function() {
-  const $elem = $("#review-score");
-  const $scoreInput = $("#score-input");
+  // jQueryが読み込まれていることを確認
+  if (typeof $ !== 'undefined' && $.fn.raty) {
+    const $elem = $("#review-score");
+    const $scoreInput = $("#score-input");
 
-  if ($elem.length && $scoreInput.length) {
-    $.fn.raty.call($elem, {
-      scoreName: "review[score]",
-      number: 5,
-      half: true,
-      starOn: "<%= asset_path('star-on.png') %>",
-      starOff: "<%= asset_path('star-off.png') %>",
-      starHalf: "<%= asset_path('star-half.png') %>",
-      score: 0,
-      click: function(score) {
-        $scoreInput.val(score); // スコアが選ばれた時にhidden_fieldにその値をセット
-      }
-    });
+    if ($elem.length && $scoreInput.length) {
+      $.fn.raty.call($elem, {
+        scoreName: "review[score]",
+        number: 5,
+        half: true,
+        starOn: "<%= asset_path('star-on.png') %>",
+        starOff: "<%= asset_path('star-off.png') %>",
+        starHalf: "<%= asset_path('star-half.png') %>",
+        score: 0,
+        click: function(score) {
+          $scoreInput.val(score); // スコアが選ばれた時にhidden_fieldにその値をセット
+        }
+      });
+    }
+  } else {
+    console.error("Raty is not loaded correctly.");
   }
 });
 </script>
