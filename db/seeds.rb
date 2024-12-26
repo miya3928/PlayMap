@@ -30,8 +30,6 @@ Post.find_or_create_by!(title: "ShoreditchBar") do |post|
   post.user = lucas
 end
 
-puts "追加のテストデータを作成します"
-
 # コメントデータ
 post1 = Post.find_by(title: "Cavello")
 post2 = Post.find_by(title: "和食屋 百花繚乱")
@@ -80,4 +78,34 @@ Review.find_or_create_by!(score: 3, body: "子供向けではなかったです�
   review.post = post3
 end
 
+puts "PlaceおよびEventのデータ作成を開始"
+
+# Placeデータ作成
+place = Place.find_or_create_by!(name: "Shoreditch Cafe") do |place|
+  place.address = "ロンドン, Shoreditch 123"
+  place.description = "素晴らしいカフェで、美味しいコーヒーとケーキを提供しています。"
+end
+
+# Eventデータ作成
+event = Event.find_or_create_by!(title: "Shoreditch Workshop") do |event|
+  event.body = "このワークショップでは、デザインの基本を学べます。"
+  event.start_date = Time.now
+  event.end_date = Time.now + 3.hours
+end
+
+puts "PlaceおよびEventのデータ作成が完了しました"
+
+puts "投稿に関連情報を追加"
+
+# 投稿を作成
+post1 = Post.find_by(title: "Cavello")
+
+# 投稿にPlace情報を関連付け
+post1.update(postable: place)
+
+# 他の投稿にはEventを関連付ける
+post2 = Post.find_by(title: "和食屋 百花繚乱")
+post2.update(postable: event)
+
+puts "投稿に関連情報の追加が完了しました"
 puts "テストデータの作成が完了しました"

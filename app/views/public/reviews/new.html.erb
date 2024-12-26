@@ -1,4 +1,9 @@
 <div class="container my-5">
+  <div class="mb-4 d-flex justify-content-between align-items-center">
+    <%= link_to post_path(@post), class: "btn btn-secondary rounded-circle p-3 d-flex justify-content-center align-items-center shadow-sm hover-shadow-lg", style: "width:3rem;height:3rem;" do %>
+      <i class="fa-solid fa-arrow-left"></i> 
+    <% end %>
+  </div>
   <h1>投稿内容</h1>
   <div class="card shadow-sm">
     <div class="card-body">
@@ -13,8 +18,9 @@
   <div id="review-form" class="mt-4">
     <h3 class="text-success">レビューを書く</h3>
     <%= form_with model: [@post, @review], local: true do |f| %>
-      <div id="review-score" class="mb-3"></div>
-      <%= f.hidden_field :score, id: "score-input" %>
+      <div id="review-score" class="mb-3">
+        <%= f.hidden_field :score, id: "score-input" %>
+      </div>
       <div class="mb-3">
         <%= f.text_area :body, placeholder: "レビュー内容を記入してください", class: "form-control", rows: 5 %>
       </div>
@@ -24,21 +30,24 @@
 </div>
 
 <script>
-document.addEventListener("turbolinks:load", () => {
-  const elem = document.querySelector("#review-score");
-  const scoreInput = document.querySelector("#score-input");
+ $(document).ready(function() {
+  const $elem = $("#review-score");
+  const $scoreInput = $("#score-input");
+  $("#review-score").empty();
 
-  if (elem && scoreInput) {
-    raty(elem, {
+  if ($elem.length && $scoreInput.length) {
+    // 新規レビューのため、初期スコアは0
+    $elem.raty({
       scoreName: "review[score]",
       number: 5,
       half: true,
       starOn: "<%= asset_path('star-on.png') %>",
       starOff: "<%= asset_path('star-off.png') %>",
       starHalf: "<%= asset_path('star-half.png') %>",
-      click: (score) => {
-        scoreInput.value = score;
-      },
+      score: 0, 
+      click: function(score) {
+        $scoreInput.val(score);  // スコアが選ばれた時にhidden_fieldにその値をセット
+      }
     });
   }
 });

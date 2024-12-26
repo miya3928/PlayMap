@@ -38,7 +38,14 @@
 
       <!-- レビューセクション -->
       <div class="mt-5">
-        <h2 class="text-success font-weight-bold">この投稿へのレビュー</h2>
+       <div class="d-flex align-items-center mb-4">
+    <h2 class="text-success font-weight-bold flex-grow-1 mb-0">この投稿へのレビュー</h2>
+    <!-- レビュー新規投稿ボタン（アイコン付き、丸いボタン） -->
+    <%= link_to new_post_review_path(@post), class: "btn btn-success rounded-circle p-0 d-flex justify-content-center align-items-center", style: "width:2rem;height:2rem;" do %>
+      <i class="fa-solid fa-plus"></i>
+    <% end %>
+  </div>
+
         <% if @post.reviews.any? %>
           <div class="row row-cols-1 row-cols-md-2 g-4">
             <% @post.reviews.each do |review| %>
@@ -108,13 +115,18 @@ document.addEventListener("turbolinks:load", () => {
   document.querySelectorAll(".review-score:not(.raty-applied)").forEach((elem) => {
     const score = parseFloat(elem.dataset.score);
     
+    // ERBをレンダリングして画像パスを取得
+    const starOn = "<%= asset_path('star-on.png') %>";
+    const starOff = "<%= asset_path('star-off.png') %>";
+    const starHalf = "<%= asset_path('star-half.png') %>";
+    
     raty(elem, {
       readonly: true,
       score: score,
       number: 5,
-      starOn: "<%= asset_path('star-on.png') %>",
-      starOff: "<%= asset_path('star-off.png') %>",
-      starHalf: "<%= asset_path('star-half.png') %>",
+      starOn: starOn,
+      starOff: starOff,
+      starHalf: starHalf,
     });
 
     elem.classList.add('raty-applied'); // 適用済みの要素にクラスを付与
@@ -131,5 +143,4 @@ document.addEventListener("turbolinks:load", () => {
     commentSection.insertAdjacentHTML('beforeend', newComment);
   }
 });
-  
 </script>
