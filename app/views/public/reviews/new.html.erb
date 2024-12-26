@@ -2,16 +2,16 @@
   <h1>投稿内容</h1>
   <div class="card shadow-sm">
     <div class="card-body">
-      <h2 class="card-title"><%= @post.title %></h2>
+      <h2 class="card-title text-primary"><%= @post.title %></h2>
       <p class="card-text"><%= @post.body %></p>
-      <p class="text-muted">投稿タイプ: <%= @post.postable_type_display %></p>
+      <p class="text-muted">カテゴリー: <%= @post.postable_type_display %></p>
       <p class="text-muted">関連情報: <%= @post.postable_details %></p>
       <p class="text-muted">投稿者: <%= @post.user.name %></p>
     </div>
   </div>
 
   <div id="review-form" class="mt-4">
-    <h3>レビューを書く</h3>
+    <h3 class="text-success">レビューを書く</h3>
     <%= form_with model: [@post, @review], local: true do |f| %>
       <div id="review-score" class="mb-3"></div>
       <%= f.hidden_field :score, id: "score-input" %>

@@ -6,7 +6,7 @@
   empty_message: "関連する場所はありません。",
   related_content: -> (place) {
     concat(content_tag(:p, "場所名: #{place.name}", class: "text-muted"))
-    concat(content_tag(:p, "イベント内容: #{place.description}"))
+    concat(content_tag(:p, "説明: #{place.description}"))
     concat(content_tag(:p, "住所: #{place.address}"))
   },
   footer_links: (

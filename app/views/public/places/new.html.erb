@@ -1,32 +1,44 @@
-<%= form_with model: @place, local: true do |f| %>
-  <div>
-    <%= f.label :name, '場所名' %>
-    <%= f.text_field :name %>
+<div class="container my-5">
+  <div class="card shadow-lg p-4">
+    <div class="card-body">
+      <h2 class="text-center text-primary mb-4">場所追加フォーム</h2>
+
+      <%= form_with model: @place, local: true do |f| %>
+        <!-- 場所名 -->
+        <div class="mb-3">
+          <%= f.label :name, '場所名', class: 'form-label' %>
+          <%= f.text_field :name, class: 'form-control', placeholder: 'カフェ' %>
+        </div>
+        
+        <!-- 住所 -->
+        <div class="mb-3">
+          <%= f.label :address, '住所', class: 'form-label' %>
+          <%= f.text_field :address, class: 'form-control', placeholder: '東京都新宿区西新宿2-8-1' %>
+        </div>
+        
+        <!-- 説明 -->
+        <div class="mb-3">
+          <%= f.label :description, '説明', class: 'form-label' %>
+          <%= f.text_area :description, class: 'form-control', placeholder: '子供向けのメニューも豊富で、落ち着いた雰囲気のカフェです', rows: 5 %>
+        </div>
+        
+        
+        <!-- 関連するイベント -->
+        <div class="mb-4">
+          <h4 class="text-secondary">関連するイベントを選択</h4>
+          <% @events.each do |event| %>
+            <div class="form-check">
+              <%= check_box_tag "place[event_ids][]", event.id, @place.event_ids.include?(event.id), class: 'form-check-input' %>
+              <%= label_tag "place_event_ids_#{event.id}", event.title, class: 'form-check-label' %>
+            </div>
+          <% end %>
+        </div>
+        
+        <!-- 登録ボタン -->
+        <div class="text-center">
+          <%= f.submit '登録', class: 'btn btn-primary btn-lg px-5' %>
+        </div>
+      <% end %>
+    </div>
   </div>
-  <div>
-    <%= f.label :address, '住所' %>
-    <%= f.text_field :address %>
-  </div>
-  <div>
-    <%= f.label :description, '説明' %>
-    <%= f.text_area :description %>
-  </div>
-  <div>
-    <%= f.label :latitude, '緯度' %>
-    <%= f.text_field :latitude %>
-  </div>
-  <div>
-    <%= f.label :longitude, '経度' %>
-    <%= f.text_field :longitude %>
-  </div>
-  <div>
-    <h4>関連するイベントを選択</h4>
-    <% @events.each do |event| %>
-      <div>
-        <%= check_box_tag "place[event_ids][]", event.id, @place.event_ids.include?(event.id) %>
-        <%= event.title %>
-      </div> 
-    <% end %>
-  </div>
-  <%= f.submit '登録' %>
-<% end %>
+</div>

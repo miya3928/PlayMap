@@ -24,6 +24,8 @@ import $ from 'jquery';
 window.$ = $;
 window.jQuery = $;
 
+
+
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()

@@ -1,29 +1,49 @@
-<%= form_with model: @event do |f| %>
- <div>
-  <%= f.label :title, 'イベント名' %>
-  <%= f.text_field :title %>
- </div>
- <div>
-  <%= f.label :body, 'イベント内容' %>
-  <%= f.text_area :body %>
+<div class="container my-5">
+  <div class="card shadow-sm p-4">
+    <div class="card-body">
+      <h2 class="text-center text-primary mb-4">イベント作成フォーム</h2>
+      
+      <%= form_with model: @event, local: true do |f| %>
+        <!-- イベント名 -->
+        <div class="mb-3">
+          <%= f.label :title, 'イベント名', class: 'form-label' %>
+          <%= f.text_field :title, class: 'form-control', placeholder: 'イベント名を入力してください' %>
+        </div>
+        
+        <!-- イベント内容 -->
+        <div class="mb-3">
+          <%= f.label :body, 'イベント内容', class: 'form-label' %>
+          <%= f.text_area :body, class: 'form-control', placeholder: 'イベント内容を入力してください', rows: 5 %>
+        </div>
+        
+        <!-- 開始日時 -->
+        <div class="mb-3">
+          <%= f.label :start_date, '開始日時', class: 'form-label' %>
+          <%= f.datetime_select :start_date, class: 'form-select' %>
+        </div>
+        
+        <!-- 終了日時 -->
+        <div class="mb-3">
+          <%= f.label :end_date, '終了日時', class: 'form-label' %>
+          <%= f.datetime_select :end_date, class: 'form-select' %>
+        </div>
+        
+        <!-- 関連する場所 -->
+        <div class="mb-4">
+          <h4 class="text-secondary">関連する場所を選択</h4>
+          <% @places.each do |place| %>
+            <div class="form-check">
+              <%= check_box_tag "event[place_ids][]", place.id, @event.place_ids.include?(place.id), class: 'form-check-input' %>
+              <%= label_tag "event_place_ids_#{place.id}", place.name, class: 'form-check-label' %>
+            </div>
+          <% end %>
+        </div>
+        
+        <!-- 登録ボタン -->
+        <div class="text-center">
+          <%= f.submit '登録', class: 'btn btn-primary btn-lg px-5' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>
-<div>
-  <%= f.label :start_date, '開始日時' %>
-  <%= f.datetime_select :start_date %>
-</div>
-<div>
-  <%= f.label :end_date, '終了日時' %>
-  <%= f.datetime_select :end_date %>
-</div>
-<div>
-<h4>関連する場所を選択</h4>
-<% @places.each do |place| %>
-  <div>
-    <%= check_box_tag "event[place_ids][]", place.id, @event.place_ids.include?(place.id) %>
-    <%= place.name %>
-  </div> 
-<% end %>   
-</div>
-<%= f.submit '登録' %>
-<% end %> 
-
