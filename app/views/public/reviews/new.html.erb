@@ -29,14 +29,12 @@
   </div>
 </div>
 
-<script>
-$(document).ready(function() {
+document.addEventListener("turbolinks:load", function() {
   const $elem = $("#review-score");
   const $scoreInput = $("#score-input");
 
   if ($elem.length && $scoreInput.length) {
-    // 新規レビューのため、初期スコアは0
-    $elem.raty({
+    $.fn.raty.call($elem, {
       scoreName: "review[score]",
       number: 5,
       half: true,
@@ -45,9 +43,8 @@ $(document).ready(function() {
       starHalf: "<%= asset_path('star-half.png') %>",
       score: 0,
       click: function(score) {
-        $scoreInput.val(score);  // スコアが選ばれた時にhidden_fieldにその値をセット
+        $scoreInput.val(score); // スコアが選ばれた時にhidden_fieldにその値をセット
       }
     });
   }
 });
-</script>
