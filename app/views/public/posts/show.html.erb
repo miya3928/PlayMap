@@ -1,19 +1,28 @@
 <div class="container my-5">
+
+  <div class="mb-4 d-flex justify-content-between align-items-center">
+    <%= link_to posts_path, class: "btn btn-secondary rounded-circle p-3 d-flex justify-content-center align-items-center shadow-sm hover-shadow-lg", style: "width:3rem;height:3rem;" do %>
+      <i class="fa-solid fa-arrow-left"></i> 
+    <% end %>
+  </div>
+
   <!-- 投稿カード -->
-  <div class="card shadow-lg border-0">
+  <div class="card shadow-lg border-0 rounded-lg overflow-hidden">
     <div class="card-body">
       <!-- 投稿タイトル -->
-      <h1 class="card-title mb-3 text-primary"><%= @post.title %></h1>
+      <h1 class="card-title mb-3 text-primary font-weight-bold"><%= @post.title %></h1>
 
       <!-- 投稿者情報 -->
       <p class="text-muted">
         投稿者：
         <%= link_to @post.user.name, user_path(@post.user), class: "fw-bold text-decoration-none text-primary" %>
       </p>
+
+      <!-- タグ -->
       <p class="text-muted">
         タグ: 
         <% @post.tags.each do |tag| %>
-          <span class="badge bg-secondary"><%= link_to tag.name, tag_path(tag), class: "text-white text-decoration-none" %></span>
+          <span class="badge bg-primary text-white"><%= link_to tag.name, tag_path(tag), class: "text-white text-decoration-none" %></span>
         <% end %>
       </p>
 
@@ -21,100 +30,96 @@
       <div class="mt-4">
         <p class="card-text"><%= simple_format(@post.body) %></p>
       </div>
-    </div>
 
-    <!-- レビューを書くボタン -->
-    <div class="text-end p-3">
-      <%= link_to "この投稿にレビューを書く", new_post_review_path(@post), class: "btn btn-primary btn-lg" %>
-    </div>
-
-    <% if @post.user == current_user %>
-      <!-- 投稿の編集と削除ボタン -->
-      <div class="card-footer bg-light text-end">
-        <%= link_to "投稿を編集", edit_post_path(@post), class: "btn btn-outline-success me-2" %>
-        <%= link_to "投稿を削除", post_path(@post), method: :delete, class: "btn btn-outline-danger", data: { confirm: '本当に削除しますか？' } %>
-      </div>
-    <% end %>
-  </div>
-
-  <!-- レビューセクション -->
-  <div class="mt-5">
-    <h2 class="text-success">この投稿へのレビュー</h2>
-    <% if @post.reviews.any? %>
-      <div class="row row-cols-1 row-cols-md-2 g-4">
-        <% @post.reviews.each do |review| %>
-          <div class="col">
-            <div class="card h-100 border-0 shadow">
-              <div class="card-body">
-                <!-- レビュー投稿者 -->
-                <p class="text-muted mb-2">
-                  <strong>レビュー投稿者：</strong>
-                  <%= link_to review.user.name, user_path(review.user), class: "text-decoration-none text-primary" %>
-                </p>
-
-                <!-- レビュー評価 -->
-                <div class="review-score mb-2" data-score="<%= review.score %>"></div>
-
-                <!-- レビュー内容 -->
-                <p class="mb-0"><strong>レビュー内容:</strong> <%= simple_format(review.body) %></p>
-                <div class="text-end">
-                  <%= link_to "レビューを読む", post_review_path(@post, review), class: "btn btn-outline-primary btn-sm mt-2" %>
-                </div>
-              </div>
-            </div>
+      <!-- 場所の表示 -->
+      <% if @postable.is_a?(Place) %>
+        <div class="mt-4">
+          <h5>場所</h5>
+          <div class="alert alert-info">
+            <strong><%= @postable.name %></strong><br>
+            <%= @postable.address %><br>
+            <%= simple_format(@postable.description) %>
           </div>
-        <% end %>
-      </div>
-    <% else %>
-      <p class="text-muted">まだレビューがありません。最初のレビューを書いてみましょう！</p>
-    <% end %>
-  </div>
-
-  <!-- コメントセクション -->
-  <div class="mt-5">
-    <h2 class="text-info">この投稿へのコメント</h2>
-  
-    <!-- コメント投稿フォーム -->
-    <div class="mt-4 p-3 bg-light rounded shadow-sm">
-      <h5>コメントを追加する</h5>
-      <%= render 'public/comments/form', commetable: @post %>
-    </div>
-  
-    <!-- コメント一覧 -->
-    <div class="mt-4" id="comments-list">
-      <h4 class="fw-bold text-secondary">みんなのコメント</h4>
-      <% if @post.comments.any? %>
-        <% @post.comments.each do |comment| %>
-          <div class="card my-3 shadow-sm border-0">
-            <div class="card-body">
-              <!-- コメント投稿者 -->
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <p class="mb-1">
-                    <strong class="text-primary"><%= comment.user.name %></strong>
-                  </p>
-                  <p class="text-muted small mb-0"><%= comment.created_at.strftime('%Y年%m月%d日 %H:%M') %></p>
-                </div>
-                <!-- 編集・削除ボタン (投稿者のみ表示) -->
-                <% if comment.user == current_user %>
-                  <div>
-                    <%= link_to '削除', post_comment_path(comment), method: :delete, data: { confirm: 'コメントを削除しますか？' }, class: 'btn btn-outline-danger btn-sm' %>
-                  </div>
-                <% end %>
-              </div>
-  
-              <!-- コメント内容 -->
-              <p class="mt-3"><%= simple_format(comment.body) %></p>
-            </div>
-          </div>
-        <% end %>
+        </div>
       <% else %>
-        <p class="text-muted">まだコメントがありません。この投稿にコメントを追加しましょう！</p>
+        <!-- イベントの表示 -->
+        <div class="mt-4">
+          <h5>イベント</h5>
+          <div class="alert alert-info">
+            <strong><%= @postable.title %></strong><br>
+            <%= simple_format(@postable.body) %>
+            開始日時: <%= @postable.start_date.strftime('%Y年%m月%d日 %H:%M') %><br>
+            終了日時: <%= @postable.end_date.strftime('%Y年%m月%d日 %H:%M') %>
+          </div>
+        </div>
       <% end %>
+
+      <!-- レビューセクション -->
+      <div class="mt-5">
+        <h2 class="text-success font-weight-bold">この投稿へのレビュー</h2>
+        <% if @post.reviews.any? %>
+          <div class="row row-cols-1 row-cols-md-2 g-4">
+            <% @post.reviews.each do |review| %>
+              <div class="col">
+                <div class="card h-100 border-0 shadow-lg rounded-lg">
+                  <div class="card-body">
+                    <p class="text-muted mb-2">
+                      <strong>レビュー投稿者：</strong>
+                      <%= link_to review.user.name, user_path(review.user), class: "text-decoration-none text-primary" %>
+                    </p>
+                    <div class="review-score mb-2" data-score="<%= review.score %>"></div>
+                    <p class="mb-0"><strong>レビュー内容:</strong> <%= simple_format(review.body) %></p>
+                    <div class="text-end">
+                      <%= link_to "レビューを読む", post_review_path(@post, review), class: "btn btn-outline-primary btn-sm mt-2" %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-muted">まだレビューがありません。最初のレビューを書いてみましょう！</p>
+        <% end %>
+      </div>
+
+      <!-- コメントセクション -->
+      <div class="mt-5">
+        <h2 class="text-info font-weight-bold">この投稿へのコメント</h2>
+        <div class="mt-4 p-4 bg-light rounded-lg shadow-sm">
+          <h5>コメントを追加する</h5>
+          <%= render 'public/comments/form', commetable: @post %>
+        </div>
+        <div class="mt-4" id="comments-list">
+          <h4 class="fw-bold text-secondary">みんなのコメント</h4>
+          <% if @post.comments.any? %>
+            <% @post.comments.each do |comment| %>
+              <div class="card my-3 shadow-sm border-0 rounded-lg">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <p class="mb-1">
+                        <strong class="text-primary"><%= comment.user.name %></strong>
+                      </p>
+                      <p class="text-muted small mb-0"><%= comment.created_at.strftime('%Y年%m月%d日 %H:%M') %></p>
+                    </div>
+                    <% if comment.user == current_user %>
+                      <div>
+                        <%= link_to '削除', post_comment_path(comment), method: :delete, data: { confirm: 'コメントを削除しますか？' }, class: 'btn btn-outline-danger btn-sm' %>
+                      </div>
+                    <% end %>
+                  </div>
+                  <p class="mt-3"><%= simple_format(comment.body) %></p>
+                </div>
+              </div>
+            <% end %>
+          <% else %>
+            <p class="text-muted">まだコメントがありません。この投稿にコメントを追加しましょう！</p>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
-
-
+</div>
 
 <script>
 document.addEventListener("turbolinks:load", () => {

@@ -1,0 +1,63 @@
+ja:
+  devise:
+    failure:
+      user:
+        invalid: "無効なメールアドレスまたはパスワードです"
+      invalid: "無効な入力です"
+      not_found_in_database: "データベースにユーザーが見つかりません"
+      already_authenticated: "既にログインしています"
+    sessions:
+      signed_in: "ログインしました"
+    registrations:
+      signed_up: "アカウントが作成されました"
+      updated: "アカウント情報が更新されました"
+      destroyed: "アカウントが削除されました"
+    passwords:
+      send_instructions: "パスワードリセット手順が送信されました"
+      updated: "パスワードが更新されました"
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: 約1時間
+        other: 約%{count}時間
+      # 他の時間表現も必要ならここに追加できます
+    prompts:
+      year: 年
+      month: 月
+      day: 日
+      hour: 時
+      minute: 分
+      second: 秒
+  date:
+    order: 
+      - :year
+      - :month
+      - :day
+    month_names: 
+      - ~
+      - "1月"
+      - "2月"
+      - "3月"
+      - "4月"
+      - "5月"
+      - "6月"
+      - "7月"
+      - "8月"
+      - "9月"
+      - "10月"
+      - "11月"
+      - "12月"
+    abbr_month_names:
+      - ~
+      - "1月"
+      - "2月"
+      - "3月"
+      - "4月"
+      - "5月"
+      - "6月"
+      - "7月"
+      - "8月"
+      - "9月"
+      - "10月"
+      - "11月"
+      - "12月"

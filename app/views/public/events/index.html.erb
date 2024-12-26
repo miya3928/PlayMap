@@ -1,12 +1,26 @@
-<h1 class="text-center my-4">場所一覧</h1>
+<h1 class="text-center my-4">イベント一覧</h1>
 <div class="container">
+<!-- リンク -->
+<div class="mb-4 d-flex justify-content-between align-items-center">
+  <!-- 新規投稿ボタン（アイコン付き、丸いボタン） -->
+  <%= link_to new_event_path, class: "btn btn-primary rounded-circle p-0 d-flex justify-content-center align-items-center", style: "width:2rem;height:2rem;" do %>
+    <i class="fa-solid fa-plus"></i> <!-- アイコンのサイズを大きくして中央に配置 -->
+  <% end %>
+
+  <!-- その他のリンク（レビュー、場所、イベント一覧） -->
+  <div>
+    <%= link_to "投稿一覧", posts_path, class: "btn btn-info btn-sm me-2" %>
+    <%= link_to "レビューリスト", reviews_path, class: "btn btn-success btn-sm me-2" %>
+    <%= link_to "イベント一覧", places_path, class: "btn btn-secondary btn-sm" %>
+  </div>
+</div>
   <div class="row">
     <% @events.each do |event| %>
       <div class="col-md-4 mb-4"> 
         <div class="card h-100">
           <div class="card-body">
             <h5 class="card-title">
-              <%= link_to event.title, event_path(event), class: "text-decoration-none text-primary" %>
+              <strong><%= link_to event.title, event_path(event), class: "text-decoration-none text-dark" %></strong>
             </h5>
             <p class="card-text"><%= truncate(event.body, length: 100) %></p>
             <p class ="text-muted mt-2"> 開始日時: <%= event.start_date %></p>

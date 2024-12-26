@@ -1,14 +1,29 @@
 <h1 class="text-center my-4">投稿一覧</h1>
 <div class="container">
 
+  <!-- リンク -->
+  <div class="mb-4 d-flex justify-content-between align-items-center">
+    <!-- 新規投稿ボタン（アイコン付き、丸いボタン） -->
+    <%= link_to new_post_path, class: "btn btn-primary rounded-circle p-0 d-flex justify-content-center align-items-center", style: "width:2rem;height:2rem;" do %>
+      <i class="fa-solid fa-plus"></i> <!-- アイコンのサイズを大きくして中央に配置 -->
+    <% end %>
+
+    <!-- その他のリンク（レビュー、場所、イベント一覧） -->
+    <div>
+      <%= link_to "レビューリスト", reviews_path, class: "btn btn-success btn-sm me-2" %>
+      <%= link_to "場所一覧", places_path, class: "btn btn-secondary btn-sm me-2" %>
+      <%= link_to "イベント一覧", events_path, class: "btn btn-secondary btn-sm" %>
+    </div>
+  </div>
+
   <!-- 投稿リスト -->
   <div class="row">
     <% @posts.each do |post| %>
       <div class="col-md-4 mb-4"> <!-- 3列レイアウト -->
-        <div class="card h-100"> <!-- 高さを揃える -->
+        <div class="card h-100 shadow-sm"> <!-- カードに影をつける -->
           <div class="card-body">
             <h5 class="card-title">
-              <%= link_to post.title, post_path(post), class: "text-decoration-none text-primary" %>
+              <strong><%= link_to post.title, post_path(post), class: "text-decoration-none text-primary" %></strong>
             </h5>
             <p class="card-text"><%= truncate(post.body, length: 100) %></p>
             <p class="text-muted">

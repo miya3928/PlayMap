@@ -13,6 +13,7 @@ class Public::PostsController < ApplicationController
     @post = Post.new
     @places = Place.all
     @events = Event.all
+    @tags = Tag.all
   end
 
   def create
@@ -70,6 +71,7 @@ class Public::PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    @postable = @post.postable
     @reviews = Review.all
   end
 
@@ -98,7 +100,7 @@ class Public::PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :body)
+    params.require(:post).permit(:title, :body,  :postable_type, tag_list: [], place_ids: [], event_ids: [])
   end
 
   def current_post_user

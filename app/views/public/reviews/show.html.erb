@@ -1,38 +1,66 @@
 <div class="container my-5">
-  <div class="card shadow-sm">
+  <!-- 戻るボタン -->
+  <div class="mb-4 d-flex justify-content-between align-items-center">
+    <%= link_to post_path(@review.post), class: "btn btn-secondary rounded-circle p-3 d-flex justify-content-center align-items-center shadow-sm hover-shadow-lg", style: "width:3rem;height:3rem;" do %>
+      <i class="fa-solid fa-arrow-left"></i> 
+    <% end %>
+  </div>
+
+  <!-- レビュー詳細カード -->
+  <div class="card shadow-lg border-0 rounded-lg">
     <div class="card-body">
-      <h1 class="card-title">レビュー詳細</h1>
       <p class="text-muted mt-2">
         投稿者：
         <%= link_to @review.user.name, user_path(@review.user), class: "text-decoration-none text-primary" %>
       </p>
-      <div class="review-score mb-3" data-score="<%= @review.score %>"></div>
+      
+      <!-- レビュー評価 -->
+      <div class="review-score mb-4" data-score="<%= @review.score %>"></div>
+      
+      <!-- レビュー内容 -->
       <p><strong>内容:</strong> <%= simple_format(@review.body) %></p>
     </div>
+
+    <!-- 編集・削除・戻るボタン -->
+    <% if @review.user == current_user %> 
     <div class="card-footer text-end">
       <%= link_to "編集", edit_post_review_path(@review.post, @review), class: "btn btn-outline-success me-2" %>
       <%= link_to "削除", post_review_path(@review.post, @review), method: :delete, class: "btn btn-outline-danger", data: { confirm: '本当に削除しますか？' } %>
-      <%= link_to "投稿詳細に戻る", post_path(@review.post), class: "btn btn-outline-secondary" %>
     </div>
-    <h3>Comment</h3>
+    <% end %>
+  </div>
+
+  <!-- コメントセクション -->
+  <div class="mt-5">
+    <h3 class="text-info mb-3">コメント</h3>
     <%= render 'public/comments/form', commetable: @review %>
-    <h3>みんなのコメント</h3>
-    <%= render 'public/comments/lists', commetable: @review %>
+
+    <!-- コメントリスト -->
+    <div class="mt-4">
+      <h3 class="text-secondary mb-4">みんなのコメント</h3>
+      <%= render 'public/comments/lists', commetable: @review %>
+    </div>
   </div>
 </div>
 
 <script>
 document.addEventListener("turbolinks:load", () => {
-  const elem = document.querySelector(".review-score");
-  const score = elem.dataset.score;
+  document.querySelectorAll(".review-score:not(.raty-applied)").forEach((elem) => {
+    const score = parseFloat(elem.dataset.score);
+    
+    raty(elem, {
+      readonly: true,
+      score: score,
+      number: 5,
+      starOn: "<%= asset_path('star-on.png') %>",
+      starOff: "<%= asset_path('star-off.png') %>",
+      starHalf: "<%= asset_path('star-half.png') %>",
+    });
 
-  raty(elem, {
-    readonly: true,
-    score: parseFloat(score),
-    number: 5,
-    starOn: "<%= asset_path('star-on.png') %>",
-    starOff: "<%= asset_path('star-off.png') %>",
-    starHalf: "<%= asset_path('star-half.png') %>",
+    elem.classList.add('raty-applied'); // 適用済みの要素にクラスを付与
+    elem.querySelectorAll('img').forEach((star) => {
+      star.style.pointerEvents = 'none'; // 星マーク画像のクリックイベントを無効化
+    });
   });
 });
 </script>
