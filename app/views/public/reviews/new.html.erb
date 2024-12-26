@@ -30,10 +30,9 @@
 </div>
 
 <script>
- $(document).ready(function() {
+$(document).ready(function() {
   const $elem = $("#review-score");
   const $scoreInput = $("#score-input");
-  $("#review-score").empty();
 
   if ($elem.length && $scoreInput.length) {
     // 新規レビューのため、初期スコアは0
@@ -44,7 +43,7 @@
       starOn: "<%= asset_path('star-on.png') %>",
       starOff: "<%= asset_path('star-off.png') %>",
       starHalf: "<%= asset_path('star-half.png') %>",
-      score: 0, 
+      score: 0,
       click: function(score) {
         $scoreInput.val(score);  // スコアが選ばれた時にhidden_fieldにその値をセット
       }
