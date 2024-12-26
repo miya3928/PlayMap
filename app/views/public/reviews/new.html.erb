@@ -12,20 +12,6 @@
 
   <div id="review-form" class="mt-4">
     <h3 class="text-success">レビューを書く</h3>
-    <%= form_with model: [@post, @review], local: true do |f| %><div class="container my-5">
-  <h1>投稿内容</h1>
-  <div class="card shadow-sm">
-    <div class="card-body">
-      <h2 class="card-title text-primary"><%= @post.title %></h2>
-      <p class="card-text"><%= @post.body %></p>
-      <p class="text-muted">カテゴリー: <%= @post.postable_type_display %></p>
-      <p class="text-muted">関連情報: <%= @post.postable_details %></p>
-      <p class="text-muted">投稿者: <%= @post.user.name %></p>
-    </div>
-  </div>
-
-  <div id="review-form" class="mt-4">
-    <h3 class="text-success">レビューを書く</h3>
     <%= form_with model: [@post, @review], local: true do |f| %>
       <div id="review-score" class="mb-3"></div>
       <%= f.hidden_field :score, id: "score-input" %>
@@ -54,36 +40,6 @@ $(document).on('turbolinks:load', function() {
       click: function(score) {
         $scoreInput.val(score);  // スコアが選ばれた時にhidden_fieldにその値をセット
       }
-    });
-  }
-});
-</script>
-      <div id="review-score" class="mb-3"></div>
-      <%= f.hidden_field :score, id: "score-input" %>
-      <div class="mb-3">
-        <%= f.text_area :body, placeholder: "レビュー内容を記入してください", class: "form-control", rows: 5 %>
-      </div>
-      <%= f.submit "投稿する", class: "btn btn-primary" %>
-    <% end %>
-  </div>
-</div>
-
-<script>
-document.addEventListener("turbolinks:load", () => {
-  const elem = document.querySelector("#review-score");
-  const scoreInput = document.querySelector("#score-input");
-
-  if (elem && scoreInput) {
-    raty(elem, {
-      scoreName: "review[score]",
-      number: 5,
-      half: true,
-      starOn: "<%= asset_path('star-on.png') %>",
-      starOff: "<%= asset_path('star-off.png') %>",
-      starHalf: "<%= asset_path('star-half.png') %>",
-      click: (score) => {
-        scoreInput.value = score;
-      },
     });
   }
 });
