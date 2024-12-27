@@ -1,7 +1,7 @@
-<h1>レビュー管理</h1>
+<h1 class="display-4 font-weight-bold text-center mb-4">レビュー管理</h1>
 
 <div class="table-responsive">
-  <table class="table table-bordered">
+  <table class="table table-striped table-hover table-bordered shadow-lg rounded-lg">
     <thead class="thead-dark">
       <tr>
         <th>ID</th>
@@ -13,13 +13,13 @@
     </thead>
     <tbody>
       <% @reviews.each do |review| %>
-        <tr>
+        <tr class="align-middle">
           <td><%= review.id %></td>
           <td><%= review.post.title %></td>
           <td><%= review.score %></td>
           <td><%= truncate(review.body, length: 50) %></td>
           <td>
-            <%= button_to "削除", admin_review_path(review), method: :delete, class: "btn btn-danger btn-sm", data: { confirm: "本当に削除しますか？" } %>
+            <%= button_to "削除", admin_review_path(review), method: :delete, class: "btn btn-danger btn-sm shadow-sm rounded-pill", data: { confirm: "本当に削除しますか？" } %>
           </td>
         </tr>
       <% end %>
