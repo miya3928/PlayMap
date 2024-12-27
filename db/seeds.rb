@@ -108,4 +108,14 @@ post2 = Post.find_by(title: "和食屋 百花繚乱")
 post2.update(postable: event)
 
 puts "投稿に関連情報の追加が完了しました"
+puts "管理者ユーザーの作成を開始"
+
+# 管理者ユーザーの作成
+admin_user = User.find_or_create_by!(email: "admin@example.com") do |user|
+  user.name = "Admin"
+  user.password = "password"
+  user.admin = true  # 管理者権限を付与
+end
+
+puts "管理者ユーザーの作成が完了しました"
 puts "テストデータの作成が完了しました"
