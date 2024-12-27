@@ -1,8 +1,5 @@
 class ApplicationController < ActionController::Base
-  # ゲストユーザーに関するチェックを新規登録ページ（:new, :create）のみに限定
   before_action :check_guest_user, only: [:new, :create], if: :user_signed_in?
-
-  # Deviseのエラーメッセージをフラッシュメッセージに変換
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :check_user_status, unless: :guest_user?
 
@@ -14,7 +11,11 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    mypage_path # ログイン後にリダイレクトするパスを指定
+    if resource.is_a?(Admin)
+      admin_root_path # 管理者用ダッシュボードページ
+    else
+      mypage_path # 一般ユーザー用マイページ
+    end
   end
 
   def after_sign_out_path_for(resource_or_scope)
@@ -22,24 +23,21 @@ class ApplicationController < ActionController::Base
       new_admin_session_path # 管理者用ログインページ
     else
       root_path # 一般ユーザー用トップページ
-   end
+    end
   end
 
   def after_sign_up_path_for(resource)
-    mypage_path # サインアップ後にリダイレクトするパスを指定
+    mypage_path # 一般ユーザー用マイページ
   end
 
   private
 
-
-  # ゲストユーザーが新規登録ページにアクセスしようとする場合の制限
   def check_guest_user
     if current_user.guest?
       redirect_to posts_path, alert: "ゲストユーザーは新規登録を行うことができません。"
     end
   end
 
-  # ユーザーがゲストユーザーでない場合のみ退会チェック
   def check_user_status
     if current_user && !current_user.is_active
       sign_out current_user
@@ -47,7 +45,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # ゲストユーザーかどうかを判定するメソッド
   def guest_user?
     current_user&.guest?
   end
