@@ -8,6 +8,10 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :password, presence: true, length: {minimum: 6 }, on:create, unless: -> { guest_user? } 
 
+  def admin?
+    admin.present?
+  end
+
   def update_without_current_password(params, *options)
     params.delete(:current_password)
 

@@ -1,4 +1,21 @@
 ja:
+  activerecord:
+    errors:
+      messages:
+        record_invalid: "バリデーションエラーが発生しました: %{errors}"
+      models:
+        user:
+          attributes:
+            email:
+              blank: "メールアドレスを入力してください"
+            password:
+              blank: "パスワードを入力してください"
+        admin:
+          attributes:
+            email:
+              blank: "管理者のメールアドレスを入力してください"
+            password:
+              blank: "管理者のパスワードを入力してください"
   devise:
     failure:
       unauthenticated: "サインインまたはサインアップして続行する必要があります"
@@ -9,7 +26,8 @@ ja:
       already_authenticated: "既にログインしています"
     sessions:
       signed_in: "ログインしました"
-      already_signed_out: "既にサインアウトしています"  # 追加
+      already_signed_out: "既にサインアウトしています"
+      signed_out: "ログアウトしました。"
     registrations:
       signed_up: "アカウントが作成されました"
       updated: "アカウント情報が更新されました"
