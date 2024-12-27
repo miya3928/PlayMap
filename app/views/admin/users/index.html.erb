@@ -1,7 +1,7 @@
-<h1 class="mb-4 text-white text-center">ユーザー管理</h1>
+<h1 class="mb-4 font-weight-bold text-center">ユーザー管理</h1>
 
 <div class="table-responsive">
-  <table class="table table-hover" style="background-color: rgba(255, 255, 255, 0.8); border-radius: 8px;">
+  <table class="table table-hover table-striped shadow-lg" style="background-color: rgba(255, 255, 255, 0.8); border-radius: 8px;">
     <thead style="background-color: rgba(0, 0, 0, 0.7); color: white;">
       <tr>
         <th>ID</th>
@@ -13,7 +13,7 @@
     </thead>
     <tbody>
       <% @users.each do |user| %>
-        <tr>
+        <tr class="align-middle">
           <td><%= user.id %></td>
           <td><%= user.name %></td>
           <td><%= user.email %></td>
@@ -25,7 +25,7 @@
             <% end %>
           </td>
           <td>
-            <%= link_to "詳細", admin_user_path(user), class: "btn btn-info btn-sm" %>
+            <%= link_to "詳細", admin_user_path(user), class: "btn btn-info btn-sm rounded-pill shadow-sm" %>
           </td>
         </tr>
       <% end %>
