@@ -20,6 +20,7 @@ end
 post1 = Post.find_or_create_by!(title: "Cavello") do |post|
   post.body = "大人気のカフェです。"
   post.user = olivia
+  post.postable_type
 end
 
 post2 = Post.find_or_create_by!(title: "和食屋 百花繚乱") do |post|
@@ -107,7 +108,7 @@ puts "管理者ユーザーの作成を開始"
 admin = Admin.find_or_create_by!(email: "admin@example.com") do |admin|
   admin.password = "password"
   admin.password_confirmation = "password"
-  admin.user_id = olivia.id  # ここで olivia.id を使用
+  admin.id = olivia.id  # ここで olivia.id を使用
 end
 
 puts "管理者ユーザーの作成が完了しました"
