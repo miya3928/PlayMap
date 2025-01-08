@@ -81,6 +81,7 @@ class Public::PostsController < ApplicationController
     @post = Post.find(params[:id])
     @postable = @post.postable
     @reviews = Review.all
+    @tags = Tag.all
     
     unless @postable.present?
       flash[:alert] = "関連情報が見つかりません。"
