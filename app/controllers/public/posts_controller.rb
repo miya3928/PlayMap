@@ -19,42 +19,50 @@ class Public::PostsController < ApplicationController
   def create
     selected_postables = []
   
-    # 選択された Place を取得
     if params[:post][:place_ids].present?
       selected_postables += Place.where(id: params[:post][:place_ids])
     end
   
-    # 選択された Event を取得
     if params[:post][:event_ids].present?
       selected_postables += Event.where(id: params[:post][:event_ids])
     end
   
     if selected_postables.present?
       selected_postables.each do |postable|
-        post = Post.create(
+        post = Post.new(
           title: params[:post][:title],
           body: params[:post][:body],
           user: current_user,
           postable: postable
         )
   
-        # タグの紐付け
         if params[:post][:tag_list].present?
-          tag_names = params[:post][:tag_list].split(',').map(&:strip).uniq
+          tag_names = params[:post][:tag_list].is_a?(Array) ? params[:post][:tag_list] : params[:post][:tag_list].split(',').map(&:strip).uniq
           tag_names.each do |name|
             tag = Tag.find_or_create_by(name: name)
             post.tags << tag unless post.tags.include?(tag)
           end
         end
+  
+        unless post.save
+          flash.now[:alert] = "投稿に失敗しました: #{post.errors.full_messages.join(', ')}"
+          @places = Place.all
+          @events = Event.all
+          @tags = Tag.all
+          render :new and return
+        end
       end
+  
       redirect_to posts_path, notice: "投稿に成功しました"
     else
       flash.now[:alert] = "場所またはイベントを選択してください"
       @places = Place.all
       @events = Event.all
+      @tags = Tag.all
       render :new
     end
   end
+
   
   def index
     @posts = Post.all
@@ -105,7 +113,7 @@ class Public::PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :body,  :postable_type, tag_list: [], place_ids: [], event_ids: [])
+    params.require(:post).permit(:title, :body, :postable_type, tag_list: [], place_ids: [], event_ids: [])
   end
 
   def current_post_user
@@ -113,5 +121,6 @@ class Public::PostsController < ApplicationController
     unless current_user == post.user
       redirect_to posts_path, alert: "他のユーザーの投稿を編集することはできません"
     end
-  end   
+  end
+  
 end

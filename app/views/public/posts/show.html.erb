@@ -20,10 +20,14 @@
 
       <!-- タグ -->
       <p class="text-muted">
-        タグ: 
+      <strong>タグ:</strong> 
+         <% if @tags.present? %>
         <% @post.tags.each do |tag| %>
           <span class="badge bg-primary text-white"><%= link_to tag.name, tag_path(tag), class: "text-white text-decoration-none" %></span>
         <% end %>
+        <% else %>
+        <span class="badge bg-secondary text-white">タグがありません</span>
+    <% end %>
       </p>
 
       <!-- 投稿内容 -->

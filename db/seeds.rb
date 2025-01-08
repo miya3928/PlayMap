@@ -16,38 +16,43 @@ lucas = User.find_or_create_by!(email: "lucas@example.com") do |user|
   user.password = "password"
 end
 
+puts "PlaceおよびEventのデータ作成を開始"
+
+# Placeデータ作成
+place1 = Place.find_or_create_by!(name: "Shoreditch Cafe") do |place|
+  place.address = "ロンドン, Shoreditch 123"
+  place.description = "素晴らしいカフェで、美味しいコーヒーとケーキを提供しています。"
+end
+
+# Eventデータ作成
+event1 = Event.find_or_create_by!(title: "Shoreditch Workshop") do |event|
+  event.body = "このワークショップでは、デザインの基本を学べます。"
+  event.start_date = Time.now
+  event.end_date = Time.now + 3.hours
+end
+
+puts "PlaceおよびEventのデータ作成が完了しました"
 # 投稿データ作成
 post1 = Post.find_or_create_by!(title: "Cavello") do |post|
   post.body = "大人気のカフェです。"
   post.user = olivia
-  post.postable_type
+  post.postable_id = place1.id
+  post.postable_type = "Place"
 end
 
 post2 = Post.find_or_create_by!(title: "和食屋 百花繚乱") do |post|
   post.body = "和食は美味しい！店内も広くて子供向けでした！"
   post.user = james
+  post.postable_id = place1.id
+  post.postable_type = "Place"
 end
 
 post3 = Post.find_or_create_by!(title: "ShoreditchBar") do |post|
   post.body = "メキシコ料理好きにおすすめ！子供と行くには合わないかも。。"
   post.user = lucas
+  post.postable_type = "Place"
 end
 
-# コメントデータ作成
-Comment.find_or_create_by!(body: "とても良いお店でした！また行きたいです。") do |comment|
-  comment.user = olivia
-  comment.commetable = post1
-end
-
-Comment.find_or_create_by!(body: "家族連れにはぴったりですね！") do |comment|
-  comment.user = james
-  comment.commetable = post2
-end
-
-Comment.find_or_create_by!(body: "味は良かったですが、ちょっと高いかも。") do |comment|
-  comment.user = lucas
-  comment.commetable = post3
-end
 
 # タグデータ作成
 tags = ["子供向け", "家族連れ", "カフェ", "和食", "バー"].map do |tag_name|
@@ -75,30 +80,31 @@ Review.find_or_create_by!(score: 3, body: "子供向けではなかったです�
   review.post = post3
 end
 
-puts "PlaceおよびEventのデータ作成を開始"
-
-# Placeデータ作成
-place = Place.find_or_create_by!(name: "Shoreditch Cafe") do |place|
-  place.address = "ロンドン, Shoreditch 123"
-  place.description = "素晴らしいカフェで、美味しいコーヒーとケーキを提供しています。"
+# コメントデータ作成
+Comment.find_or_create_by!(body: "とても良いお店でした！また行きたいです。") do |comment|
+  comment.user = olivia
+  comment.commetable = post1
 end
 
-# Eventデータ作成
-event = Event.find_or_create_by!(title: "Shoreditch Workshop") do |event|
-  event.body = "このワークショップでは、デザインの基本を学べます。"
-  event.start_date = Time.now
-  event.end_date = Time.now + 3.hours
+Comment.find_or_create_by!(body: "家族連れにはぴったりですね！") do |comment|
+  comment.user = james
+  comment.commetable = post2
 end
 
-puts "PlaceおよびEventのデータ作成が完了しました"
+Comment.find_or_create_by!(body: "味は良かったですが、ちょっと高いかも。") do |comment|
+  comment.user = lucas
+  comment.commetable = review1
+end
+
+
 
 puts "投稿に関連情報を追加"
 
 # 投稿にPlace情報を関連付け
-post1.update(postable: place)
+post1.update(postable_id: place1)
 
 # 他の投稿にはEventを関連付ける
-post2.update(postable: event)
+post2.update(postable_id: event1)
 
 puts "投稿に関連情報の追加が完了しました"
 
@@ -108,7 +114,6 @@ puts "管理者ユーザーの作成を開始"
 admin = Admin.find_or_create_by!(email: "admin@example.com") do |admin|
   admin.password = "password"
   admin.password_confirmation = "password"
-  admin.id = olivia.id  # ここで olivia.id を使用
 end
 
 puts "管理者ユーザーの作成が完了しました"
