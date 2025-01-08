@@ -18,17 +18,15 @@ class Public::PostsController < ApplicationController
 
   def create
     selected_postables = []
-
-    # 選択された Place を取得
+  
     if params[:post][:place_ids].present?
       selected_postables += Place.where(id: params[:post][:place_ids])
     end
-
-    # 選択された Event を取得
+  
     if params[:post][:event_ids].present?
       selected_postables += Event.where(id: params[:post][:event_ids])
     end
-
+  
     if selected_postables.present?
       selected_postables.each do |postable|
         post = Post.new(
@@ -37,8 +35,7 @@ class Public::PostsController < ApplicationController
           user: current_user,
           postable: postable
         )
-
-        # タグの紐付け
+  
         if params[:post][:tag_list].present?
           tag_names = params[:post][:tag_list].is_a?(Array) ? params[:post][:tag_list] : params[:post][:tag_list].split(',').map(&:strip).uniq
           tag_names.each do |name|
@@ -46,20 +43,22 @@ class Public::PostsController < ApplicationController
             post.tags << tag unless post.tags.include?(tag)
           end
         end
-
+  
         unless post.save
           flash.now[:alert] = "投稿に失敗しました: #{post.errors.full_messages.join(', ')}"
           @places = Place.all
           @events = Event.all
+          @tags = Tag.all
           render :new and return
         end
       end
-
+  
       redirect_to posts_path, notice: "投稿に成功しました"
     else
       flash.now[:alert] = "場所またはイベントを選択してください"
       @places = Place.all
       @events = Event.all
+      @tags = Tag.all
       render :new
     end
   end
