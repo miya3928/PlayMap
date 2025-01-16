@@ -18,7 +18,18 @@
 子供と一緒に遊べる場所やおすすめスポットを知りたいとき  
 
 ## 設計書
-後ほど作成予定
+テーブル定義書  
+https://docs.google.com/spreadsheets/d/1C82V7Msvm_7OCBsaBRMS-0ygMESC4EkFAkBqAAnYpeg/edit?gid=1044500859#gid=1044500859  
+エンドユーザー_UIFlows  
+https://app.diagrams.net/#G1Cj0H5cQGbA6xxG5RnFbL11PYFI_MppB5#%7B%22pageId%22%3A%2248jVFMlgaSScSIEwnXbb%22%7D  
+管理者_UIFlows  
+https://app.diagrams.net/#G1M54ifz2US4fJI0hHdVjqPTaUqLQvBoza#%7B%22pageId%22%3A%22ApnNdbvmaZbdnGt8T2VO%22%7D  
+ER図_PlayMap  
+https://app.diagrams.net/#G13woZcwElpz58LIMXrBuC2O0f31hn9CSz#%7B%22pageId%22%3A%22Yw3kiJq_-5i2vO4Gxb_q%22%7D  
+AWS構成図  
+https://app.diagrams.net/#G1b35vtUetqSgYTJ2goAD6ny1NjdF_TrZn#%7B%22pageId%22%3A%22Ht1M8jgEwFfnCIfOTk4-%22%7D  
+インフラ設計書  
+https://docs.google.com/spreadsheets/d/19PPiTNdBQFayvxqPmWNsT_7Z37B-M-x3RbzSB-g1ebA/edit?gid=0#gid=0  
 ​
 ## 開発環境
 - OS：Linux(CentOS)
