@@ -1,0 +1,36 @@
+<div class="container">
+  <h1>タグ管理</h1>
+
+  <!-- タグ一覧 -->
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>名前</th>
+        <th>作成日</th>
+        <th>編集</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tags.each do |tag| %>
+        <tr>
+          <td><%= tag.id %></td>
+          <td><%= tag.name %></td>
+          <td><%= l(tag.created_at, format: :short) %></td>
+          <td>
+            <%= link_to "編集", edit_admin_tag_path(tag), class: "btn btn-sm btn-warning" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <!-- 新規タグ追加 -->
+  <h2 class="mt-5">新規タグ追加</h2>
+  <%= form_with model: @tag, url: admin_tags_path, local: true, class: "form-inline" do |f| %>
+    <div class="form-group mr-3">
+      <%= f.text_field :name, placeholder: "タグ名を入力", class: "form-control" %>
+    </div>
+    <%= f.submit "追加", class: "btn btn-primary" %>
+  <% end %>
+</div>

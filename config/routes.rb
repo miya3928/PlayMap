@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   namespace :public do
     get 'tags/show'
   end
@@ -55,5 +56,6 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :show, :update]
     resources :posts, only: [:index, :show, :destroy]
     resources :reviews, only: [:index, :show, :destroy] 
+    resources :tags, only: [:index,:create, :show, :destroy]
   end  
 end
