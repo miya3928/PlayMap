@@ -7,7 +7,6 @@
       <tr>
         <th>ID</th>
         <th>名前</th>
-        <th>作成日</th>
         <th>編集</th>
       </tr>
     </thead>
@@ -16,7 +15,6 @@
         <tr>
           <td><%= tag.id %></td>
           <td><%= tag.name %></td>
-          <td><%= l(tag.created_at, format: :short) %></td>
           <td>
             <%= link_to "編集", edit_admin_tag_path(tag), class: "btn btn-sm btn-warning" %>
           </td>
