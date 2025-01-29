@@ -56,6 +56,6 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :show, :update]
     resources :posts, only: [:index, :show, :destroy]
     resources :reviews, only: [:index, :show, :destroy] 
-    resources :tags, only: [:index, :create, :edit, :show, :destroy]
+    resources :tags, only: [:index, :create, :edit, :show, :update, :destroy]
   end  
 end
