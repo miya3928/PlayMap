@@ -1,5 +1,5 @@
 class Admin::TagsController < ApplicationController
-  before_action :set_tag, only: [:edit, :update]
+  before_action :set_tag, only: [:edit, :update, :destroy]
 
   def index
     @tags = Tag.all
@@ -18,6 +18,7 @@ class Admin::TagsController < ApplicationController
   end
 
   def edit
+    @tag
   end
 
   def update
@@ -25,8 +26,18 @@ class Admin::TagsController < ApplicationController
       redirect_to admin_tags_path,notice: "タグを更新しました。"
     else
       flash.now[:alert] = "タグの更新に失敗しました。"
-      render :edit    
+      render :edit 
+    end     
   end
+
+  def destroy
+    if @tag.destroy
+      redirect_to admin_tags_path, notice:"タグを削除しました。"
+    else
+      flash.now[:alert] = "タグの削除に失敗しました。"
+      render :index
+    end    
+  end  
 
   private
   def set_tag
@@ -34,7 +45,7 @@ class Admin::TagsController < ApplicationController
   end
   
   def tag_params
-    params.require(:tag).permit(name)
+    params.require(:tag).permit(:name)
   end
  end 
-end
+

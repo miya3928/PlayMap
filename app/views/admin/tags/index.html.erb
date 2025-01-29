@@ -1,34 +1,51 @@
-<div class="container">
-  <h1>タグ管理</h1>
+<div class="container p-4 rounded shadow-lg" style="background: rgba(255, 255, 255, 0.8); max-width: 800px;">
+  <h1 class="text-center text-primary fw-bold mb-4">タグ管理</h1>
+
+  <!-- タグ追加フォーム -->
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+      <%= form_with model: @tag, url: admin_tags_path, local: true do |f| %>
+        <div class="mb-3">
+          <%= f.text_field :name, class: "form-control form-control-lg rounded-pill", placeholder: "タグを入力してください" %>
+        </div>
+        <div class="text-end">
+          <%= f.submit "追加する", class: "btn btn-primary px-4 py-2 rounded-pill shadow-sm" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 
   <!-- タグ一覧 -->
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>名前</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @tags.each do |tag| %>
-        <tr>
-          <td><%= tag.id %></td>
-          <td><%= tag.name %></td>
-          <td>
-            <%= link_to "編集", edit_admin_tag_path(tag), class: "btn btn-sm btn-warning" %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-  <!-- 新規タグ追加 -->
-  <h2 class="mt-5">新規タグ追加</h2>
-  <%= form_with model: @tag, url: admin_tags_path, local: true, class: "form-inline" do |f| %>
-    <div class="form-group mr-3">
-      <%= f.text_field :name, placeholder: "タグ名を入力", class: "form-control" %>
+  <div class="card shadow-sm border-0">
+    <div class="card-body">
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>名前</th>
+            <th class="text-center">編集</th>
+            <th class="text-center">削除</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @tags.each do |tag| %>
+            <tr>
+              <td><%= tag.id %></td>
+              <td class="fw-bold"><%= tag.name %></td>
+              <td class="text-center">
+                <%= link_to edit_admin_tag_path(tag), class: "btn btn-sm btn-outline-success rounded-pill px-3" do %>
+                  <i class="fa-solid fa-pen"></i> 編集
+                <% end %>
+              </td>
+              <td class="text-center">
+                <%= link_to admin_tag_path(tag), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-sm btn-outline-danger rounded-pill px-3" do %>
+                  <i class="fa-solid fa-trash"></i> 削除
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
-    <%= f.submit "追加", class: "btn btn-primary" %>
-  <% end %>
+  </div>
 </div>
