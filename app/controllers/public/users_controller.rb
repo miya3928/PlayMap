@@ -1,7 +1,7 @@
 class Public::UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :correct_user, only: [:edit, :update]
-  before_action :ensure_guest_user, only: [:edit, :update, :destroy]
+  before_action :ensure_guest_user, only: [:mypage, :edit, :update, :destroy]
 
   def mypage
     @user = current_user
@@ -46,7 +46,7 @@ def destroy
 
   def ensure_guest_user
     if current_user.guest?
-      redirect_to mypage_path, alert: 'ゲストユーザーはプロフィールを編集できません。'
+      redirect_to root_path, alert: 'ゲストユーザーはプロフィールにアクセスできません。'
     end
   end 
 
