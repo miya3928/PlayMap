@@ -5,7 +5,7 @@ class Public::SearchesController < ApplicationController
     @results = []
 
     if @search_type == 'users'
-      @results = User.where('name LIKE ?', "%#{@keyword}%")
+      @results = User.where('name LIKE ?', "%#{@keyword}%").where(is_active: true)  # 退会ユーザーを除外
     elsif @search_type == 'posts'
       @results = Post.where('title LIKE ? OR body LIKE ?', "%#{@keyword}%", "%#{@keyword}%")
     end
