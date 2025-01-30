@@ -53,7 +53,12 @@ Rails.application.routes.draw do
 
   namespace :admin do 
     root to: "dashboard#index"
-    resources :users, only: [:index, :show, :update]
+    resources :users, only: [:index, :show, :update] do
+     member do
+       patch :deactivate
+       patch :reactivate
+     end
+    end 
     resources :posts, only: [:index, :show, :destroy]
     resources :reviews, only: [:index, :show, :destroy] 
     resources :tags, only: [:index, :create, :edit, :show, :update, :destroy]

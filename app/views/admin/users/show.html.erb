@@ -13,16 +13,22 @@
           <span class="badge bg-secondary">退会済み</span>
         <% end %>
       </p>
-      
-      <% if @user.is_active %>
-        <div class="mt-4">
+
+      <div class="mt-4">
+        <% if @user.is_active %>
           <%= button_to "退会させる", 
-                        admin_user_path(@user), 
+                        deactivate_admin_user_path(@user), 
                         method: :patch, 
                         class: "btn btn-danger", 
                         data: { confirm: "本当に退会させますか？" } %>
-        </div>
-      <% end %>
+        <% else %>
+          <%= button_to "復帰させる", 
+                        reactivate_admin_user_path(@user), 
+                        method: :patch, 
+                        class: "btn btn-success", 
+                        data: { confirm: "本当に復帰させますか？" } %>
+        <% end %>
+      </div>
     </div>
     <div class="card-footer text-center">
       <%= link_to "戻る", admin_users_path, class: "btn btn-secondary" %>
