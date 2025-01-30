@@ -1,5 +1,5 @@
 class Admin::UsersController < ApplicationController
-  before_action :set_user, only:[:show, :deactivate, :reactivate]
+  before_action :set_user, only: [:show, :deactivate, :reactivate]
 
   def index
     @users = User.all
@@ -8,9 +8,7 @@ class Admin::UsersController < ApplicationController
   def show
   end
 
-  def update
-   def deactivate
-    @user = User.find(params[:id])
+  def deactivate
     if @user.update(is_active: false)
       redirect_to admin_users_path, notice: "ユーザーを退会させました"
     else
@@ -19,7 +17,6 @@ class Admin::UsersController < ApplicationController
   end
 
   def reactivate
-    @user = User.find(params[:id])
     if @user.update(is_active: true)
       redirect_to admin_users_path, notice: "ユーザーを復帰させました"
     else
@@ -31,5 +28,5 @@ class Admin::UsersController < ApplicationController
 
   def set_user
     @user = User.find(params[:id])
-  end  
+  end
 end
