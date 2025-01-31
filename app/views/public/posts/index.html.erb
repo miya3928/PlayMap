@@ -17,7 +17,7 @@
   </div>
 
   <div class="mb-3">
-    <%= form_with url: posts_path, local: true, id: "filter-form" do |f| %>
+    <%= form_with url: posts_path, method: :get, local: true, id: "filter-form" do |f| %>
       <div class="row">
       <div class="col-md-3">
       <!-- 絞り込み -->
@@ -32,7 +32,7 @@
 
       <div class="col-md-3">
        <%= f.label :event_id, "イベントで絞り込む" %>
-       <%= f.collection_select :event_id, @events, :id, :name, { include_blank: "選択してください" }, class: "form-control filter-select" %>
+       <%= f.collection_select :event_id, @events, :id, :title, { include_blank: "選択してください" }, class: "form-control filter-select" %>
       </div>
 
       <!-- ソート選択 -->
