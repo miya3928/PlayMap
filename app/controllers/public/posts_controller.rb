@@ -96,6 +96,7 @@ class Public::PostsController < ApplicationController
     @tags = Tag.all
     @places = Place.all
     @events = Event.all
+    p @events 
   end
 
   def show
