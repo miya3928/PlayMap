@@ -16,6 +16,34 @@
     </div>
   </div>
 
+  <div class="mb-3">
+    <%= form_with url: posts_path, local: true, id: "filter-form" do |f| %>
+      <div class="row">
+      <div class="col-md-3">
+      <!-- 絞り込み -->
+       <%= f.label :tag_id, "タグで絞り込む" %>
+       <%= f.collection_select :tag_id, @tags, :id, :name, { include_blank: "選択してください" }, class: "form-control filter-select" %>
+      </div>
+      
+      <div class="col-md-3">
+       <%= f.label :place_id, "場所で絞り込む" %>
+       <%= f.collection_select :place_id, @places, :id, :name, { include_blank: "選択してください" }, class: "form-control filter-select" %>
+      </div>
+
+      <div class="col-md-3">
+       <%= f.label :event_id, "イベントで絞り込む" %>
+       <%= f.collection_select :event_id, @events, :id, :name, { include_blank: "選択してください" }, class: "form-control filter-select" %>
+      </div>
+
+      <!-- ソート選択 -->
+      <div class="col-md-3">
+       <%= f.label :sort, "並べ替え" %>
+       <%= f.select :sort, [["新しい順", "newest"],["古い順", "oldest"],["高評価", "highest"],["低評価", "lowest"]], { include_blank: "選択してください" }, class: "form-control filter-select" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
   <!-- 投稿リスト -->
   <div class="row">
     <% @posts.each do |post| %>

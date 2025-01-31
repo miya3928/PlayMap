@@ -65,16 +65,37 @@ class Public::PostsController < ApplicationController
 
   
   def index
-    @posts = Post.all
-  
-    if params[:tag_name].present?
-      @posts = @posts.joins(:tags).where(tags: { name: params[:tag_name] }).distinct
-    elsif params[:tag_id].present?
-      @tag = Tag.find(params[:tag_id])
-      @posts = @tag.posts
+    @posts = Post.includes(:reviews, :tags, :postable).all
+  # 絞り込み
+    if params[:tag_id].present?
+      @posts = @posts.joins(:tags).where(tags: { id: params[:tag_id] }).distinct
     end
-  
-    @posts = @posts.includes(:user).order(created_at: :desc).page(params[:page]).per(6)
+    
+    if params[:place_id].present?
+      @posts = @posts.where(postable: Place.find(params[:place_id]))
+    end
+    
+    if params[:event_id].present?
+      @posts = @posts.where(postable: Event.find(params[:event_id]))
+    end
+
+  # ソート機能 
+    case params[:sort]
+    when "newest"
+      @posts = @posts.order(created_at: :desc)
+    when "oldest"
+      @posts = @posts.order(created_at: :asc)
+    when "highest"
+      @posts = @posts.left_joins(:reviews).group(:id).order(Arel.sql("AVG(reviews.score) DESC")) # 平均星評価の高い順
+    when "lowest"
+      @posts = @posts.left_joins(:reviews).group(:id).order(Arel.sql("AVG(reviews.score) ASC")) # 平均星評価の低い順  
+    end
+    
+  # ページネーション 
+    @posts = @posts.page(params[:page]).per(6)
+    @tags = Tag.all
+    @places = Place.all
+    @events = Event.all
   end
 
   def show
