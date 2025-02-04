@@ -46,27 +46,31 @@
 
   <!-- 投稿リスト -->
   <div class="row">
-    <% @posts.each do |post| %>
-      <div class="col-md-4 mb-4"> <!-- 3列レイアウト -->
-        <div class="card h-100 shadow-sm"> <!-- カードに影をつける -->
-          <div class="card-body">
-            <h5 class="card-title">
-              <strong><%= link_to post.title, post_path(post), class: "text-decoration-none text-primary" %></strong>
-            </h5>
-            <p class="card-text"><%= truncate(post.body, length: 100) %></p>
-            <p class="text-muted">
-              投稿者: 
-              <%= link_to post.user.name, user_path(post.user), class: "text-decoration-none" %>
-            </p>
-          </div>
-          <div class="card-footer text-end">
-            <%= link_to "詳細を見る", post_path(post), class: "btn btn-primary btn-sm" %>
-          </div>
+  <% @posts.each do |post| %>
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">
+            <strong><%= link_to post.title, post_path(post), class: "text-decoration-none text-primary" %></strong>
+          </h5>
+          <p class="card-text"><%= truncate(post.body, length: 100) %></p>
+          <p class="text-muted">
+            投稿者: <%= link_to post.user.name, user_path(post.user), class: "text-decoration-none" %>
+          </p>
+          
+          <% if post.postable_type == "Place" %>
+            <p class="text-muted">場所: <%= link_to post.postable.name, place_path(post.postable) %></p>
+          <% elsif post.postable_type == "Event" %>
+            <p class="text-muted">イベント: <%= link_to post.postable.title, event_path(post.postable) %></p>
+          <% end %>
+        </div>
+        <div class="card-footer text-end">
+          <%= link_to "詳細を見る", post_path(post), class: "btn btn-primary btn-sm" %>
         </div>
       </div>
-    <% end %>
-  </div>
-
+    </div>
+  <% end %>
+</div>
   <!-- ページネーション -->
   <div class="d-flex justify-content-center mt-4">
     <%= paginate @posts %> 
