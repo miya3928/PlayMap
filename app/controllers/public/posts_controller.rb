@@ -65,38 +65,38 @@ class Public::PostsController < ApplicationController
 
   
   def index
-    @posts = Post.includes(:reviews, :tags, :postable).all
-  # 絞り込み
+    @posts = Post.preload(:reviews, :tags, :place, :event).all
+  
+    # 絞り込み
     if params[:tag_id].present?
       @posts = @posts.joins(:tags).where(tags: { id: params[:tag_id] }).distinct
     end
-    
+  
     if params[:place_id].present?
-      @posts = @posts.where(postable: Place.find(params[:place_id]))
+      @posts = @posts.where(postable_id: params[:place_id], postable_type: "Place")
     end
-    
+  
     if params[:event_id].present?
-      @posts = @posts.where(postable: Event.find(params[:event_id]))
+      @posts = @posts.where(postable_id: params[:event_id], postable_type: "Event")
     end
-
-  # ソート機能 
+  
+    # ソート機能 
     case params[:sort]
     when "newest"
       @posts = @posts.order(created_at: :desc)
     when "oldest"
       @posts = @posts.order(created_at: :asc)
     when "highest"
-      @posts = @posts.left_joins(:reviews).group(:id).order(Arel.sql("AVG(reviews.score) DESC")) # 平均星評価の高い順
+      @posts = @posts.left_joins(:reviews).group("posts.id").order(Arel.sql("AVG(reviews.score) DESC"))
     when "lowest"
-      @posts = @posts.left_joins(:reviews).group(:id).order(Arel.sql("AVG(reviews.score) ASC")) # 平均星評価の低い順  
+      @posts = @posts.left_joins(:reviews).group("posts.id").order(Arel.sql("AVG(reviews.score) ASC"))
     end
-    
-  # ページネーション 
+  
+    # ページネーション 
     @posts = @posts.page(params[:page]).per(6)
     @tags = Tag.all
     @places = Place.all
     @events = Event.all
-    p @events 
   end
 
   def show
