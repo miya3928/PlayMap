@@ -24,7 +24,6 @@ import $ from 'jquery';
 window.$ = $;
 window.jQuery = $;
 
-import "./filters";
 
 Rails.start()
 Turbolinks.start()
