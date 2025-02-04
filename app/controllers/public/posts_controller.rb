@@ -65,7 +65,7 @@ class Public::PostsController < ApplicationController
 
   
   def index
-    @posts = Post.preload(:reviews, :tags, :place, :event).all
+    @posts = Post.preload(:reviews, :tags, :postable).all
   
     # 絞り込み
     if params[:tag_id].present?
@@ -80,7 +80,7 @@ class Public::PostsController < ApplicationController
       @posts = @posts.where(postable_id: params[:event_id], postable_type: "Event")
     end
   
-    # ソート機能 
+    # ソート機能
     case params[:sort]
     when "newest"
       @posts = @posts.order(created_at: :desc)
@@ -92,7 +92,7 @@ class Public::PostsController < ApplicationController
       @posts = @posts.left_joins(:reviews).group("posts.id").order(Arel.sql("AVG(reviews.score) ASC"))
     end
   
-    # ページネーション 
+    # ページネーション
     @posts = @posts.page(params[:page]).per(6)
     @tags = Tag.all
     @places = Place.all
