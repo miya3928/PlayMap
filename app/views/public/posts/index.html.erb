@@ -1,76 +1,81 @@
-<h1 class="text-center my-4">投稿一覧</h1>
-<div class="container">
+<div class="container p-4 rounded shadow-lg" style="background: rgba(255, 255, 255, 0.9); max-width: 1100px;">
+  <h1 class="text-center text-primary fw-bold mb-4">投稿一覧</h1>
 
   <!-- リンク -->
   <div class="mb-4 d-flex justify-content-between align-items-center">
-    <!-- 新規投稿ボタン（アイコン付き、丸いボタン） -->
-    <%= link_to new_post_path, class: "btn btn-primary rounded-circle p-0 d-flex justify-content-center align-items-center", style: "width:2rem;height:2rem;" do %>
-      <i class="fa-solid fa-plus"></i> <!-- アイコンのサイズを大きくして中央に配置 -->
+    <!-- 新規投稿ボタン -->
+    <%= link_to new_post_path, class: "btn btn-primary rounded-circle d-flex justify-content-center align-items-center shadow", style: "width:3rem; height:3rem; font-size:1.5rem;" do %>
+      <i class="fa-solid fa-plus"></i>
     <% end %>
 
-    <!-- その他のリンク（レビュー、場所、イベント一覧） -->
+    <!-- その他のリンク -->
     <div>
-      <%= link_to "レビューリスト", reviews_path, class: "btn btn-success btn-sm me-2" %>
-      <%= link_to "場所一覧", places_path, class: "btn btn-secondary btn-sm me-2" %>
-      <%= link_to "イベント一覧", events_path, class: "btn btn-secondary btn-sm" %>
+      <%= link_to "レビューリスト", reviews_path, class: "btn btn-outline-success btn-sm me-2" %>
+      <%= link_to "場所一覧", places_path, class: "btn btn-outline-secondary btn-sm me-2" %>
+      <%= link_to "イベント一覧", events_path, class: "btn btn-outline-secondary btn-sm" %>
     </div>
   </div>
 
-  <div class="mb-3">
-    <%= form_with url: posts_path, method: :get, local: true, id: "filter-form" do |f| %>
-      <div class="row">
-      <div class="col-md-3">
-      <!-- 絞り込み -->
-       <%= f.label :tag_id, "タグで絞り込む" %>
-       <%= f.collection_select :tag_id, @tags, :id, :name, { include_blank: "選択してください" }, class: "form-control filter-select" %>
-      </div>
-      
-      <div class="col-md-3">
-       <%= f.label :place_id, "場所で絞り込む" %>
-       <%= f.collection_select :place_id, @places, :id, :name, { include_blank: "選択してください" }, class: "form-control filter-select" %>
-      </div>
+  <!-- フィルター -->
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+      <%= form_with url: posts_path, method: :get, local: true, id: "filter-form" do |f| %>
+        <div class="row g-3">
+          <div class="col-md-3">
+            <%= f.label :tag_id, "タグで絞り込む", class: "form-label fw-bold" %>
+            <%= f.collection_select :tag_id, @tags, :id, :name, { include_blank: "選択してください" }, class: "form-control form-control-lg rounded-pill" %>
+          </div>
 
-      <div class="col-md-3">
-       <%= f.label :event_id, "イベントで絞り込む" %>
-       <%= f.collection_select :event_id, @events, :id, :title, { include_blank: "選択してください" }, class: "form-control filter-select" %>
-      </div>
+          <div class="col-md-3">
+            <%= f.label :place_id, "場所で絞り込む", class: "form-label fw-bold" %>
+            <%= f.collection_select :place_id, @places, :id, :name, { include_blank: "選択してください" }, class: "form-control form-control-lg rounded-pill" %>
+          </div>
 
-      <!-- ソート選択 -->
-      <div class="col-md-3">
-       <%= f.label :sort, "並べ替え" %>
-       <%= f.select :sort, [["新しい順", "newest"],["古い順", "oldest"],["高評価", "highest"],["低評価", "lowest"]], { include_blank: "選択してください" }, class: "form-control filter-select" %>
-      </div>
+          <div class="col-md-3">
+            <%= f.label :event_id, "イベントで絞り込む", class: "form-label fw-bold" %>
+            <%= f.collection_select :event_id, @events, :id, :title, { include_blank: "選択してください" }, class: "form-control form-control-lg rounded-pill" %>
+          </div>
+
+          <div class="col-md-3">
+            <%= f.label :sort, "並べ替え", class: "form-label fw-bold" %>
+            <%= f.select :sort, [["新しい順", "newest"],["古い順", "oldest"],["高評価", "highest"],["低評価", "lowest"]], { include_blank: "選択してください" }, class: "form-control form-control-lg rounded-pill" %>
+          </div>
+        </div>
+      <% end %>
     </div>
-  <% end %>
-</div>
+  </div>
 
   <!-- 投稿リスト -->
   <div class="row">
-  <% @posts.each do |post| %>
-    <div class="col-md-4 mb-4">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">
-            <strong><%= link_to post.title, post_path(post), class: "text-decoration-none text-primary" %></strong>
-          </h5>
-          <p class="card-text"><%= truncate(post.body, length: 100) %></p>
-          <p class="text-muted">
-            投稿者: <%= link_to post.user.name, user_path(post.user), class: "text-decoration-none" %>
-          </p>
-          
-          <% if post.postable_type == "Place" %>
-            <p class="text-muted">場所: <%= link_to post.postable.name, place_path(post.postable) %></p>
-          <% elsif post.postable_type == "Event" %>
-            <p class="text-muted">イベント: <%= link_to post.postable.title, event_path(post.postable) %></p>
+    <% @posts.each do |post| %>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-lg border-0">
+          <% if post.image.present? %>
+            <img src="<%= post.image.url %>" class="card-img-top" style="height: 180px; object-fit: cover;">
           <% end %>
-        </div>
-        <div class="card-footer text-end">
-          <%= link_to "詳細を見る", post_path(post), class: "btn btn-primary btn-sm" %>
+          <div class="card-body">
+            <h5 class="card-title fw-bold">
+              <%= link_to post.title, post_path(post), class: "text-decoration-none text-dark" %>
+            </h5>
+            <p class="card-text text-muted"><%= truncate(post.body, length: 100) %></p>
+            <p class="text-muted small">
+              投稿者: <%= link_to post.user.name, user_path(post.user), class: "text-decoration-none text-primary" %>
+            </p>
+
+            <% if post.postable_type == "Place" %>
+              <p class="text-muted small">場所: <%= link_to post.postable.name, place_path(post.postable), class: "text-decoration-none text-success" %></p>
+            <% elsif post.postable_type == "Event" %>
+              <p class="text-muted small">イベント: <%= link_to post.postable.title, event_path(post.postable), class: "text-decoration-none text-success" %></p>
+            <% end %>
+          </div>
+          <div class="card-footer text-end">
+            <%= link_to "詳細を見る", post_path(post), class: "btn btn-outline-primary btn-sm" %>
+          </div>
         </div>
       </div>
-    </div>
-  <% end %>
-</div>
+    <% end %>
+  </div>
+
   <!-- ページネーション -->
   <div class="d-flex justify-content-center mt-4">
     <%= paginate @posts %> 

@@ -136,7 +136,7 @@ class Public::PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :body, :postable_type, tag_list: [], place_ids: [], event_ids: [])
+    params.require(:post).permit(:title, :body, :image, :postable_type, tag_list: [], place_ids: [], event_ids: [])
   end
 
   def current_post_user
