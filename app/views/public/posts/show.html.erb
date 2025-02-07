@@ -11,8 +11,9 @@
     <div class="card-body">
       <!-- 投稿タイトル -->
       <h1 class="card-title mb-3 text-primary font-weight-bold"><%= @post.title %></h1>
-      <% if post.image.attached? %>
-        <%= image_tag post.image, class: "card-img-top", style: "height: 180px; object-fit: cover;" %>
+      <!-- 投稿画像 -->
+      <% if @post.image.attached? %>
+        <%= image_tag @post.image, class: "card-img-top", style: "height: 180px; object-fit: cover;" %>
       <% end %>
       <!-- 投稿者情報 -->
       <p class="text-muted">

@@ -19,7 +19,7 @@
   <!-- フィルター -->
   <div class="card shadow-sm border-0 mb-4">
     <div class="card-body">
-      <%= form_with url: posts_path, method: :get, local: true, id: "filter-form" do |f| %>
+      <%= form_with url: posts_path, method: :get, remote: true, id: "filter-form" do |f| %>
         <div class="row g-3">
           <div class="col-md-3">
             <%= f.label :tag_id, "タグで絞り込む", class: "form-label fw-bold" %>
@@ -55,7 +55,7 @@
           <% end %>
           <div class="card-body">
             <h5 class="card-title fw-bold">
-              <%= link_to post.title, post_path(post), class: "text-decoration-none text-dark" %>
+              <strong><%= link_to post.title, post_path(post), class: "text-decoration-none text-dark" %></strong>
             </h5>
             <p class="card-text text-muted"><%= truncate(post.body, length: 100) %></p>
             <p class="text-muted small">
