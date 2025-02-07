@@ -15,6 +15,11 @@
           <%= form.label :body, "本文", class: "form-label" %>
           <%= form.text_area :body, class: "form-control", rows: 5, placeholder: "子供向けのスペースが広く、落ちついて読書をしていました。" %>
         </div>
+
+        <div class="mb-3">
+          <%= form.label :image, "画像を追加", class: "form-label" %>
+          <%= form.file_field :image, class: "form-control" %>
+        </div>
   
         <!-- タグ -->
         <div class="mb-3">

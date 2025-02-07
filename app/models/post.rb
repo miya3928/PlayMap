@@ -1,4 +1,5 @@
 class Post < ApplicationRecord
+  has_one_attached :images
   belongs_to :postable, polymorphic: true
   belongs_to :user
   has_many :reviews, dependent: :destroy
