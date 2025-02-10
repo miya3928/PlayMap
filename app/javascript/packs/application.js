@@ -18,7 +18,7 @@ import $ from 'jquery';
 window.$ = $;
 window.jQuery = $;
 
-import "../filters"; // パスを明示的に
+import "../filters";
 
 Rails.start()
 Turbolinks.start()
