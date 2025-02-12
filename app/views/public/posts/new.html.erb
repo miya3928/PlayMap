@@ -1,5 +1,5 @@
 
-<%= form_with model: @post, url: posts_path, local: false do |form| %>
+<%= form_with model: @post, url: posts_path, local: true , multipart: true do |form| %>
   <div class="container my-5">
     <div class="card shadow-sm">
       <div class="card-body">
@@ -16,9 +16,10 @@
           <%= form.text_area :body, class: "form-control", rows: 5, placeholder: "子供向けのスペースが広く、落ちついて読書をしていました。" %>
         </div>
 
+        <!-- 画像 -->
         <div class="mb-3">
           <%= form.label :image, "画像を追加", class: "form-label" %>
-          <%= form.file_field :image, class: "form-control" %>
+          <%= form.file_field :image, accept: "image/*",  class: "form-control" %>
         </div>
   
         <!-- タグ -->
