@@ -36,6 +36,9 @@ class Public::PostsController < ApplicationController
           postable: postable
         )
   
+        # 画像がアップロードされている場合、保存
+        post.image.attach(params[:post][:image]) if params[:post][:image].present?
+  
         if params[:post][:tag_list].present?
           tag_names = params[:post][:tag_list].is_a?(Array) ? params[:post][:tag_list] : params[:post][:tag_list].split(',').map(&:strip).uniq
           tag_names.each do |name|

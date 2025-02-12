@@ -12,9 +12,7 @@
       <!-- 投稿タイトル -->
       <h1 class="card-title mb-3 text-primary font-weight-bold"><%= @post.title %></h1>
       <!-- 投稿画像 -->
-      <% if @post.image.attached? %>
-        <%= image_tag @post.image, class: "card-img-top", style: "height: 180px; object-fit: cover;" %>
-      <% end %>
+       <%= image_tag @post.image.variant(resize: "300x300"), class: "card-img-top", style: "height: 180px; object-fit: cover;" if @post.image.attached? %>
       <!-- 投稿者情報 -->
       <p class="text-muted">
         投稿者：
