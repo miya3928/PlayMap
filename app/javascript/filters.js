@@ -1,10 +1,8 @@
-document.addEventListener("turbolinks:load", function() {
+document.addEventListener("turbo:load", function() {
   const filterForm = document.getElementById("filter-form");
-  if (!filterForm) return; // フォームが存在しない場合は処理を中断
+  if (!filterForm) return;
 
-  document.querySelectorAll(".filter-select").forEach(select => {
-    select.addEventListener("change", function() {
-      filterForm.submit();
-    });
+  filterForm.addEventListener("change", function() {
+    filterForm.requestSubmit(); // フォームを自動送信
   });
 });

@@ -1,113 +1,86 @@
 <div class="container my-5">
   <!-- 戻るボタン -->
-  <div class="mb-4 d-flex justify-content-between align-items-center">
-    <%= link_to posts_path, class: "btn btn-secondary rounded-circle p-3 d-flex justify-content-center align-items-center shadow-sm hover-shadow-lg", style: "width:3rem;height:3rem;" do %>
-      <i class="fa-solid fa-arrow-left"></i> 
+  <div class="mb-4 d-flex">
+    <%= link_to posts_path, class: "btn btn-secondary rounded-circle p-3 d-flex justify-content-center align-items-center shadow-sm", style: "width:3rem;height:3rem;" do %>
+      <i class="fa-solid fa-arrow-left"></i>
     <% end %>
   </div>
 
   <!-- 投稿カード -->
   <div class="card shadow-lg border-0 rounded-lg overflow-hidden">
     <div class="card-body">
-      <!-- 投稿タイトル -->
-      <h1 class="card-title mb-3 text-primary font-weight-bold"><%= @post.title %></h1>
+      <h1 class="card-title text-primary font-weight-bold"><%= @post.title %></h1>
+      
       <!-- 投稿画像 -->
-       <%= image_tag @post.image.variant(resize: "300x300"), class: "card-img-top", style: "height: 180px; object-fit: cover;" if @post.image.attached? %>
-      <!-- 投稿者情報 -->
-      <p class="text-muted">
-        投稿者：
-        <%= link_to @post.user.name, user_path(@post.user), class: "fw-bold text-decoration-none text-primary" %>
-      </p>
+      <% if @post.image.attached? %>
+        <div class="text-center my-3">
+          <%= image_tag @post.image.variant(resize: "400x300"), class: "img-fluid rounded shadow-sm" %>
+        </div>
+      <% end %>
 
+      <p class="text-muted">投稿者: <%= link_to @post.user.name, user_path(@post.user), class: "fw-bold text-decoration-none text-primary" %></p>
+      
       <!-- タグ -->
-      <p class="text-muted">
-      <strong>タグ:</strong> 
-         <% if @tags.present? %>
+      <div class="d-flex flex-wrap gap-2 mb-3">
         <% @post.tags.each do |tag| %>
           <span class="badge bg-primary text-white"><%= link_to tag.name, tag_path(tag), class: "text-white text-decoration-none" %></span>
         <% end %>
-        <% else %>
-        <span class="badge bg-secondary text-white">タグがありません</span>
-    <% end %>
-      </p>
-
-      <!-- 投稿内容 -->
-      <div class="mt-4">
-        <p class="card-text"><%= simple_format(@post.body) %></p>
       </div>
 
-      <!-- 関連情報 (Place/Event) -->
-      <div class="mt-4">
-        <%= render_postable_details(@postable) %>
-      </div>
-
+      <p class="card-text"><%= simple_format(@post.body) %></p>
+      
+      <!-- 関連情報 -->
+      <%= render_postable_details(@postable) %>
+      
       <!-- レビューセクション -->
       <div class="mt-5">
-       <div class="d-flex align-items-center mb-4">
-    <h2 class="text-success font-weight-bold flex-grow-1 mb-0">この投稿へのレビュー</h2>
-    <!-- レビュー新規投稿ボタン（アイコン付き、丸いボタン） -->
-    <%= link_to new_post_review_path(@post), class: "btn btn-success rounded-circle p-0 d-flex justify-content-center align-items-center", style: "width:2rem;height:2rem;" do %>
-      <i class="fa-solid fa-plus"></i>
-    <% end %>
-  </div>
-
+        <div class="d-flex justify-content-between align-items-center">
+          <h2 class="text-success font-weight-bold mb-0">レビュー</h2>
+          <%= link_to new_post_review_path(@post), class: "btn btn-success rounded-circle d-flex justify-content-center align-items-center", style: "width:2rem;height:2rem;" do %>
+            <i class="fa-solid fa-plus"></i>
+          <% end %>
+        </div>
         <% if @post.reviews.any? %>
-          <div class="row row-cols-1 row-cols-md-2 g-4">
+          <div class="row g-4">
             <% @post.reviews.each do |review| %>
-              <div class="col">
-                <div class="card h-100 border-0 shadow-lg rounded-lg">
-                  <div class="card-body">
-                    <p class="text-muted mb-2">
-                      <strong>レビュー投稿者：</strong>
-                      <%= link_to review.user.name, user_path(review.user), class: "text-decoration-none text-primary" %>
-                    </p>
-                    <div class="review-score mb-2" data-score="<%= review.score %>"></div>
-                    <p class="mb-0"><strong>レビュー内容:</strong> <%= simple_format(review.body) %></p>
-                    <div class="text-end">
-                      <%= link_to "レビューを読む", post_review_path(@post, review), class: "btn btn-outline-primary btn-sm mt-2" %>
-                    </div>
+              <div class="col-md-6">
+                <div class="card shadow-sm p-3 rounded-lg">
+                  <p class="text-muted"><strong>投稿者:</strong> <%= link_to review.user.name, user_path(review.user), class: "text-decoration-none text-primary" %></p>
+                  <div class="review-score" data-score="<%= review.score %>"></div>
+                  <p class="mb-2"><%= simple_format(review.body) %></p>
+                  <div class="text-end">
+                    <%= link_to "レビューを読む", post_review_path(@post, review), class: "btn btn-outline-primary btn-sm" %>
                   </div>
                 </div>
               </div>
             <% end %>
           </div>
         <% else %>
-          <p class="text-muted">まだレビューがありません。最初のレビューを書いてみましょう！</p>
+          <p class="text-muted">まだレビューがありません。</p>
         <% end %>
       </div>
 
       <!-- コメントセクション -->
-      <div class="mt-5">
-        <h2 class="text-info font-weight-bold">この投稿へのコメント</h2>
-        <div class="mt-4 p-4 bg-light rounded-lg shadow-sm">
-          <h5>コメントを追加する</h5>
-          <%= render 'public/comments/form', commetable: @post %>
-        </div>
-        <div class="mt-4" id="comments-list">
-          <h4 class="fw-bold text-secondary">みんなのコメント</h4>
+      <div class="mt-5 p-4 bg-light rounded-lg shadow-sm">
+        <h2 class="text-info font-weight-bold">コメント</h2>
+        <%= render 'public/comments/form', commetable: @post %>
+        <div class="mt-3">
           <% if @post.comments.any? %>
             <% @post.comments.each do |comment| %>
-              <div class="card my-3 shadow-sm border-0 rounded-lg">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                      <p class="mb-1">
-                        <strong class="text-primary"><%= comment.user.name %></strong>
-                      </p>
-                      <p class="text-muted small mb-0"><%= comment.created_at.strftime('%Y年%m月%d日 %H:%M') %></p>
-                    </div>
-                    <% if comment.user == current_user %>
-                      <div>
-                        <%= link_to '削除', post_comment_path(comment), method: :delete, data: { confirm: 'コメントを削除しますか？' }, class: 'btn btn-outline-danger btn-sm' %>
-                      </div>
-                    <% end %>
+              <div class="card my-3 p-3 shadow-sm">
+                <p class="text-muted mb-1">
+                  <strong class="text-primary"><%= comment.user.name %></strong> - <%= comment.created_at.strftime('%Y年%m月%d日 %H:%M') %>
+                </p>
+                <p class="mt-2"><%= simple_format(comment.body) %></p>
+                <% if comment.user == current_user %>
+                  <div class="text-end">
+                    <%= link_to '削除', post_comment_path(comment), method: :delete, data: { confirm: 'コメントを削除しますか？' }, class: 'btn btn-outline-danger btn-sm' %>
                   </div>
-                  <p class="mt-3"><%= simple_format(comment.body) %></p>
-                </div>
+                <% end %>
               </div>
             <% end %>
           <% else %>
-            <p class="text-muted">まだコメントがありません。この投稿にコメントを追加しましょう！</p>
+            <p class="text-muted">まだコメントがありません。</p>
           <% end %>
         </div>
       </div>
@@ -119,12 +92,9 @@
 document.addEventListener("turbolinks:load", () => {
   document.querySelectorAll(".review-score:not(.raty-applied)").forEach((elem) => {
     const score = parseFloat(elem.dataset.score);
-    
-    // ERBをレンダリングして画像パスを取得
     const starOn = "<%= asset_path('star-on.png') %>";
     const starOff = "<%= asset_path('star-off.png') %>";
     const starHalf = "<%= asset_path('star-half.png') %>";
-    
     raty(elem, {
       readonly: true,
       score: score,
@@ -133,19 +103,10 @@ document.addEventListener("turbolinks:load", () => {
       starOff: starOff,
       starHalf: starHalf,
     });
-
-    elem.classList.add('raty-applied'); // 適用済みの要素にクラスを付与
+    elem.classList.add('raty-applied');
     elem.querySelectorAll('img').forEach((star) => {
-      star.style.pointerEvents = 'none'; // 星マーク画像のクリックイベントを無効化
+      star.style.pointerEvents = 'none';
     });
   });
-});
-
-// コメントの非同期通信化
-document.addEventListener("turbolinks:load", () => {
-  const commentSection = document.querySelector('#comments-list');
-  if (typeof newComment !== "undefined" && newComment) {
-    commentSection.insertAdjacentHTML('beforeend', newComment);
-  }
 });
 </script>
