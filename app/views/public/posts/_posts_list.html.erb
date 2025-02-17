@@ -1,0 +1,29 @@
+<div class="row">
+  <% posts.each do |post| %>
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-lg border-0">
+        <% if post.image.present? %>
+          <%= image_tag post.image.variant(resize: "300x300"), class: "card-img-top", style: "height: 180px; object-fit: cover;" if post.image.attached? %>
+        <% end %>
+        <div class="card-body">
+          <h5 class="card-title fw-bold">
+            <strong><%= link_to post.title, post_path(post), class: "text-decoration-none text-dark" %></strong>
+          </h5>
+          <p class="card-text text-muted"><%= truncate(post.body, length: 100) %></p>
+          <p class="text-muted small">
+            投稿者: <%= link_to post.user.name, user_path(post.user), class: "text-decoration-none text-primary" %>
+          </p>
+
+          <% if post.postable_type == "Place" %>
+            <p class="text-muted small">場所: <%= link_to post.postable.name, place_path(post.postable), class: "text-decoration-none text-success" %></p>
+          <% elsif post.postable_type == "Event" %>
+            <p class="text-muted small">イベント: <%= link_to post.postable.title, event_path(post.postable), class: "text-decoration-none text-success" %></p>
+          <% end %>
+        </div>
+        <div class="card-footer text-end">
+          <%= link_to "詳細を見る", post_path(post), class: "btn btn-outline-primary btn-sm" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,5 +1,5 @@
 class Public::PostsController < ApplicationController
-  before_action :guest_check, only: [:create, :update, :destroy]
+  before_action :guest_check, only: [:create, :update, :destroy, :new]
   before_action :authenticate_user!
   before_action :current_post_user, only:[:edit, :update]  
 
@@ -18,15 +18,15 @@ class Public::PostsController < ApplicationController
 
   def create
     selected_postables = []
-  
+
     if params[:post][:place_ids].present?
       selected_postables += Place.where(id: params[:post][:place_ids])
     end
-  
+
     if params[:post][:event_ids].present?
       selected_postables += Event.where(id: params[:post][:event_ids])
     end
-  
+
     if selected_postables.present?
       selected_postables.each do |postable|
         post = Post.new(
@@ -35,10 +35,10 @@ class Public::PostsController < ApplicationController
           user: current_user,
           postable: postable
         )
-  
+
         # 画像がアップロードされている場合、保存
         post.image.attach(params[:post][:image]) if params[:post][:image].present?
-  
+
         if params[:post][:tag_list].present?
           tag_names = params[:post][:tag_list].is_a?(Array) ? params[:post][:tag_list] : params[:post][:tag_list].split(',').map(&:strip).uniq
           tag_names.each do |name|
@@ -46,7 +46,7 @@ class Public::PostsController < ApplicationController
             post.tags << tag unless post.tags.include?(tag)
           end
         end
-  
+
         unless post.save
           flash.now[:alert] = "投稿に失敗しました: #{post.errors.full_messages.join(', ')}"
           @places = Place.all
@@ -55,7 +55,7 @@ class Public::PostsController < ApplicationController
           render :new and return
         end
       end
-  
+
       redirect_to posts_path, notice: "投稿に成功しました"
     else
       flash.now[:alert] = "場所またはイベントを選択してください"
@@ -66,9 +66,8 @@ class Public::PostsController < ApplicationController
     end
   end
 
-  
   def index
-    @posts = Post.preload(:reviews, :tags, :postable).all
+    @posts = Post.preload(:reviews, :tags, :postable)
   
     # 絞り込み
     if params[:tag_id].present?
@@ -90,9 +89,9 @@ class Public::PostsController < ApplicationController
     when "oldest"
       @posts = @posts.order(created_at: :asc)
     when "highest"
-      @posts = @posts.left_joins(:reviews).group("posts.id").order(Arel.sql("AVG(reviews.score) DESC"))
+      @posts = @posts.left_joins(:reviews).group("posts.id").order(Arel.sql("COALESCE(AVG(reviews.score), 0) DESC"))
     when "lowest"
-      @posts = @posts.left_joins(:reviews).group("posts.id").order(Arel.sql("AVG(reviews.score) ASC"))
+      @posts = @posts.left_joins(:reviews).group("posts.id").order(Arel.sql("COALESCE(AVG(reviews.score), 0) ASC"))
     end
   
     # ページネーション
@@ -100,14 +99,21 @@ class Public::PostsController < ApplicationController
     @tags = Tag.all
     @places = Place.all
     @events = Event.all
+  
+    # AJAXリクエストの場合の処理
+    respond_to do |format|
+      format.html # 通常のHTMLレスポンス
+      format.js   # AJAXリクエストの場合のレスポンス
+    end
   end
+
 
   def show
     @post = Post.find(params[:id])
     @postable = @post.postable
-    @reviews = Review.all
+    @reviews = @post.reviews # 変更: 関連レビューのみ取得
     @tags = Tag.all
-    
+
     unless @postable.present?
       flash[:alert] = "関連情報が見つかりません。"
       redirect_to posts_path
@@ -121,7 +127,7 @@ class Public::PostsController < ApplicationController
   def update
     @post = Post.find(params[:id])
     if @post.update(post_params)
-      flash.now[:alert] = '投稿が更新されました'
+      flash[:notice] = '投稿が更新されました'
       redirect_to @post
     else
       flash.now[:alert] = '更新に失敗しました'
@@ -130,9 +136,9 @@ class Public::PostsController < ApplicationController
   end
 
   def destroy
-    @post =Post.find(params[:id])
+    @post = Post.find(params[:id])
     @post.destroy
-    flash.now[:alert] =  '投稿が削除されました！'
+    flash[:notice] = '投稿が削除されました！'
     redirect_to posts_path
   end
 
@@ -145,8 +151,7 @@ class Public::PostsController < ApplicationController
   def current_post_user
     post = Post.find(params[:id])
     unless current_user == post.user
-      redirect_to posts_path, alert: "他のユーザーの投稿を編集することはできません"
+      redirect_to posts_path, flash: { alert: "他のユーザーの投稿を編集することはできません" }
     end
   end
-  
 end
