@@ -6,6 +6,7 @@ import "channels"
 import "popper.js";
 import "bootstrap";
 import "../stylesheets/application";
+import "./filters.js";
 
 import Raty from "../lib/raty.js";
 window.raty = function (elem, opt) {
@@ -17,8 +18,6 @@ window.raty = function (elem, opt) {
 import $ from 'jquery';
 window.$ = $;
 window.jQuery = $;
-
-import "../filters";
 
 Rails.start()
 Turbolinks.start()

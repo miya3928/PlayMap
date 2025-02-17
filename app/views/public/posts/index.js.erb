@@ -1,0 +1,5 @@
+// 投稿のリストを更新
+$("#posts-list").html("<%= j render('public/posts/posts_list', posts: @posts) %>");
+
+// ページネーションを更新
+$(".pagination").html("<%= j render('public/posts/pagination', posts: @posts) %>");
