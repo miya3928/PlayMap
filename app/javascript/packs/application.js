@@ -7,6 +7,8 @@ import "popper.js";
 import "bootstrap";
 import "../stylesheets/application";
 import "./filters.js";
+import "./jpostal.js";
+
 
 import Raty from "../lib/raty.js";
 window.raty = function (elem, opt) {
