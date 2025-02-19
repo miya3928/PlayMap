@@ -5,3 +5,14 @@ body {
 }
 
 @import 'bootstrap/scss/bootstrap';
+
+.form-container {
+    text-align: center;
+  }
+  
+  .form-container input,
+  .form-container textarea,
+  .form-container label {
+    display: block;
+    margin: 0 auto;
+  }

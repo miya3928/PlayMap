@@ -70,3 +70,4 @@ gem "net-pop"
 gem "net-imap"
 
 gem 'jquery-rails'
+gem 'geocoder'
