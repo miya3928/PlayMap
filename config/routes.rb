@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     get "/about", to: "homes#about", as: 'about'
     get '/mypage', to: 'users#mypage', as: 'mypage'
     get '/search', to: 'searches#search', as: 'search'
+    get 'search_address', to: 'places#search_address'
     resources :users, only: [:create, :show, :edit, :update, :destroy]
     resources :tags, only: [:index, :show] do
       collection do

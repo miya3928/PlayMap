@@ -37,6 +37,17 @@ class Public::PlacesController < ApplicationController
       render :edit
     end
   end
+
+  def search_address
+    postal_code = params[:postal_code]
+    results = Geocoder.search(postal_code)
+    if results.any?
+      address = results.first
+      render json: { prefecture: address.state, city: address.city, street: address.street_address }
+    else
+      render json: { error: "住所が見つかりません" }, status: 404
+    end
+  end
   
  private
 
