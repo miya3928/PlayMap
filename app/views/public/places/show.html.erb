@@ -15,41 +15,60 @@
     link_to("新規イベント", new_event_path, class: "btn btn-outline-primary btn-lg mb-6")
   )
 %>
-<div id="map" style="height: 400px; width: 100%;"></div>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['Maps_API_Key'] %>&callback=initMap"></script>
+<div class="container my-5">
+<div class="card shadow-sm">
+<div class="card-body">
+ <h1 class="card-title text-center"><%= @place.name %>の地図</h1>
+ <div id="map" style="height: 400px; width: 100%;"></div>
+</div>
+</div>
+</div>
+
 <script>
-function initMap() {
-  let map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 35.6895, lng: 139.6917 }, // 東京
-    zoom: 10,
-  });
-
-  document.getElementById("zipcode").addEventListener("blur", function() {
-    let address = document.getElementById("prefecture").value +
-                  document.getElementById("city").value +
-                  document.getElementById("street").value;
-
-    console.log("住所:", address);
-
-    if (address) {
-      let geocoder = new google.maps.Geocoder();
-      geocoder.geocode({ address: address }, function(results, status) {
-        console.log("ジオコーディングステータス:", status);
-        if (status === "OK") {
-          map.setCenter(results[0].geometry.location);
-          new google.maps.Marker({
-            map: map,
-            position: results[0].geometry.location
-          });
-        } else {
-          alert("マップの表示に失敗しました: " + status);
-        }
-      });
+  function initMap() {
+    const mapElement = document.getElementById("map");
+    if (!mapElement) {
+      console.error("地図の要素が見つかりません");
+      return;
     }
-  });
-}
 
-// グローバルに設定
-window.initMap = initMap;
+    let map = new google.maps.Map(mapElement, {
+      center: { lat: 35.6895, lng: 139.6917 }, // 東京
+      zoom: 10,
+    });
+
+    const zipcodeInput = document.getElementById("zipcode");
+    if (!zipcodeInput) {
+      console.error("zipcode の input 要素が見つかりません");
+      return;
+    }
+
+    zipcodeInput.addEventListener("blur", function() {
+      let address = document.getElementById("prefecture").value +
+                    document.getElementById("city").value +
+                    document.getElementById("street").value;
+
+      console.log("住所:", address);
+
+      if (address) {
+        let geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ address: address }, function(results, status) {
+          console.log("ジオコーディングステータス:", status);
+          if (status === "OK") {
+            map.setCenter(results[0].geometry.location);
+            new google.maps.Marker({
+              map: map,
+              position: results[0].geometry.location
+            });
+          } else {
+            alert("マップの表示に失敗しました: " + status);
+          }
+        });
+      }
+    });
+  }
+
+  window.initMap = initMap;
 </script>
 
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['MAPS_API_KEY'] %>&callback=initMap"  async defer></script>
