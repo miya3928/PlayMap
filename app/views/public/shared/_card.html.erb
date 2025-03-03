@@ -1,12 +1,12 @@
 <div class="container my-5">
   <div class="card shadow-sm">
     <div class="card-body">
-      <h1 class="card-title"><%= title %></h1>
+      <h1 class="card-title text-center"><%= title %></h1>
       <% if description.present? %>
         <p class="text-muted mt-2"><%= description %></p>
       <% end %>
       <% if related_items.any? %>
-        <h2 class="mt-4"><%= related_title %></h2>
+        <h3 class="mt-4"><%= related_title %></h3>
         <% related_items.each do |item| %>
           <% related_content.call(item) %>
         <% end %>

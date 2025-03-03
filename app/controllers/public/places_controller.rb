@@ -40,12 +40,22 @@ class Public::PlacesController < ApplicationController
 
   def search_address
     postal_code = params[:postal_code]
-    results = Geocoder.search(postal_code)
-    if results.any?
-      address = results.first
-      render json: { prefecture: address.state, city: address.city, street: address.street_address }
+    
+    if postal_code.present?
+      # 住所検索用の API（Google Maps API など）を使用
+      address = Geocoder.search(postal_code).first
+
+      if address
+        render json: {
+          prefecture: address.state,
+          city: address.city,
+          street: address.address
+        }
+      else
+        render json: { error: '住所が見つかりませんでした' }, status: 404
+      end
     else
-      render json: { error: "住所が見つかりません" }, status: 404
+      render json: { error: '郵便番号が指定されていません' }, status: 400
     end
   end
   

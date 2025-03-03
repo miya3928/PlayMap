@@ -97,7 +97,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text" aria-hidden="true"><i class="fa-solid fa-tenge-sign"></i></span>
           </div>
-          <%= text_field_tag :zipcode, nil, class: "form-control", placeholder: "郵便番号" %>
+         <%= text_field_tag :zipcode, nil, class: "form-control", placeholder: "郵便番号", id: "zipcode" %>
         </div>
         <div class="mb-3">
           <%= f.label :address, "住所", class: "form-label" %>
@@ -164,6 +164,8 @@ document.addEventListener("turbolinks:load", () => {
   const placeSelection = document.getElementById("place-selection");
   const eventSelection = document.getElementById("event-selection");
 
+  if (!postableTypeSelect) return; // 要素が存在しない場合は処理を中断
+
   function toggleSelection() {
     const selectedValue = postableTypeSelect.value;
     placeSelection.style.display = selectedValue === "Place" ? "block" : "none";
@@ -197,6 +199,15 @@ document.addEventListener("turbolinks:load", () => {
     // モーダル内のフィールドにデータをセット
     if (eventTitle) modal.find('.modal-body input[name="event[title]"]').val(eventTitle);
     if (eventBody) modal.find('.modal-body textarea[name="event[body]"]').val(eventBody);
+  });
+});
+
+document.addEventListener("turbolinks:load", function() {
+  $("#zipcode").jpostal({
+    postcode: ["#zipcode"],
+    address: {
+      "#address": "%3%4%5"
+    }
   });
 });
 </script>
