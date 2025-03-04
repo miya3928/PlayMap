@@ -1,66 +1,91 @@
 <header>
-  <nav class="navbar navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
       <!-- ロゴリンク -->
-      <%= link_to "PlayMap", root_path, class: "navbar-brand" %>
+      <%= link_to root_path, class: "navbar-brand d-flex align-items-center" do %>
+        <%= image_tag "PlayMap.png", alt: "PlayMap ロゴ", class: "logo me-2", width: 100, height: 100 %>
+      <% end %>
 
-      <!-- 検索フォーム（右寄せ） -->
-      <div class="ml-auto d-flex align-items-center">
-        <%= render 'layouts/form' %>
-      </div>
-
-      <!-- ハンバーガーメニュー -->
-      <button class="navbar-toggler ml-2" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <!-- ハンバーガーメニューのトグルボタン -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <!-- ハンバーガーメニューの内容 -->
+      <!-- ナビゲーションメニュー -->
       <div class="collapse navbar-collapse justify-content-end" id="navbarMenu">
-        <ul class="navbar-nav">
-          <% if current_user && current_user.guest? %> <!-- ゲストユーザー時 -->
+        <ul class="navbar-nav me-auto">
+          <% if current_user && current_user.guest? %>
             <li class="nav-item">
-              <%= link_to "投稿一覧", posts_path, class: "nav-link" %>
+              <%= link_to posts_path, class: "nav-link" do %>
+                <i class="fas fa-list me-1"></i> 投稿一覧
+              <% end %>
             </li>
             <li class="nav-item">
-              <%= link_to "レビューリスト", reviews_path, class: "nav-link" %>
+              <%= link_to reviews_path, class: "nav-link" do %>
+                <i class="fas fa-star me-1"></i> レビューリスト
+              <% end %>
             </li>
             <li class="nav-item">
-              <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link text-danger" %>
+              <%= link_to destroy_user_session_path, method: :delete, class: "nav-link text-danger" do %>
+                <i class="fas fa-sign-out-alt me-1"></i> ログアウト
+              <% end %>
             </li>
-          <% elsif current_user %> <!-- ログイン時 -->
+          <% elsif current_user %>
             <li class="nav-item">
-              <%= link_to "マイページ", mypage_path, class: "nav-link" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "投稿一覧", posts_path, class: "nav-link" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "場所一覧", places_path, class: "nav-link" %>
+              <%= link_to mypage_path, class: "nav-link" do %>
+                <i class="fas fa-user me-1"></i> マイページ
+              <% end %>
             </li>
             <li class="nav-item">
-              <%= link_to "イベント一覧", events_path, class: "nav-link" %>
+              <%= link_to posts_path, class: "nav-link" do %>
+                <i class="fas fa-list me-1"></i> 投稿一覧
+              <% end %>
             </li>
             <li class="nav-item">
-              <%= link_to "レビューリスト", reviews_path, class: "nav-link" %>
+              <%= link_to places_path, class: "nav-link" do %>
+                <i class="fas fa-map-marker-alt me-1"></i> 場所一覧
+              <% end %>
             </li>
             <li class="nav-item">
-              <%= link_to "新規投稿", new_post_path, class: "nav-link", data: {turbolinks: "false"} %>
+              <%= link_to events_path, class: "nav-link" do %>
+                <i class="fas fa-calendar-alt me-1"></i> イベント一覧
+              <% end %>
             </li>
             <li class="nav-item">
-              <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link text-danger" %>
-            </li>
-          <% else %> <!-- ログアウト時 -->
-            <li class="nav-item">
-              <%= link_to "About", about_path, class: "nav-link" %>
+              <%= link_to reviews_path, class: "nav-link" do %>
+                <i class="fas fa-star me-1"></i> レビューリスト
+              <% end %>
             </li>
             <li class="nav-item">
-              <%= link_to "新規登録", new_user_registration_path, class: "btn btn-outline-primary my-2" %>
+              <%= link_to new_post_path, class: "nav-link", data: {turbolinks: "false"} do %>
+                <i class="fas fa-plus-circle me-1"></i> 新規投稿
+              <% end %>
             </li>
             <li class="nav-item">
-              <%= link_to "ログイン", new_user_session_path, class: "btn btn-outline-primary my-2" %>
+              <%= link_to destroy_user_session_path, method: :delete, class: "nav-link text-danger" do %>
+                <i class="fas fa-sign-out-alt me-1"></i> ログアウト
+              <% end %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to about_path, class: "nav-link" do %>
+                <i class="fas fa-info-circle me-1"></i> About
+              <% end %>
             </li>
             <li class="nav-item">
-              <%= link_to 'ゲストログイン', users_guest_sign_in_path, class: "btn btn-outline-secondary my-2", method: :post %>
+              <%= link_to new_user_registration_path, class: "btn btn-outline-primary me-2" do %>
+                <i class="fas fa-user-plus me-1"></i> 新規登録
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= link_to new_user_session_path, class: "btn btn-outline-primary me-2" do %>
+                <i class="fas fa-sign-in-alt me-1"></i> ログイン
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= link_to users_guest_sign_in_path, class: "btn btn-outline-secondary", method: :post do %>
+                <i class="fas fa-user-secret me-1"></i> ゲストログイン
+              <% end %>
             </li>
           <% end %>
         </ul>
