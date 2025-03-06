@@ -76,3 +76,28 @@
     font-size: 12px;
   }
 }
+
+.review-score {
+  font-size: 1.2rem; /* 星マークのサイズを大きくする */
+  margin-bottom: 0.5rem; /* 余白を確保 */
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn {
+  width: 100%;
+  text-align: center;
+}
