@@ -1,11 +1,9 @@
-<%= form_with url: search_path, method: :get, local: true do |f| %>
+<%= form_with url: search_path, method: :get, local: true, class: "d-flex" do |f| %>
   <div class="input-group">
-    <%= f.select :search_type, options_for_select([['ユーザー', 'users'], ['投稿', 'posts']]), {}, class: 'form-control', style: 'width: 120px;' %>
+    <%= f.select :search_type, options_for_select([['ユーザー', 'users'], ['投稿', 'posts']]), {}, class: 'form-select' %>
     <%= f.text_field :search_query, placeholder: '検索...', class: 'form-control', style: 'width: 200px;' %>
-    <div class="input-group-append">
-      <button type="submit" class="btn btn-primary">
-        <i class="fa fa-search"></i>
-      </button>
-    </div>
+    <button type="submit" class="btn btn-primary">
+      <i class="fa fa-search"></i>
+    </button>
   </div>
 <% end %>
