@@ -1,8 +1,10 @@
-<div class="container text-center my-5 bg-light p-4 rounded shadow-sm">
+<div class="container text-center my-5 bg-light p-4 rounded shadow-sm" data-aos="fade-left">
   <!-- タイトルセクション -->
   <h1 class="display-3 fw-bold text-success mb-4">ようこそ！PlayMapへ！</h1>
   <p class="lead text-dark mb-5">あなたの情報で育児のアップデートをしよう！</p>
+</div>
 
+<div class="container text-center my-5 bg-light p-4 rounded shadow-sm" data-aos="fade-left">
   <!-- 新規投稿セクション -->
   <h2 class="fw-bold text-dark mb-4"><i class="fas fa-list me-1"></i>最新の投稿</h2>
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -18,7 +20,9 @@
       </div>
     <% end %>
   </div>
+</div>
 
+<div class="container text-center my-5 bg-light p-4 rounded shadow-sm" data-aos="fade-left">
   <h2 class="fw-bold text-dark my-4">
    <i class="fas fa-star me-1"></i>最新のレビュー
   </h2>
@@ -35,7 +39,9 @@
       </div>
     <% end %>
   </div>
+</div>
 
+<div class="container text-center my-5 bg-light p-4 rounded shadow-sm" data-aos="fade-left">
   <!-- サービス紹介セクション -->
   <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
     <div class="col">
@@ -64,8 +70,16 @@
     </div>
   </div>
 </div>
+</div>
 
 <script>
+document.addEventListener("turbolinks:load", () => {
+  AOS.init({
+    duration: 1000, // アニメーションの時間（ミリ秒）
+    once: true, // 一度だけアニメーションを実行
+  });
+});
+
 document.addEventListener("turbolinks:load", () => {
   document.querySelectorAll(".review-score:not(.raty-applied)").forEach((elem) => {
     const score = parseFloat(elem.dataset.score);
