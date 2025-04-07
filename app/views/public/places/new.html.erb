@@ -41,6 +41,11 @@
           <%= f.label :description, '説明', class: 'form-label' %>
           <%= f.text_area :description, class: 'form-control', placeholder: '子供向けのメニューも豊富で、落ち着いた雰囲気のカフェです', rows: 5 %>
         </div>
+
+        <div class="form-group">
+         <%= f.label :image, "画像アップロード" %>
+         <%= f.file_field :image, class: "form-control" %>
+        </div>
         
         
         <!-- 関連するイベント -->
