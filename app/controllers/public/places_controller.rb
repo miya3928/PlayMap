@@ -1,3 +1,7 @@
+require 'net/http'
+require 'uri'
+require 'json'
+
 class Public::PlacesController < ApplicationController
   def index
     @places = Place.all
@@ -16,10 +20,12 @@ class Public::PlacesController < ApplicationController
   
   def create
     @place = Place.new(place_params)
+    @events = Event.all
     if @place.save
       redirect_to @place, notice: '場所が作成されました！'
     else
-      render :new
+      Rails.logger.debug @place.errors.full_messages 
+      render :new, alert: '場所の作成に失敗しました。'
     end
   end
 
@@ -39,29 +45,33 @@ class Public::PlacesController < ApplicationController
   end
 
   def search_address
-    postal_code = params[:postal_code]
-    
-    if postal_code.present?
-      # 住所検索用の API（Google Maps API など）を使用
-      address = Geocoder.search(postal_code).first
-
-      if address
-        render json: {
-          prefecture: address.state,
-          city: address.city,
-          street: address.address
-        }
+      postal_code = params[:postal_code]
+  
+      if postal_code.present?
+        uri = URI("https://zipcloud.ibsnet.co.jp/api/search?zipcode=#{postal_code}")
+        response = Net::HTTP.get(uri)
+        result = JSON.parse(response)
+  
+        if result["results"]
+          address = result["results"][0]
+          render json: {
+            prefecture: address["address1"],  # 例：東京都
+            city: address["address2"],        # 例：新宿区
+            street: address["address3"]       # 例：西新宿
+          }
+        else
+          render json: { error: '住所が見つかりませんでした' }, status: 404
+        end
       else
-        render json: { error: '住所が見つかりませんでした' }, status: 404
+        render json: { error: '郵便番号が指定されていません' }, status: 400
       end
-    else
-      render json: { error: '郵便番号が指定されていません' }, status: 400
     end
   end
+
   
  private
 
   def place_params
     params.require(:place).permit(:name, :address, :description, :latitude, :longitude, event_ids: [])
   end
-end
+
