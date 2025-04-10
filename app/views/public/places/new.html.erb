@@ -9,25 +9,42 @@
           <%= f.label :name, '場所名', class: 'form-label' %>
           <%= f.text_field :name, class: 'form-control', placeholder: 'カフェ' %>
         </div>
-        
-        <!-- 住所 -->
-        <div class="mb-3">
-          <%= f.label :address, '住所', class: 'form-label' %>
-          <%= f.text_field :address, class: 'form-control', placeholder: '東京都新宿区西新宿2-8-1' %>
-        </div>
 
         <!-- 郵便番号 -->
         <div class="input-group mb-3 mt-4">
           <div class="input-group-prepend">
             <span class="input-group-text" aria-hidden="true"><i class="fa-solid fa-tenge-sign"></i></span>
           </div>
-         <%= text_field_tag :zipcode, nil, class: "form-control", placeholder: "郵便番号", id: "zipcode" %>
+         <%= f.text_field :zipcode, class: "form-control", placeholder: "郵便番号を入力すると、住所も自動入力されます", id: "zipcode" %>
         </div>
+
+        <!-- 都道府県 -->
+        <div class="mb-3">
+         <%= f.label :prefecture, '都道府県', class: 'form-label' %>
+         <%= f.text_field :prefecture, class: "form-control", id: "prefecture", placeholder: "東京都" %>
+        </div>
+
+        <!-- 市区町村 -->
+        <div class="mb-3">
+           <%= f.label :city, '市区町村', class: 'form-label' %>
+           <%= f.text_field :city,  class: "form-control", id: "city", placeholder: "新宿区" %>
+        </div>
+
+        <!-- 番地 -->
+        <div class="mb-3">
+          <%= f.label :street, '番地', class: 'form-label' %>
+           <%= f.text_field :street,  class: "form-control", id: "street", placeholder: "西新宿2-8-1" %>
+         </div>
         
         <!-- 説明 -->
         <div class="mb-3">
           <%= f.label :description, '説明', class: 'form-label' %>
           <%= f.text_area :description, class: 'form-control', placeholder: '子供向けのメニューも豊富で、落ち着いた雰囲気のカフェです', rows: 5 %>
+        </div>
+
+        <div class="form-group">
+         <%= f.label :image, "画像アップロード" %>
+         <%= f.file_field :image, class: "form-control" %>
         </div>
         
         
@@ -47,6 +64,7 @@
           <%= f.submit '登録', class: 'btn btn-primary btn-lg px-5' %>
         </div>
       <% end %>
+      <div id="map" style="height: 400px; width: 100%;"></div>
     </div>
   </div>
 </div>

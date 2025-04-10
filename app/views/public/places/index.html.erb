@@ -24,7 +24,7 @@
               <strong><%= link_to place.name, place_path(place), class: "text-decoration-none text-dark" %></strong>
             </h5>
             <p class="card-text"><%= truncate(place.description, length: 100) %></p>
-            <p class ="text-muted mt-2"> 住所: <%= place.address %></p>
+            <p class ="text-muted mt-2"> 住所: <%= place.full_address %></p>
           </div>
           <div class="card-footer text-end">
             <%= link_to "詳細を見る", place_path(place), class: "btn btn-primary btn-sm" %>

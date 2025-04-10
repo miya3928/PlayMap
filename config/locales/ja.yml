@@ -16,6 +16,10 @@ ja:
               blank: "管理者のメールアドレスを入力してください"
             password:
               blank: "管理者のパスワードを入力してください"
+        place:
+          attributes:
+            address:
+              blank: "住所を入力してください"      
   devise:
     failure:
       unauthenticated: "サインインまたはサインアップして続行する必要があります"
