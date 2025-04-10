@@ -15,25 +15,25 @@
           <div class="input-group-prepend">
             <span class="input-group-text" aria-hidden="true"><i class="fa-solid fa-tenge-sign"></i></span>
           </div>
-         <%= text_field_tag :zipcode, nil, class: "form-control", placeholder: "郵便番号を入力すると、住所も自動入力されます", id: "zipcode" %>
+         <%= f.text_field :zipcode, class: "form-control", placeholder: "郵便番号を入力すると、住所も自動入力されます", id: "zipcode" %>
         </div>
 
         <!-- 都道府県 -->
         <div class="mb-3">
-         <%= label_tag :prefecture, '都道府県', class: 'form-label' %>
-         <%= text_field_tag :prefecture, nil, class: "form-control", id: "prefecture", placeholder: "東京都" %>
+         <%= f.label :prefecture, '都道府県', class: 'form-label' %>
+         <%= f.text_field :prefecture, class: "form-control", id: "prefecture", placeholder: "東京都" %>
         </div>
 
         <!-- 市区町村 -->
         <div class="mb-3">
-           <%= label_tag :city, '市区町村', class: 'form-label' %>
-           <%= text_field_tag :city, nil, class: "form-control", id: "city", placeholder: "新宿区" %>
+           <%= f.label :city, '市区町村', class: 'form-label' %>
+           <%= f.text_field :city,  class: "form-control", id: "city", placeholder: "新宿区" %>
         </div>
 
         <!-- 番地 -->
         <div class="mb-3">
-          <%= label_tag :street, '番地', class: 'form-label' %>
-           <%= text_field_tag :street, nil, class: "form-control", id: "street", placeholder: "西新宿2-8-1" %>
+          <%= f.label :street, '番地', class: 'form-label' %>
+           <%= f.text_field :street,  class: "form-control", id: "street", placeholder: "西新宿2-8-1" %>
          </div>
         
         <!-- 説明 -->
@@ -64,6 +64,7 @@
           <%= f.submit '登録', class: 'btn btn-primary btn-lg px-5' %>
         </div>
       <% end %>
+      <div id="map" style="height: 400px; width: 100%;"></div>
     </div>
   </div>
 </div>
