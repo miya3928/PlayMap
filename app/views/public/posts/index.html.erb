@@ -1,14 +1,9 @@
-<div class="container p-4 rounded shadow-lg" style="background: rgba(255, 255, 255, 0.9); max-width: 1100px;">
+<div class="container my-5 py-5 px-4" style="background: rgba(255,255,255,0.95); border-radius: 1rem; box-shadow: 0 0 30px rgba(0,0,0,0.05); max-width: 1100px;">
   <h1 class="text-center text-primary fw-bold mb-4">投稿一覧</h1>
 
   <!-- リンク -->
   <div class="mb-4 d-flex justify-content-between align-items-center">
-    <!-- 新規投稿ボタン -->
-    <%= link_to new_post_path, class: "btn btn-primary rounded-circle d-flex justify-content-center align-items-center shadow", style: "width:3rem; height:3rem; font-size:1.5rem;" do %>
-      <i class="fa-solid fa-plus"></i>
-    <% end %>
-
-    <!-- その他のリンク -->
+    <%= render 'public/posts/btn' %>
     <div>
       <%= link_to "レビューリスト", reviews_path, class: "btn btn-outline-success btn-sm me-2" %>
       <%= link_to "場所一覧", places_path, class: "btn btn-outline-secondary btn-sm me-2" %>
@@ -17,42 +12,17 @@
   </div>
 
   <!-- フィルター -->
-
-  <div class="card shadow-sm border-0 mb-4">
-    <div class="card-body">
-      <%= form_with url: posts_path, method: :get, remote: true, id: "filter-form" do |f| %>
-        <div class="row g-3">
-          <div class="col-md-3">
-            <%= f.label :tag_id, "タグで絞り込む", class: "form-label fw-bold" %>
-            <%= f.collection_select :tag_id, @tags, :id, :name, { include_blank: "選択してください" }, class: "form-control form-control-lg rounded-pill" %>
-          </div>
-
-          <div class="col-md-3">
-            <%= f.label :place_id, "場所で絞り込む", class: "form-label fw-bold" %>
-            <%= f.collection_select :place_id, @places, :id, :name, { include_blank: "選択してください" }, class: "form-control form-control-lg rounded-pill" %>
-          </div>
-
-          <div class="col-md-3">
-            <%= f.label :event_id, "イベントで絞り込む", class: "form-label fw-bold" %>
-            <%= f.collection_select :event_id, @events, :id, :title, { include_blank: "選択してください" }, class: "form-control form-control-lg rounded-pill" %>
-          </div>
-
-          <div class="col-md-3">
-            <%= f.label :sort, "並べ替え", class: "form-label fw-bold" %>
-            <%= f.select :sort, [["新しい順", "newest"],["古い順", "oldest"],["高評価", "highest"],["低評価", "lowest"]], { include_blank: "選択してください" }, class: "form-control form-control-lg rounded-pill" %>
-          </div>
-        </div>
-      <% end %>
-    </div>
+  <div id="posts-sort">
+   <%= render 'public/posts/sort' %>
   </div>
 
   <!-- 投稿リスト -->
   <div id="posts-list">
-  <%= render 'public/posts/posts_list', posts: @posts %>
-</div>
+    <%= render 'public/posts/posts_list', posts: @posts %>
+  </div>
 
   <!-- ページネーション -->
   <div id="pagination">
-  <%= render 'public/posts/pagination', posts: @posts %>
-</div>
+   <%= render 'public/posts/pagination', posts: @posts %>
+  </div>
 </div>

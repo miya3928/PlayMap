@@ -1,0 +1,46 @@
+<div class="card shadow-sm border-0 mb-4 p-4">
+  <div class="card-body p-0">
+    <h5 class="fw-bold mb-3">
+      <i class="fas fa-filter me-2 text-success"></i>
+    </h5>
+
+    <%= form_with url: posts_path, method: :get, remote: true, id: "filter-form" do |f| %>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
+        <div class="col">
+          <%= f.label :tag_id, "タグ", class: "form-label small text-muted" %>
+          <%= f.collection_select :tag_id, @tags, :id, :name, { include_blank: "選択してください" }, class: "form-select form-select-sm rounded-pill" %>
+        </div>
+        <div class="col">
+          <%= f.label :place_id, "場所", class: "form-label small text-muted" %>
+          <%= f.collection_select :place_id, @places, :id, :name, { include_blank: "選択してください" }, class: "form-select form-select-sm rounded-pill" %>
+        </div>
+        <div class="col">
+          <%= f.label :event_id, "イベント", class: "form-label small text-muted" %>
+          <%= f.collection_select :event_id, @events, :id, :title, { include_blank: "選択してください" }, class: "form-select form-select-sm rounded-pill" %>
+        </div>
+        <div class="col">
+          <%= f.label :sort, "並び順", class: "form-label small text-muted" %>
+          <%= f.select :sort, [["新しい順", "newest"],["古い順", "oldest"],["高評価", "highest"],["低評価", "lowest"]], { include_blank: "選択してください" }, class: "form-select form-select-sm rounded-pill" %>
+        </div>
+      </div>
+    <% end %>
+
+    <% if params[:tag_id].present? || params[:place_id].present? || params[:event_id].present? || params[:sort].present? %>
+  <div class="alert alert-light border mt-3 small text-muted">
+    <strong>絞り込み条件:</strong>
+    <% if params[:tag_id].present? %>
+      タグ: <%= Tag.find_by(id: params[:tag_id])&.name %>
+    <% end %>
+    <% if params[:place_id].present? %>
+      場所: <%= Place.find_by(id: params[:place_id])&.name %>
+    <% end %>
+    <% if params[:event_id].present? %>
+      イベント: <%= Event.find_by(id: params[:event_id])&.title %>
+    <% end %>
+    <% if params[:sort].present? %>
+      並び順: <%= { "newest" => "新しい順", "oldest" => "古い順", "highest" => "高評価", "lowest" => "低評価" }[params[:sort]] %>
+    <% end %>
+  </div>
+<% end %>
+  </div>
+</div>
