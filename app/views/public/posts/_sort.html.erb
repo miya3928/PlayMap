@@ -1,0 +1,49 @@
+<div class="card shadow-sm border-0 mb-4 p-4">
+  <div class="card-body p-0">
+    <h5 class="fw-bold mb-3">
+      <i class="fas fa-filter me-2 text-success"></i> 絞り込み & 並び替え
+    </h5>
+
+    <%= form_with url: posts_path, method: :get, remote: true, id: "filter-form" do |f| %>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
+        <div class="col">
+          <%= f.collection_select :tag_id, @tags, :id, :name, { include_blank: "タグ" }, class: "form-select form-select-sm rounded-pill" %>
+        </div>
+        <div class="col">
+          <%= f.collection_select :place_id, @places, :id, :name, { include_blank: "場所名" }, class: "form-select form-select-sm rounded-pill" %>
+        </div>
+        <div class="col">
+          <%= f.collection_select :event_id, @events, :id, :title, { include_blank: "イベント" }, class: "form-select form-select-sm rounded-pill" %>
+        </div>
+        <div class="col">
+          <%= f.label :sort, "並び順", class: "form-label small text-muted" %>
+          <%= f.select :sort, [["新しい順", "newest"],["古い順", "oldest"],["高評価", "highest"],["低評価", "lowest"]], { include_blank: "選択してください" }, class: "form-select form-select-sm rounded-pill" %>
+        </div>
+      </div>
+
+      <% if params[:tag_id].present? || params[:place_id].present? || params[:event_id].present? || params[:sort].present? %>
+  <div class="alert alert-light border small mt-2">
+    <strong class="me-2 text-muted">現在の絞り込み:</strong>
+    <% if params[:tag_id].present? %>
+      <span class="badge  me-1">タグ: <%= Tag.find_by(id: params[:tag_id])&.name %></span>
+    <% end %>
+    <% if params[:place_id].present? %>
+      <span class="badge me-1">場所: <%= Place.find_by(id: params[:place_id])&.name %></span>
+    <% end %>
+    <% if params[:event_id].present? %>
+      <span class="badge text-dark me-1">イベント: <%= Event.find_by(id: params[:event_id])&.title %></span>
+    <% end %>
+    <% if params[:sort].present? %>
+      <span class="badge me-1">並び順: <%= { "newest" => "新しい順", "oldest" => "古い順", "highest" => "高評価", "lowest" => "低評価" }[params[:sort]] %></span>
+    <% end %>
+  </div>
+<% end %>
+
+      <!-- ボタン類 -->
+      <div class="mt-3 d-flex justify-content-end gap-2">
+        <%= f.submit "適用", class: "btn btn-success btn-sm" %>
+        <%= link_to "リセット", posts_path, class: "btn btn-outline-secondary btn-sm" %>
+      </div>
+    <% end %>
+  </div>
+</div>
