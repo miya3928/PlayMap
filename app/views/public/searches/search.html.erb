@@ -41,4 +41,27 @@
       <p class="text-muted">該当する投稿が見つかりませんでした。</p>
     <% end %>
   <% end %>
+  <% if @search_type == 'place' %>
+  <h3 class="mb-4 text-warning">【場所の検索結果】</h3>
+  <% if @results.any? %>
+    <div class="row">
+      <% @results.each do |place| %>
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title fw-bold"><%= place.name %></h5>
+              <p class="text-muted small">
+                <i class="fas fa-map-marker-alt me-1"></i>
+                <%= place.prefecture_name %> <%= place.city %>
+              </p>
+              <%= link_to "詳細を見る", place_path(place), class: "btn btn-outline-success btn-sm" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-muted">該当する場所が見つかりませんでした。</p>
+  <% end %>
+<% end %>
 </div>
