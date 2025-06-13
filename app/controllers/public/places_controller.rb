@@ -72,6 +72,6 @@ class Public::PlacesController < ApplicationController
  private
 
   def place_params
-    params.require(:place).permit(:name, :address, :description, :latitude, :longitude, :prefecture, :zipcode, :city, :street, :image, event_ids: [])
+    params.require(:place).permit(:name, :address, :description, :latitude, :longitude, :prefecture, :zipcode, :city, :street, :image, :prefecture_name, event_ids: [])
   end
 

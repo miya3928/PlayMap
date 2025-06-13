@@ -9,8 +9,18 @@ class Place < ApplicationRecord
   geocoded_by :address
   after_validation :geocode, if: ->(obj){ obj.address.present? && obj.address_changed? }
 
+  include JpPrefecture
+  jp_prefecture :prefecture_code
 
-    def full_address
-      "#{prefecture} #{city} #{street}"
-    end
+  def prefecture_name
+    JpPrefecture::Prefecture.find(code: prefecture_code).try(:name)
+  end
+
+  def prefecture_name=(prefecture_name)
+    self.prefecture_code = JpPrefecture::Prefecture.find(name: prefecture_name).code
+  end
+
+  def full_address
+    "#{prefecture_name} #{city} #{street}"
+  end
 end

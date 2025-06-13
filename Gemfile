@@ -71,3 +71,5 @@ gem "net-imap"
 
 gem 'jquery-rails'
 gem 'geocoder'
+
+gem "jp_prefecture", "~> 1.1"
