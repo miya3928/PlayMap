@@ -15,7 +15,9 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbarMenu">
         <ul class="navbar-nav me-auto">
         <!-- 検索フォーム -->
-          <%= render 'layouts/form' %>
+        <div>
+        <%= render 'public/shared/search_form' %>
+        </div>
           <% if current_user && current_user.guest? %>
             <li class="nav-item">
               <%= link_to posts_path, class: "nav-link" do %>

@@ -1,7 +1,14 @@
 class Public::EventsController < ApplicationController
   def index
     @events = Event.all
-    @events = Event.page(params[:page]).per(10)
+    @events = Event.page(params[:page]).per(9)
+
+    case params[:sort]
+    when "newest"
+      @events = @events.order(created_at: :desc)
+    when "oldest"
+      @events = @events.order(created_at: :asc)
+    end
   end
 
   def show

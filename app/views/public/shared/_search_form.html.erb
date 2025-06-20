@@ -1,0 +1,16 @@
+<%= form_with url: search_path, method: :get, local: true, class: "d-flex w-100 flex-wrap gap-2 align-items-center", html: {style: "max-width: 800px;"} do |f| %>
+  <%= f.select :search_type, options_for_select([
+    ['ユーザー', 'users'],
+    ['投稿', 'posts'],
+    ['場所', 'place']
+  ], params[:search_type]), {}, class: 'form-select form-select-sm' %>
+
+  <% if params[:search_type] == 'place' %>
+    <%= f.select :prefecture_code, options_for_select(JpPrefecture::Prefecture.all.map { |p| [p.name, p.code] }, params[:prefecture_code]), { include_blank: '都道府県' }, class: "form-select form-select-sm" %>
+    <%= f.text_field :city, placeholder: "市町村", class: "form-control form-control-sm", style: "max-width: 150px;" %>
+  <% else %>
+    <%= f.text_field :search_query, placeholder: '検索ワード', class: "form-control form-control-sm", style: "max-width: 200px;" %>
+  <% end %>
+
+  <%= f.submit "検索", class: "btn btn-sm btn-primary" %>
+<% end %>

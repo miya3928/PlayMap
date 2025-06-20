@@ -5,7 +5,14 @@ require 'json'
 class Public::PlacesController < ApplicationController
   def index
     @places = Place.all
-    @places = Place.page(params[:page]).per(10)
+    @places = Place.page(params[:page]).per(9)
+
+  case params[:sort]
+  when "newest"
+    @places = @places.order(created_at: :desc)
+  when "oldest"
+    @places = @places.order(created_at: :asc)
+  end
   end
   
   def show

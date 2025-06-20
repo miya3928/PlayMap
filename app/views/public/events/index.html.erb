@@ -14,6 +14,17 @@
     <%= link_to "イベント一覧", places_path, class: "btn btn-secondary btn-sm" %>
   </div>
 </div>
+
+<div>
+<%= render partial: "public/shared/filter_sort", locals: {
+  url: events_path,
+  local_remote: false,
+  tags: nil,
+  places: nil,
+  events: @events
+} %>
+</div>
+
   <div class="row">
     <% @events.each do |event| %>
       <div class="col-md-4 mb-4"> 

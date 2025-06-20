@@ -16,6 +16,16 @@
   </div>
 </div>
 
+<div>
+<%= render partial: "public/shared/filter_sort", locals: {
+  url: reviews_path,
+  local_remote: false,
+  tags: nil,
+  places: @places,
+  events: nil
+} %>
+</div>
+
   <div class="row">
     <% @reviews.each do |review| %>
       <div class="col-md-4 mb-4"> <!-- 3列レイアウト -->

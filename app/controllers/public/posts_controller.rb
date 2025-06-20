@@ -95,7 +95,7 @@ class Public::PostsController < ApplicationController
     end
   
     # ページネーション
-    @posts = @posts.page(params[:page]).per(6)
+    @posts = @posts.page(params[:page]).per(9)
     @tags = Tag.all
     @places = Place.all
     @events = Event.all
