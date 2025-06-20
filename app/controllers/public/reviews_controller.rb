@@ -18,10 +18,24 @@ class Public::ReviewsController < ApplicationController
     end
   end
 
-  def index
-    @reviews = Review.includes(:post).order(created_at: :desc).page(params[:page]).per(6)
-  end
-  
+    def index
+      # 並び順を設定
+      order_option = case params[:sort]
+                     when "newest"
+                       { created_at: :desc }
+                     when "oldest"
+                       { created_at: :asc }
+                     when "highest"
+                       { score: :desc }
+                     when "lowest"
+                       { score: :asc }
+                     else
+                       { created_at: :desc } # デフォルト
+                     end
+    
+      @reviews = Review.includes(:post, :user).order(order_option).page(params[:page]).per(9)
+    end
+
   def show
     @review = Review.find(params[:id])
     rescue ActiveRecord::RecordNotFound

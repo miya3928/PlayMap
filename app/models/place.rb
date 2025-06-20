@@ -1,4 +1,9 @@
 class Place < ApplicationRecord
+  require 'jp_prefecture'
+  
+  include JpPrefecture
+  jp_prefecture :prefecture_code
+
   has_one_attached :image
   has_many :event_places, dependent: :destroy
   has_many :events, through: :event_places
@@ -8,9 +13,6 @@ class Place < ApplicationRecord
 
   geocoded_by :address
   after_validation :geocode, if: ->(obj){ obj.address.present? && obj.address_changed? }
-
-  include JpPrefecture
-  jp_prefecture :prefecture_code
 
   def prefecture_name
     JpPrefecture::Prefecture.find(code: prefecture_code).try(:name)
