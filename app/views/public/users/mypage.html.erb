@@ -17,6 +17,10 @@
               </strong>さん
             <% end %>
           </h2>
+          <!-- プロフィール画像 -->
+          <%= link_to edit_user_registration_path do %>
+           <%= display_image_or_default(@user.image, classes: "rounded-circle") %>
+          <% end %>
           <p class="text-muted mb-4">自己紹介</p>
           <p class="border rounded p-3 bg-light">
             <%= current_user.introduction.presence || "自己紹介がまだ登録されていません。" %>

@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_one_attached :image
   has_many :posts, dependent: :destroy
   has_many :reviews, dependent: :destroy
 
@@ -14,13 +15,13 @@ class User < ApplicationRecord
 
   def update_without_current_password(params, *options)
     params.delete(:current_password)
-
+  
     if params[:password].blank? && params[:password_confirmation].blank?
       params.delete(:password)
       params.delete(:password_confirmation)
     end
-
-    result = update_attributes(params, *options)
+  
+    result = update(params, *options) 
     clean_up_passwords
     result
   end

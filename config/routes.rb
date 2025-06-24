@@ -3,9 +3,6 @@ Rails.application.routes.draw do
   namespace :public do
     get 'tags/show'
   end
-  # user用
-  # URL /users/sign_in ...
-   get '/guest_login', to: 'public/sessions#guest_login', as: 'guest_login'
 
   devise_for :users, skip: [:passwords], controllers: {
     registrations: "public/registrations",
@@ -13,6 +10,7 @@ Rails.application.routes.draw do
   }
 
   devise_scope :user do
+    get '/guest_login', to: 'public/sessions#guest_login', as: 'guest_login'
     post 'users/guest_sign_in', to: 'public/sessions#guest_sign_in'
     get '/users/sign_in' => 'devise/sessions#new'
   end
