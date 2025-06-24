@@ -11,6 +11,9 @@
             <strong>ユーザー名:</strong> </br> <%= @user.name %>
           </div>
           <div class="mb-3">
+           <%= display_image_or_default(@user.image, classes: "rounded-circle") %>
+           </div>
+          <div class="mb-3">
             <strong>自己紹介:</strong> </br> <%= @user.introduction %>
           </div>
           <div class="mb-3">
