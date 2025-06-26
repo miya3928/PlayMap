@@ -1,13 +1,19 @@
 <div class="container text-center my-5 py-5 bg-white rounded shadow-lg" data-aos="fade-up">
   <h1 class="display-4 fw-bold text-primary mb-3">ようこそ <strong>PlayMap</strong> へ！</h1>
   <p class="lead text-muted mb-4">子どもたちの遊び場・イベントをみんなで共有しよう</p>
-  <%= link_to "今すぐ投稿する", new_post_path, class: "btn btn-primary btn-lg px-5" %>
+  <!-- 新規投稿ボタン -->
   <p class="mt-4">
-  <%= link_to "PlayMapの使い方を見る", about_path, class: "btn btn-outline-secondary" %>
-</p>
-<p class="mt-4">
-<%= link_to "ゲストログインはこちら", guest_login_path, class: "btn btn-outline-success" %>
-</p>
+    <%= link_to "投稿する", new_post_path, class: "btn btn-primary" %>
+  </p> 
+  <p class="mt-4">
+    <%= link_to "PlayMapの使い方を見る", about_path, class: "btn btn-outline-secondary" %>
+  </p>
+  <p class="mt-4">
+    <%= link_to "ゲストログインはこちら", guest_login_path, class: "btn btn-outline-success" %>
+  </p>
+  <p class="mt-4">
+    <%= link_to "新規登録はこちら", new_user_session_path, class: "btn btn-outline-primary" %>
+  </p>
 
   <!-- サービス紹介セクション -->
   <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
@@ -41,12 +47,17 @@
 </div>
 <br>
   <!-- 新規投稿セクション -->
-  <h2 class="fw-bold text-primary mb-4"><i class="fas fa-list text-dark me-1"></i>最新の投稿</h2>
+  <h2 class="fw-bold text-dark mb-4 border-bottom border-dark pb-2"><i class="fas fa-list text-dark me-1"></i>最新の投稿</h2>
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
     <% @posts.limit(3).each do |post| %>
       <div class="col">
         <div class="card h-100 shadow-sm border-0 hover-shadow">
           <div class="card-body">
+          <% if post.image.attached? %>
+            <%= image_tag post.image.variant(resize_to_fill: [300, 180]), class: "card-img-top" %>
+          <% else %>
+            <%= image_tag "noimage.png", class: "card-img-top" %>
+          <% end %>
             <h5 class="card-title text-primary font-weight-bold"><%= post.title %></h5>
             <p class="card-text text-muted"><%= truncate(post.body, length: 20) %></p>
             <%= link_to '続きを読む', post_path(post), class: 'btn btn-outline-primary btn-sm mt-3' %>
@@ -64,8 +75,8 @@
 </p>
 <br>
 
-  <h2 class="fw-bold text-dark my-4">
-   <i class="fas fa-star text- me-1"></i>最新のレビュー
+  <h2 class="fw-bold text-dark mb-4 border-bottom border-dark pb-2">
+   <i class="fas fa-star me-1"></i>最新のレビュー
   </h2>
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
     <% @reviews.limit(3).each do |review| %>
