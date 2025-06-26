@@ -1,3 +1,5 @@
+$("#posts-sort").html("<%= j(render 'public/posts/sort') %>");
+
 // 投稿のリストを更新
 $("#posts-list").html("<%= j render('public/posts/posts_list', posts: @posts) %>");
 

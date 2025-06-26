@@ -12,13 +12,14 @@
       <h1 class="card-title text-primary font-weight-bold"><%= @post.title %></h1>
       
       <!-- 投稿画像 -->
-      <% if @post.image.attached? %>
         <div class="text-center my-3">
-          <%= image_tag @post.image.variant(resize: "400x300"), class: "img-fluid rounded shadow-sm" %>
+         <%= display_image_or_default(@post.image, width: 400, height: 300, classes: "img-fluid rounded shadow-sm") %>
         </div>
-      <% end %>
 
-      <p class="text-muted">投稿者: <%= link_to @post.user.name, user_path(@post.user), class: "fw-bold text-decoration-none text-primary" %></p>
+      <p class="text-muted">
+      投稿者:<%= display_image_or_default(@post.user.image, width: 30, height: 30, classes: "rounded-circle me-1") %>
+            <%= link_to @post.user.name, user_path(@post.user), class: "fw-bold text-decoration-none text-primary" %>
+      </p>
       
       <!-- タグ -->
       <div class="d-flex flex-wrap gap-2 mb-3">
@@ -45,7 +46,11 @@
             <% @post.reviews.each do |review| %>
               <div class="col-md-6">
                 <div class="card shadow-sm p-3 rounded-lg">
-                  <p class="text-muted"><strong>投稿者:</strong> <%= link_to review.user.name, user_path(review.user), class: "text-decoration-none text-primary" %></p>
+                  <p class="text-muted">
+                    <strong>投稿者:</strong> 
+                    <%= display_image_or_default(review.user.image, width: 30, height: 30, classes: "rounded-circle me-1") %>
+                    <%= link_to review.user.name, user_path(review.user), class: "text-decoration-none text-primary" %>
+                  </p>
                   <div class="review-score" data-score="<%= review.score %>"></div>
                   <p class="mb-2"><%= simple_format(review.body) %></p>
                   <div class="text-end">
@@ -69,6 +74,7 @@
             <% @post.comments.each do |comment| %>
               <div class="card my-3 p-3 shadow-sm">
                 <p class="text-muted mb-1">
+                  <%= display_image_or_default(comment.user.image, width: 30, height: 30, classes: "rounded-circle me-1") %>
                   <strong class="text-primary"><%= comment.user.name %></strong> - <%= comment.created_at.strftime('%Y年%m月%d日 %H:%M') %>
                 </p>
                 <p class="mt-2"><%= simple_format(comment.body) %></p>

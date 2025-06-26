@@ -74,8 +74,9 @@ class Public::PostsController < ApplicationController
       @posts = @posts.joins(:tags).where(tags: { id: params[:tag_id] }).distinct
     end
   
-    if params[:place_id].present?
-      @posts = @posts.where(postable_id: params[:place_id], postable_type: "Place")
+    if params[:prefecture_code].present?
+      @posts = @posts.joins("INNER JOIN places ON places.id = posts.postable_id AND posts.postable_type = 'Place'")
+                     .where("places.prefecture_code = ?", params[:prefecture_code])
     end
   
     if params[:event_id].present?
