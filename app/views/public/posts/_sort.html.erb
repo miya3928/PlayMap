@@ -10,7 +10,8 @@
           <%= f.collection_select :tag_id, @tags, :id, :name, { include_blank: "タグ" }, class: "form-select form-select-sm rounded-pill" %>
         </div>
         <div class="col">
-          <%= f.collection_select :place_id, @places, :id, :name, { include_blank: "場所名" }, class: "form-select form-select-sm rounded-pill" %>
+          <%= f.label :prefecture_code, "都道府県", class: "form-label small text-muted" %>
+          <%= f.select :prefecture_code, options_for_select(JpPrefecture::Prefecture.all.map { |p| [p.name, p.code] }, selected: params[:prefecture_code]), { include_blank: "選択してください" }, class: "form-select form-select-sm rounded-pill" %>
         </div>
         <div class="col">
           <%= f.collection_select :event_id, @events, :id, :title, { include_blank: "イベント" }, class: "form-select form-select-sm rounded-pill" %>
@@ -27,9 +28,11 @@
     <% if params[:tag_id].present? %>
       <span class="badge  me-1">タグ: <%= Tag.find_by(id: params[:tag_id])&.name %></span>
     <% end %>
-    <% if params[:place_id].present? %>
-      <span class="badge me-1">場所: <%= Place.find_by(id: params[:place_id])&.name %></span>
-    <% end %>
+    <% if params[:prefecture_code].present? %>
+      <span class="badge me-1">
+        都道府県: <%= JpPrefecture::Prefecture.find(code: params[:prefecture_code].to_i)&.name %>
+      </span>
+<% end %>
     <% if params[:event_id].present? %>
       <span class="badge text-dark me-1">イベント: <%= Event.find_by(id: params[:event_id])&.title %></span>
     <% end %>

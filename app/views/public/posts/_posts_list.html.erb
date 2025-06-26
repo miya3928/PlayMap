@@ -2,15 +2,14 @@
   <% posts.each do |post| %>
     <div class="col-md-4 mb-4">
       <div class="card h-100 shadow-lg border-0">
-      <% if post.image.attached? %>
-      <%= image_tag post.image.variant(resize_to_fill: [400, 240]), class: "card-img-top rounded-top", style: "object-fit: cover;" %>
-    <% end %>
+        <%= display_image_or_default(post.image, width: 350, height: 150, classes: "img-fluid rounded") %>
         <div class="card-body">
           <h5 class="card-title fw-bold">
             <strong><%= link_to post.title, post_path(post), class: "text-decoration-none text-dark" %></strong>
           </h5>
           <p class="card-text text-muted"><%= truncate(post.body, length: 100) %></p>
           <p class="text-muted small">
+           <%= display_image_or_default(post.user.image, width: 30, height: 30, classes: "rounded-circle me-1") %>
             投稿者: <%= link_to post.user.name, user_path(post.user), class: "text-decoration-none text-primary" %>
           </p>
 
