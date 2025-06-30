@@ -1,6 +1,7 @@
 <%= render "public/shared/card",
   title: @place.name,
   description: @place.description,
+  image: @place.image,
   related_title: "関連イベント",
   related_items: @place.events,
   empty_message: "関連するイベントはありません。",
@@ -15,19 +16,6 @@
     link_to("新規イベント", new_event_path, class: "btn btn-outline-primary btn-lg mb-6")
   )
 %>
-
-<% if @place.image.attached? %>
-<div class="container my-5">
-<div class="card shadow-sm">
-<div class="card-body">
-<h1 class="card-title text-center"><%= @place.name %>の写真</h1>
-  <div class="mb-3">
-    <%= image_tag @place.image, class: "img-fluid rounded" %>
-  </div>
-<% end %>
-</div>
-</div>
-</div>
 
 <div class="container my-5">
 <div class="card shadow-sm">

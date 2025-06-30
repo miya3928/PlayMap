@@ -7,14 +7,16 @@
     <%= form_with url: posts_path, method: :get, remote: true, id: "filter-form" do |f| %>
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
         <div class="col">
-          <%= f.collection_select :tag_id, @tags, :id, :name, { include_blank: "タグ" }, class: "form-select form-select-sm rounded-pill" %>
+          <%= f.label :sort, "タグ", class: "form-label small text-muted" %>
+          <%= f.collection_select :tag_id, @tags, :id, :name, { include_blank: "選択してください" }, class: "form-select form-select-sm rounded-pill" %>
         </div>
         <div class="col">
           <%= f.label :prefecture_code, "都道府県", class: "form-label small text-muted" %>
           <%= f.select :prefecture_code, options_for_select(JpPrefecture::Prefecture.all.map { |p| [p.name, p.code] }, selected: params[:prefecture_code]), { include_blank: "選択してください" }, class: "form-select form-select-sm rounded-pill" %>
         </div>
         <div class="col">
-          <%= f.collection_select :event_id, @events, :id, :title, { include_blank: "イベント" }, class: "form-select form-select-sm rounded-pill" %>
+          <%= f.label :sort, "イベント", class: "form-label small text-muted" %>
+          <%= f.collection_select :event_id, @events, :id, :title, { include_blank: "選択してください" }, class: "form-select form-select-sm rounded-pill" %>
         </div>
         <div class="col">
           <%= f.label :sort, "並び順", class: "form-label small text-muted" %>

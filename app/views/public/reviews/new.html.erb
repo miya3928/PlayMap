@@ -1,31 +1,39 @@
 <div class="container my-5">
-  <div class="mb-4 d-flex justify-content-between align-items-center">
-    <%= link_to post_path(@post), class: "btn btn-secondary rounded-circle p-3 d-flex justify-content-center align-items-center shadow-sm hover-shadow-lg", style: "width:3rem;height:3rem;" do %>
-      <i class="fa-solid fa-arrow-left"></i> 
-    <% end %>
-  </div>
-  <h1>投稿内容</h1>
   <div class="card shadow-sm">
     <div class="card-body">
+      <div class="mb-4 d-flex justify-content-between align-items-center">
+        <%= link_to post_path(@post), class: "btn btn-secondary rounded-circle p-3 d-flex justify-content-center align-items-center shadow-sm hover-shadow-lg", style: "width:3rem;height:3rem;" do %>
+          <i class="fa-solid fa-arrow-left"></i> 
+        <% end %>
+  </div>
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h3>投稿内容</h3>
       <h2 class="card-title text-primary"><%= @post.title %></h2>
       <p class="card-text"><%= @post.body %></p>
       <p class="text-muted">カテゴリー: <%= @post.postable_type_display %></p>
       <p class="text-muted">関連情報: <%= @post.postable_details %></p>
-      <p class="text-muted">投稿者: <%= @post.user.name %></p>
+      <p class="text-muted">投稿者:
+        <%= display_image_or_default(@post.user.image, width: 30, height: 30, classes: "rounded-circle me-1") %>
+        <%= link_to @post.user.name, user_path(@post.user), class: "fw-bold text-decoration-none text-primary" %>
+      </p>
     </div>
   </div>
 
-  <div id="review-form" class="mt-4">
-    <h3 class="text-success">レビューを書く</h3>
-    <%= form_with model: [@post, @review], local: true do |f| %>
-      <div id="review-score" class="mb-3">
-        <%= f.hidden_field :score, id: "score-input" %>
+      <div id="review-form" class="mt-4">
+        <h1 class="text-success">レビューを書く</h1>
+        <p class="text-muted">この投稿について、星の数で評価してください</p>
+        <%= form_with model: [@post, @review], local: true do |f| %>
+          <div id="review-score" class="mb-3">
+            <%= f.hidden_field :score, id: "score-input" %>
+          </div>
+          <div class="mb-3">
+            <%= f.text_area :body, placeholder: "レビュー内容を記入してください", class: "form-control", rows: 5 %>
+          </div>
+            <%= f.submit "投稿する", class: "btn btn-primary" %>
+        <% end %>
       </div>
-      <div class="mb-3">
-        <%= f.text_area :body, placeholder: "レビュー内容を記入してください", class: "form-control", rows: 5 %>
-      </div>
-      <%= f.submit "投稿する", class: "btn btn-primary" %>
-    <% end %>
+    </div>
   </div>
 </div>
 
