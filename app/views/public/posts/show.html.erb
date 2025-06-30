@@ -1,4 +1,6 @@
 <div class="container my-5">
+<div class="card shadow-lg border-0 rounded-lg overflow-hidden">
+    <div class="card-body">
   <!-- 戻るボタン -->
   <div class="mb-4 d-flex">
     <%= link_to posts_path, class: "btn btn-secondary rounded-circle p-3 d-flex justify-content-center align-items-center shadow-sm", style: "width:3rem;height:3rem;" do %>
@@ -7,8 +9,6 @@
   </div>
 
   <!-- 投稿カード -->
-  <div class="card shadow-lg border-0 rounded-lg overflow-hidden">
-    <div class="card-body">
       <h1 class="card-title text-primary font-weight-bold"><%= @post.title %></h1>
       
       <!-- 投稿画像 -->
@@ -24,7 +24,9 @@
       <!-- タグ -->
       <div class="d-flex flex-wrap gap-2 mb-3">
         <% @post.tags.each do |tag| %>
-          <span class="badge bg-primary text-white"><%= link_to tag.name, tag_path(tag), class: "text-white text-decoration-none" %></span>
+           <p class="text-muted">
+            タグ：<span class="badge bg-primary text-white"><%= link_to tag.name, tag_path(tag), class: "text-white text-decoration-none" %></span>
+           </p>  
         <% end %>
       </div>
 
@@ -37,8 +39,8 @@
       <div class="mt-5">
         <div class="d-flex justify-content-between align-items-center">
           <h2 class="text-success font-weight-bold mb-0">レビュー</h2>
-          <%= link_to new_post_review_path(@post), class: "btn btn-success rounded-circle d-flex justify-content-center align-items-center", style: "width:2rem;height:2rem;" do %>
-            <i class="fa-solid fa-plus"></i>
+          <%= link_to new_post_review_path(@post),class: "btn btn-success rounded-circle d-flex justify-content-center align-items-center shadow", style: "width:3rem; height:3rem; font-size:1.5rem;" do %>
+            <i class="fa-regular fa-pen-to-square"></i>
           <% end %>
         </div>
         <% if @post.reviews.any? %>
@@ -92,6 +94,8 @@
       </div>
     </div>
   </div>
+</div>
+</div>
 </div>
 
 <script>
