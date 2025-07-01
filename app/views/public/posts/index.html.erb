@@ -13,7 +13,13 @@
 
   <!-- フィルター -->
   <div id="posts-sort">
-   <%= render 'public/posts/sort' %>
+  <%= render partial: "public/shared/filter_sort", locals: {
+    url: posts_path,
+    local_remote: false,
+    tags: @tags,
+    places: @places,
+    events: @events
+  } %>
   </div>
 
   <!-- 投稿リスト -->

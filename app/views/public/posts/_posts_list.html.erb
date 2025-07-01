@@ -2,7 +2,7 @@
   <% posts.each do |post| %>
     <div class="col-md-4 mb-4">
       <div class="card h-100 shadow-lg border-0">
-        <%= display_image_or_default(post.image, width: 350, height: 150, classes: "img-fluid rounded") %>
+       <%= display_image_or_default(post.image, width: 300, height: 180, classes: "card-img-top") %>
         <div class="card-body">
           <h5 class="card-title fw-bold">
             <strong><%= link_to post.title, post_path(post), class: "text-decoration-none text-dark" %></strong>

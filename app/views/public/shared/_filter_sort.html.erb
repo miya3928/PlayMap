@@ -14,9 +14,6 @@
 
         <% if defined?(places) && places.present? %>
           <div class="col">
-            <%= f.collection_select :place_id, places, :id, :name, { include_blank: "場所名" }, class: "form-select form-select-sm rounded-pill" %>
-          </div>
-          <div class="col">
             <%= f.select :prefecture_code,
             options_for_select(JpPrefecture::Prefecture.all.map { |p| [p.name, p.code] }, params[:prefecture_code]),
             { include_blank: "都道府県" },
@@ -31,8 +28,7 @@
         <% end %>
 
         <div class="col">
-          <%= f.label :sort, "並び順", class: "form-label small text-muted" %>
-          <%= f.select :sort, [["新しい順", "newest"],["古い順", "oldest"],["高評価", "highest"],["低評価", "lowest"]], { include_blank: "選択してください" }, class: "form-select form-select-sm rounded-pill" %>
+          <%= f.select :sort, [["新しい順", "newest"],["古い順", "oldest"],["高評価", "highest"],["低評価", "lowest"]], { include_blank: "並び順" }, class: "form-select form-select-sm rounded-pill" %>
         </div>
       </div>
 
