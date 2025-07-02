@@ -1,0 +1,11 @@
+<% if current_user.comment_likes.exists?(comment: comment) %>
+<%= link_to comment_comment_likes_path(comment), method: :delete, remote: true, class: "btn btn-sm btn-outline-danger" do %>
+  <i class="fa-solid fa-thumbs-up"></i> 
+  <small><%= comment.comment_likes.count %></small>
+<% end %>
+<% else %>
+<%= link_to comment_comment_likes_path(comment), method: :post, remote: true, class: "btn btn-sm btn-outline-dark" do %>
+  <i class="fa-regular fa-thumbs-up"></i>
+  <small><%= comment.comment_likes.count %></small>
+<% end %>
+<% end %>

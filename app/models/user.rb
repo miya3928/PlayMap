@@ -2,6 +2,8 @@ class User < ApplicationRecord
   has_one_attached :image
   has_many :posts, dependent: :destroy
   has_many :reviews, dependent: :destroy
+  has_many :comment_likes, dependent: :destroy
+  has_many :liked_comments, through: :comment_likes, source: :comment
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable

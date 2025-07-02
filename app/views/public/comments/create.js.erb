@@ -1,5 +1,4 @@
 // コメント一覧を新しいコメントで更新
 $('#comments-list').html('<%= j render partial: "public/comments/lists", locals: { commetable: @commetable } %>');
-
 // フォームをリセット
 $('#new_comment_form')[0].reset();

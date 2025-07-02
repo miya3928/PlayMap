@@ -1,14 +1,23 @@
 <div id="comments-list">
-  <!-- コメント一覧 -->
   <% if defined?(commetable) && commetable.present? && commetable.comments.present? %>
     <% commetable.comments.each do |comment| %>
-      <div id="comment-<%= comment.id %>">
-        <p><strong><%= comment.user.name %></strong>: <%= comment.body %></p>
-        <% if comment.user == current_user %>
-          <%= link_to '削除', polymorphic_path([commetable, comment]), method: :delete, 
+      <div id="comment-<%= comment.id %>" class="mb-3">
+        <p>
+          <strong><%= display_image_or_default(comment.user.image, width: 30, height: 30, classes: "rounded-circle me-1") %>
+          <%= comment.user.name %></strong>: 
+          <%= comment.body %>
+        </p>
+        <div class="d-flex gap-2 align-items-center mb-2">
+          <!-- いいねボタン -->
+          <div id="comment-<%= comment.id %>-likes">
+            <%= render 'public/comment_likes/likes', comment: comment %>
+          </div>
+          <% if comment.user == current_user %>
+            <%= link_to '削除', polymorphic_path([commetable, comment]), method: :delete, 
                       data: { confirm: '本当に削除しますか？' }, 
                       class: 'btn btn-danger btn-sm' %>
-        <% end %>
+          <% end %>
+        </div>
       </div>
     <% end %>
   <% else %>
