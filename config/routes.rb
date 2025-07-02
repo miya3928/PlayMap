@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   namespace :public do
     get 'tags/show'
   end
@@ -21,6 +20,7 @@ Rails.application.routes.draw do
     get '/mypage', to: 'users#mypage', as: 'mypage'
     get '/search', to: 'searches#search', as: 'search'
     get 'search_address', to: 'places#search_address'
+
     resources :users, only: [:create, :show, :edit, :update, :destroy]
     resources :tags, only: [:index, :show] do
       collection do
@@ -30,21 +30,20 @@ Rails.application.routes.draw do
     resources :places do
       resources :posts,only: [:new, :create]
     end  
-
     resources :events do
       resources :posts, only: [:new, :create]
-    end  
-
+    end 
     resources :posts do
       resources :reviews
       resources :comments, only: [:create, :destroy]
     end
-
     resources :reviews do
       resources :comments, only: [:create, :destroy]
     end
+    resources :comments do
+      resource :comment_likes, only: [:create, :destroy]
+    end
   end
-
   # 管理者用
   devise_for :admin,path: 'admin', skip: [:registrations, :passwords], controllers: {
     sessions: 'admin/sessions'
