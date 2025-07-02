@@ -1,26 +1,52 @@
 <div id="comments-list">
-  <% if defined?(commetable) && commetable.present? && commetable.comments.present? %>
-    <% commetable.comments.each do |comment| %>
-      <div id="comment-<%= comment.id %>" class="mb-3">
-        <p>
-          <strong><%= display_image_or_default(comment.user.image, width: 30, height: 30, classes: "rounded-circle me-1") %>
-          <%= comment.user.name %></strong>: 
-          <%= comment.body %>
-        </p>
-        <div class="d-flex gap-2 align-items-center mb-2">
-          <!-- いいねボタン -->
-          <div id="comment-<%= comment.id %>-likes">
-            <%= render 'public/comment_likes/likes', comment: comment %>
-          </div>
-          <% if comment.user == current_user %>
-            <%= link_to '削除', polymorphic_path([commetable, comment]), method: :delete, 
-                      data: { confirm: '本当に削除しますか？' }, 
-                      class: 'btn btn-danger btn-sm' %>
-          <% end %>
+  <% commetable.comments.where(parent_id: nil).each do |comment| %>
+    <div id="comment-<%= comment.id %>" class="mb-3">
+      <p class="mb-1">
+        <strong>
+          <%= display_image_or_default(comment.user.image, width: 30, height: 30, classes: "rounded-circle me-1") %>
+          <%= comment.user.name %>
+        </strong>
+          <span class="ms-2 text-muted small"><i class="fas fa-clock"></i> <%= l(comment.created_at, format: :short) %></span>
+      </p>
+      <p class="mb-2"><%= comment.body %></p>
+
+      <div class="d-flex gap-2 align-items-center mb-2">
+        <!-- いいねボタン -->
+        <div id="comment-<%= comment.id %>-likes">
+          <%= render 'public/comment_likes/likes', comment: comment %>
         </div>
+
+        <!-- 返信ボタン -->
+        <%= link_to "返信", "#", class: "btn btn-sm btn-outline-secondary", data: { toggle: "reply-form-#{comment.id}" } %>
+
+        <% if comment.user == current_user %>
+          <%= link_to '削除', polymorphic_path([commetable, comment]), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
+        <% end %>
+
       </div>
-    <% end %>
-  <% else %>
-    <p>コメントはまだありません。</p>
+      
+      <!-- 返信フォーム（非表示） -->
+      <div id="reply-form-<%= comment.id %>" style="display: none;" class="mb-2">
+        <%= form_with model: [commetable, Comment.new], local: true do |f| %>
+          <%= f.hidden_field :commetable_type, value: commetable.class.name %>
+          <%= f.hidden_field :commetable_id, value: commetable.id %>
+          <%= f.hidden_field :parent_id, value: comment.id %>
+          <%= f.text_area :body, rows: 2, class: "form-control", placeholder: "返信を書く..." %>
+          <%= f.submit "返信", class: "btn btn-sm btn-primary mt-1" %>
+        <% end %>
+      </div>
+
+      <!-- 返信一覧（ネスト） -->
+      <% comment.replies.each do |reply| %>
+        <div id="comment-<%= reply.id %>" class="ms-4 border-start ps-3 mt-2 bg-light rounded py-2 px-3">
+          <p class="mb-1 small text-muted">
+            <%= display_image_or_default(reply.user.image, width: 24, height: 24, classes: "rounded-circle me-1") %>
+            <strong><%= reply.user.name %></strong>
+            <span class="ms-2"><i class="fas fa-clock"></i> <%= l(reply.created_at, format: :short) %></span>
+          </p>
+          <p class="mb-0 small"><%= reply.body %></p>
+        </div>
+      <% end %>
+    </div>
   <% end %>
 </div>
