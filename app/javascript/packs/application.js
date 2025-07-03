@@ -7,6 +7,7 @@ import "popper.js";
 import "bootstrap";
 import "../stylesheets/application";
 import "./filters.js";
+import "./reply.js";
 import "./jpostal.js";
 
 

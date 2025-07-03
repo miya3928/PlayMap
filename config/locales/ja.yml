@@ -19,7 +19,8 @@ ja:
         place:
           attributes:
             address:
-              blank: "住所を入力してください"      
+              blank: "住所を入力してください"
+
   devise:
     failure:
       unauthenticated: "サインインまたはサインアップして続行する必要があります"
@@ -39,6 +40,7 @@ ja:
     passwords:
       send_instructions: "パスワードリセット手順が送信されました"
       updated: "パスワードが更新されました"
+
   datetime:
     distance_in_words:
       about_x_hours:
@@ -51,12 +53,13 @@ ja:
       hour: 時
       minute: 分
       second: 秒
+
   date:
-    order: 
+    order:
       - :year
       - :month
       - :day
-    month_names: 
+    month_names:
       - ~
       - "1月"
       - "2月"
@@ -84,3 +87,7 @@ ja:
       - "10月"
       - "11月"
       - "12月"
+
+  time:
+    formats:
+      short: "%Y/%m/%d %H:%M"

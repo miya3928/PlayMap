@@ -52,6 +52,6 @@ class Public::CommentsController < ApplicationController
   end
 
   def comment_params
-    params.require(:comment).permit(:body, :commetable_type, :commetable_id)
+    params.require(:comment).permit(:body, :commetable_type, :commetable_id, :parent_id)
   end
 end

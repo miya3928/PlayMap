@@ -38,6 +38,7 @@ class Public::ReviewsController < ApplicationController
 
   def show
     @review = Review.find(params[:id])
+    @post = @review.post
     rescue ActiveRecord::RecordNotFound
       redirect_to posts_path, alert: "指定されたレビューが見つかりません。"
   end
