@@ -3,6 +3,10 @@
   <%= f.hidden_field :commetable_id, value: commetable.id %>
 
   <div class="form-group">
+    <div class="d-flex align-items-center mb-2">
+      <%= display_image_or_default(current_user.image, width: 30, height: 30, classes: "rounded-circle me-2") %>
+      <%= current_user.name %>さん
+    </div>  
     <%= f.text_area :body, placeholder: "コメントを入力してください", class: "form-control", id: "comment_body" %>
   </div>
   <%= f.submit "コメントする", class: "btn btn-primary" %>

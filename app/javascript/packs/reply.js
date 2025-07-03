@@ -18,7 +18,7 @@ document.addEventListener("turbolinks:load", () => {
       if (repliesBox) {
         const isHidden = repliesBox.style.display === "none";
         repliesBox.style.display = isHidden ? "block" : "none";
-        btn.innerHTML = isHidden ? "▼ 非表示" : "▶ 表示";
+        btn.innerHTML = isHidden ? "▼ 返信を非表示" : "▶ 返信を表示";
       }
     });
   });

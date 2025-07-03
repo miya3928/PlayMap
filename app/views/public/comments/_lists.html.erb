@@ -1,13 +1,13 @@
 <div id="comments-list">
   <% commetable.comments.where(parent_id: nil).each do |comment| %>
-    <div id="comment-<%= comment.id %>" class="mb-3">
+    <div id="comment-<%= comment.id %>" class="mb-4 border-bottom pb-3">
 
-      <p>
-        <%= display_image_or_default(comment.user.image, width: 30, height: 30, classes: "rounded-circle me-1") %>
-         <strong><%= comment.user.name %></strong>
-         <i class="fa-regular fa-clock"></i>
-         <%= l(comment.created_at, format: :short) %>
-      </p>
+      <div class="d-flex align-items-center mb-2">
+        <%= display_image_or_default(comment.user.image, width: 30, height: 30, classes: "rounded-circle me-2") %>
+        <strong><%= comment.user.name %></strong>
+        <span class="ms-2 text-muted small"><i class="fa-regular fa-clock me-1"></i><%= l(comment.created_at, format: :short) %></span>
+      </div>
+
       <p class="mb-2"><%= comment.body %></p>
 
       <div class="d-flex gap-2 align-items-center mb-2">
@@ -29,22 +29,23 @@
         <% end %>
       </div>
 
-      <!-- ▼ 返信の折りたたみ部分 -->
+      <!-- ▼ 返信の折りたたみ -->
       <% replies = comment.replies %>
       <% if replies.any? %>
         <p class="text-muted small">
-           <%= replies.count %>件の返信
-          <a href="#" class="toggle-replies text-primary small" data-target="replies-<%= comment.id %>">▶ 表示</a>
+          💬 <%= replies.count %>件の返信
+          <a href="#" class="toggle-replies text-primary small" data-target="replies-<%= comment.id %>">▶ コメント表示</a>
         </p>
 
         <div id="replies-<%= comment.id %>" style="display: none;" class="ms-4 border-start ps-3">
           <% replies.each do |reply| %>
-            <div class="mb-2">
-              <%= display_image_or_default(comment.user.image, width: 30, height: 30, classes: "rounded-circle me-1") %>
-              <strong><%= reply.user.name %></strong>
-              <i class="fa-regular fa-clock"></i>
-              <%= l(reply.created_at, format: :short) %><br>
-              <%= reply.body %>
+            <div class="mb-3">
+              <div class="d-flex align-items-center mb-1">
+                <%= display_image_or_default(reply.user.image, width: 30, height: 30, classes: "rounded-circle me-2") %>
+                <strong><%= reply.user.name %></strong>
+                <span class="ms-2 text-muted small"><i class="fa-regular fa-clock me-1"></i><%= l(reply.created_at, format: :short) %></span>
+              </div>
+              <p class="mb-1"><%= reply.body %></p>
             </div>
           <% end %>
         </div>
