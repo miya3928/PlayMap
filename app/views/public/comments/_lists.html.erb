@@ -2,21 +2,27 @@
   <% commetable.comments.where(parent_id: nil).each do |comment| %>
     <div id="comment-<%= comment.id %>" class="mb-4 border-bottom pb-3">
 
-      <div class="d-flex align-items-center mb-2">
-        <%= display_image_or_default(comment.user.image, width: 30, height: 30, classes: "rounded-circle me-2") %>
-        <strong><%= comment.user.name %></strong>
-        <span class="ms-2 text-muted small"><i class="fa-regular fa-clock me-1"></i><%= l(comment.created_at, format: :short) %></span>
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <div class="d-flex align-items-center">
+          <%= display_image_or_default(comment.user.image, width: 30, height: 30, classes: "rounded-circle me-2") %>
+          <strong><%= comment.user.name %></strong>
+          <span class="ms-2 text-muted small">
+            <i class="fa-regular fa-clock me-1"></i><%= l(comment.created_at, format: :short) %>
+          </span>
+        </div>
+
+        <div class="d-flex gap-2 align-items-center">
+          <div id="comment-<%= comment.id %>-likes">
+            <%= render 'public/comment_likes/likes', comment: comment %>
+          </div>
+          <%= link_to "返信", "#", class: "btn btn-sm btn-outline-secondary", data: { toggle: "reply-form-#{comment.id}" } %>
+          <% if comment.user == current_user %>
+            <%= link_to '削除', polymorphic_path([commetable, comment]), method: :delete, data: { confirm: '削除しますか？' }, class: 'btn btn-sm btn-danger' %>
+          <% end %>
+        </div>
       </div>
 
       <p class="mb-2"><%= comment.body %></p>
-
-      <div class="d-flex gap-2 align-items-center mb-2">
-        <%= render 'public/comment_likes/likes', comment: comment %>
-        <%= link_to "返信", "#", class: "btn btn-sm btn-outline-secondary", data: { toggle: "reply-form-#{comment.id}" } %>
-        <% if comment.user == current_user %>
-          <%= link_to '削除', polymorphic_path([commetable, comment]), method: :delete, data: { confirm: '削除しますか？' }, class: 'btn btn-sm btn-danger' %>
-        <% end %>
-      </div>
 
       <!-- 返信フォーム -->
       <div id="reply-form-<%= comment.id %>" style="display: none;" class="mb-2">
@@ -40,11 +46,25 @@
         <div id="replies-<%= comment.id %>" style="display: none;" class="ms-4 border-start ps-3">
           <% replies.each do |reply| %>
             <div class="mb-3">
-              <div class="d-flex align-items-center mb-1">
-                <%= display_image_or_default(reply.user.image, width: 30, height: 30, classes: "rounded-circle me-2") %>
-                <strong><%= reply.user.name %></strong>
-                <span class="ms-2 text-muted small"><i class="fa-regular fa-clock me-1"></i><%= l(reply.created_at, format: :short) %></span>
+              <div class="d-flex align-items-center justify-content-between mb-1">
+                <div class="d-flex align-items-center">
+                  <%= display_image_or_default(reply.user.image, width: 30, height: 30, classes: "rounded-circle me-2") %>
+                  <strong><%= reply.user.name %></strong>
+                  <span class="ms-2 text-muted small">
+                    <i class="fa-regular fa-clock me-1"></i><%= l(reply.created_at, format: :short) %>
+                  </span>
+                </div>
+
+                <div class="d-flex gap-2 align-items-center">
+                  <div id="comment-<%= reply.id %>-likes">
+                    <%= render 'public/comment_likes/likes', comment: reply %>
+                  </div>
+                  <% if reply.user == current_user %>
+                    <%= link_to '削除', polymorphic_path([commetable, reply]), method: :delete, data: { confirm: '削除しますか？' }, class: 'btn btn-sm btn-danger' %>
+                  <% end %>
+                </div>
               </div>
+
               <p class="mb-1"><%= reply.body %></p>
             </div>
           <% end %>
