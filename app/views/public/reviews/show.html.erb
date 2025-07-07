@@ -18,7 +18,7 @@
         <p class="mb-2">
           <strong>投稿者:</strong>
           <%= display_image_or_default(@review.user.image, width: 30, height: 30, classes: "rounded-circle me-1") %>
-          <%= link_to @review.user.name, user_path(@review.user), class: "text-decoration-none text-primary fw-bold" %>
+          <%= link_to @review.user.name, user_path(@review.user), class: "text-decoration-none text-primary fw-bold" %>さん
         </p>
 
         <div class="review-score mb-3" data-score="<%= @review.score %>"></div>
@@ -29,7 +29,7 @@
       <!-- 元の投稿の簡易表示 -->
       <div class="card bg-light border-0 shadow-sm mb-5">
         <div class="card-body">
-          <h5 class="text-muted fw-bold">📌 このレビューに関連する投稿</h5>
+          <h5 class="text-muted fw-bold">📌 レビュー元の投稿</h5>
           <p class="mb-1"><strong>タイトル:</strong> <%= link_to @post.title, post_path(@post), class: "text-decoration-none text-primary" %></p>
           <p class="mb-1"><strong>カテゴリ:</strong> <%= @post.postable_type_display %></p>
           <p class="mb-1"><strong>内容:</strong> <%= truncate(@post.body, length: 100) %></p>
