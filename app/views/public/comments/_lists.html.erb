@@ -25,7 +25,7 @@
       <p class="mb-2"><%= comment.body %></p>
 
       <!-- 返信フォーム -->
-      <div id="reply-form-<%= comment.id %>" style="display: none;" class="mb-2">
+      <div id="reply-form-<%= comment.id %>" class="d-none mb-2">
         <%= form_with model: [commetable, Comment.new], local: true do |f| %>
           <%= f.hidden_field :commetable_type, value: commetable.class.name %>
           <%= f.hidden_field :commetable_id, value: commetable.id %>
@@ -43,7 +43,7 @@
           <a href="#" class="toggle-replies text-primary small" data-target="replies-<%= comment.id %>">▶ コメント表示</a>
         </p>
 
-        <div id="replies-<%= comment.id %>" style="display: none;" class="ms-4 border-start ps-3">
+        <div id="replies-<%= comment.id %>" class="d-none ms-4 border-start ps-3">
           <% replies.each do |reply| %>
             <div class="mb-3">
               <div class="d-flex align-items-center justify-content-between mb-1">

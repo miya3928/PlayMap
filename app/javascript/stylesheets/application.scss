@@ -1,18 +1,16 @@
 @use '~bootstrap/scss/bootstrap';
 
-body {
-    background-image: url("../images/bg_image.png");
-}
+@import "base";
 
-@import 'bootstrap/scss/bootstrap';
+@import "components/buttons";
+@import "components/cards";
+@import "components/forms";
+@import "components/maps";
+@import "components/searches";
 
-.form-container {
-    text-align: center;
-  }
-  
-  .form-container input,
-  .form-container textarea,
-  .form-container label {
-    display: block;
-    margin: 0 auto;
-  }
+@import "pages/admin/header";
+@import "pages/admin/tags";
+@import "pages/admin/users";
+
+@import "pages/public/posts";
+@import "pages/public/reviews";
