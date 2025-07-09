@@ -1,6 +1,7 @@
 <%= render "public/shared/card",
   title: @event.title,
   description: @event.body,
+  image: @event.image,
   related_title: "関連場所",
   related_items: @event.places,
   empty_message: "関連する場所はありません。",
@@ -15,4 +16,9 @@
     link_to("場所追加", new_place_path, class: "btn btn-outline-primary btn-lg mb-6")
   )
 %>
-<%= link_to "投稿を作成", new_event_post_path(@event), class: "btn btn-primary" %>
+<div class="container my-5">
+  <!-- 投稿セクション -->
+  <%= render "public/shared/post_list", posts: @event.posts, title: "このイベントの投稿" %>
+  <!-- レビューセクション -->
+  <%= render "public/shared/review_list", reviews: @event.posts.flat_map(&:reviews), title: "このイベントのレビュー" %>
+</div>

@@ -1,18 +1,19 @@
+<div class="container my-5 py-5 px-4 post-list-wrapper">
 <h1 class="text-center my-4">レビューリスト</h1>
 <div class="container">
 
 <!-- リンク -->
 <div class="mb-4 d-flex justify-content-between align-items-center">
   <!-- 新規投稿ボタン（アイコン付き、丸いボタン） -->
-  <%= link_to new_post_path, class: "btn btn-primary rounded-circle p-0 d-flex justify-content-center align-items-center", style: "width:2rem;height:2rem;" do %>
-    <i class="fa-solid fa-plus"></i> <!-- アイコンのサイズを大きくして中央に配置 -->
+  <%= link_to new_review_path, class: "btn btn-primary rounded-circle p-0 d-flex justify-content-center align-items-center", style: "width:2rem;height:2rem;" do %>
+    <i class="fa-solid fa-star"></i>
   <% end %>
 
   <!-- その他のリンク（レビュー、場所、イベント一覧） -->
   <div>
-    <%= link_to "投稿一覧", posts_path, class: "btn btn-info btn-sm me-2" %>
-    <%= link_to "場所一覧", places_path, class: "btn btn-secondary btn-sm me-2" %>
-    <%= link_to "イベント一覧", events_path, class: "btn btn-secondary btn-sm" %>
+    <%= link_to "投稿一覧", posts_path, class: "btn btn-custom btn-info btn-sm me-2" %>
+    <%= link_to "場所一覧", places_path, class: "btn btn-custom btn-secondary btn-sm me-2" %>
+    <%= link_to "イベント一覧", events_path, class: "btn btn-custom btn-secondary btn-sm" %>
   </div>
 </div>
 
@@ -57,25 +58,4 @@
     <%= paginate @reviews %>
   </div>
 </div>
-
-<script>
-document.addEventListener("turbolinks:load", () => {
-  document.querySelectorAll(".review-score:not(.raty-applied)").forEach((elem) => {
-    const score = parseFloat(elem.dataset.score);
-    
-    raty(elem, {
-      readonly: true,
-      score: score,
-      number: 5,
-      starOn: "<%= asset_path('star-on.png') %>",
-      starOff: "<%= asset_path('star-off.png') %>",
-      starHalf: "<%= asset_path('star-half.png') %>",
-    });
-
-    elem.classList.add('raty-applied'); // 適用済みの要素にクラスを付与
-    elem.querySelectorAll('img').forEach((star) => {
-      star.style.pointerEvents = 'none'; // 星マーク画像のクリックイベントを無効化
-    });
-  });
-});
-</script>
+</div>

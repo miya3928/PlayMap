@@ -1,17 +1,18 @@
+<div class="container my-5 py-5 px-4 post-list-wrapper">
 <h1 class="text-center my-4">イベント一覧</h1>
 <div class="container">
 <!-- リンク -->
 <div class="mb-4 d-flex justify-content-between align-items-center">
   <!-- 新規投稿ボタン（アイコン付き、丸いボタン） -->
   <%= link_to new_event_path, class: "btn btn-primary rounded-circle p-0 d-flex justify-content-center align-items-center", style: "width:2rem;height:2rem;" do %>
-    <i class="fa-solid fa-plus"></i> <!-- アイコンのサイズを大きくして中央に配置 -->
+    <i class="fa-solid fa-calendar-plus"></i>
   <% end %>
 
   <!-- その他のリンク（レビュー、場所、イベント一覧） -->
   <div>
-    <%= link_to "投稿一覧", posts_path, class: "btn btn-info btn-sm me-2" %>
-    <%= link_to "レビューリスト", reviews_path, class: "btn btn-success btn-sm me-2" %>
-    <%= link_to "イベント一覧", places_path, class: "btn btn-secondary btn-sm" %>
+    <%= link_to "投稿一覧", posts_path, class: "btn btn-custom btn-info btn-sm me-2" %>
+    <%= link_to "レビューリスト", reviews_path, class: "btn btn-custom btn-success btn-sm me-2" %>
+    <%= link_to "場所一覧", places_path, class: "btn btn-custom btn-secondary btn-sm" %>
   </div>
 </div>
 
@@ -49,4 +50,5 @@
   <div class="d-flex justify-content-center mt-4">
     <%= paginate @events %>
   </div>
+</div>
 </div>

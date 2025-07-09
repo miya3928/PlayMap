@@ -1,0 +1,9 @@
+<div class="card bg-light border-0 shadow-sm mb-5">
+  <div class="card-body">
+    <h5 class="text-muted fw-bold">📌 レビュー元の投稿</h5>
+    <p class="mb-1"><strong>タイトル:</strong> <%= link_to post.title, post_path(post), class: "text-decoration-none text-primary" %></p>
+    <p class="mb-1"><strong>カテゴリ:</strong> <%= post.postable_type_display %></p>
+    <p class="mb-1"><strong>内容:</strong> <%= truncate(post.body, length: 100) %></p>
+    <p class="text-muted small">投稿日時：<%= l(post.created_at, format: :short) %></p>
+  </div>
+</div>

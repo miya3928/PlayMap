@@ -1,0 +1,11 @@
+<div class="card mb-4">
+  <div class="card-body">
+    <h3 class="text-success fw-bold mb-3"><%= title || "レビュー一覧" %></h3>
+    <% reviews.each do |review| %>
+      <p><strong><%= review.score %></strong> ★</p>
+      <p><%= truncate(review.body, length: 100) %></p>
+      <%= link_to "レビュー詳細", post_review_path(review.post, review), class: "btn btn-sm btn-outline-primary mb-3" %>
+      <hr>
+    <% end %>
+  </div>
+</div>
