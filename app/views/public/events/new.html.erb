@@ -15,6 +15,16 @@
           <%= f.label :body, 'イベント内容', class: 'form-label' %>
           <%= f.text_area :body, class: 'form-control', placeholder: 'イベント内容を入力してください', rows: 5 %>
         </div>
+
+        <div class="form-group">
+         <%= f.label :image, "画像アップロード" %>
+         <%= f.file_field :image, class: "form-control" %>
+        </div>
+
+        <!-- 画像プレビュー -->
+        <%= form.file_field :image, accept: "image/*", class: "form-control", id: "event_image" %>
+        <img id="event-image-preview" class="img-fluid mt-2 rounded shadow-sm d-none" style="max-height: 300px;">
+        
         
         <!-- 開始日時 -->
         <div class="mb-3">

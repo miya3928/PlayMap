@@ -5,12 +5,14 @@ import "channels"
 import "popper.js";
 import "bootstrap";
 import "../stylesheets/application";
+
 import "./filters.js";
+import "./image_preview.js";
 import "./jpostal.js";
 import "./map.js"; 
 import "./post.js";
-import "./raty-display.js";
-import "./raty-form.js";
+import "./raty_display.js";
+import "./raty_form.js";
 import "./reply.js";
 
 import Raty from "../lib/raty.js";

@@ -19,6 +19,8 @@
           <%= display_image_or_default(@review.user.image, width: 30, height: 30, classes: "rounded-circle me-1") %>
           <%= link_to @review.user.name, user_path(@review.user), class: "text-decoration-none text-primary fw-bold" %>さん
         </p>
+        <!-- 画像 -->
+          <%= display_image_or_default(review.image, width: 300, height: 180, classes: "card-img-top") %>
         <div class="review-score mb-3" data-score="<%= @review.score %>"></div>
         <p class="mb-4"><%= simple_format(@review.body) %></p>
       </div>

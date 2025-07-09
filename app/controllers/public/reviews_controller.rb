@@ -78,6 +78,6 @@ class Public::ReviewsController < ApplicationController
   end  
 
   def review_params
-    params.require(:review).permit(:score, :body)
+    params.require(:review).permit(:score, :body, :image)
   end 
 end

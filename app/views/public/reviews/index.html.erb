@@ -33,11 +33,14 @@
         <div class="card h-100"> <!-- 高さを揃える -->
           <div class="card-body">
             <h5 class="card-title">
+            <!-- 画像 -->
+            <%= display_image_or_default(review.image, width: 300, height: 180, classes: "card-img-top") %>
             <div class="review-score mb-2" data-score="<%= review.score %>"></div>
             </h5>
             <p class="card-text"><%= truncate(review.body, length: 30) %></p>
             <p class="text-muted mb-2">
               <strong>レビュー投稿者：</strong>
+              <%= display_image_or_default(review.user.image, width: 30, height: 30, classes: "rounded-circle me-1") %>
               <%= link_to review.user.name, user_path(review.user), class: "text-decoration-none text-primary" %>
             </p>
             <p class="text-muted">
