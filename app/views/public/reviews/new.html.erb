@@ -6,6 +6,7 @@
           <i class="fa-solid fa-arrow-left"></i> 
         <% end %>
   </div>
+  
   <div class="card shadow-sm">
     <div class="card-body">
       <h3>投稿内容</h3>
@@ -36,32 +37,3 @@
     </div>
   </div>
 </div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/raty/2.9.0/jquery.raty.min.js"></script>
-<script>
-document.addEventListener("turbolinks:load", function() {  
-  setTimeout(function() {
-    if (typeof $ !== 'undefined' && $.fn.raty) {
-      const $elem = $("#review-score");
-      const $scoreInput = $("#score-input");
-
-      if ($elem.length && $scoreInput.length) {
-        $elem.raty({
-          scoreName: "review[score]",
-          number: 5,
-          half: true,
-          starOn: "<%= asset_path('star-on.png') %>",
-          starOff: "<%= asset_path('star-off.png') %>",
-          starHalf: "<%= asset_path('star-half.png') %>",
-          score: $scoreInput.val() || 0,
-          click: function(score) {
-            $scoreInput.val(score);
-          }
-        });
-      }
-    } else {
-      console.error("Raty is not loaded correctly.");
-    }
-  }, 500);
-});
-</script>

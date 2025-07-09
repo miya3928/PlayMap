@@ -1,0 +1,10 @@
+<div class="card mb-4">
+  <div class="card-body">
+    <h3 class="text-primary fw-bold mb-3"><%= title || "投稿一覧" %></h3>
+    <% posts.each do |post| %>
+      <h5><%= link_to post.title, post_path(post) %></h5>
+      <p><%= truncate(post.body, length: 100) %></p>
+      <hr>
+    <% end %>
+  </div>
+</div>

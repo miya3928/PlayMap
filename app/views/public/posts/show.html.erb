@@ -9,16 +9,14 @@
   </div>
 
   <!-- 投稿カード -->
-      <h1 class="card-title text-primary font-weight-bold"><%= @post.title %></h1>
-      
+      <h1 class="card-title text-primary font-weight-bold"><%= @post.title %></h1>    
       <!-- 投稿画像 -->
         <div class="text-center my-3">
          <%= display_image_or_default(@post.image, width: 400, height: 300, classes: "img-fluid rounded shadow-sm") %>
         </div>
-
       <p class="text-muted">
       投稿者:<%= display_image_or_default(@post.user.image, width: 30, height: 30, classes: "rounded-circle me-1") %>
-            <%= link_to @post.user.name, user_path(@post.user), class: "fw-bold text-decoration-none text-primary" %>
+            <%= link_to @post.user.name, user_path(@post.user), class: "fw-bold text-decoration-none text-primary" %>さん
       </p>
       
       <!-- タグ -->
@@ -51,7 +49,7 @@
                   <p class="text-muted">
                     <strong>投稿者:</strong> 
                     <%= display_image_or_default(review.user.image, width: 30, height: 30, classes: "rounded-circle me-1") %>
-                    <%= link_to review.user.name, user_path(review.user), class: "text-decoration-none text-primary" %>
+                    <%= link_to review.user.name, user_path(review.user), class: "text-decoration-none text-primary" %>さん
                   </p>
                   <div class="review-score" data-score="<%= review.score %>"></div>
                   <p class="mb-2"><%= simple_format(review.body) %></p>
@@ -80,26 +78,3 @@
         </div>
       </div>
     </div>
-
-<script>
-document.addEventListener("turbolinks:load", () => {
-  document.querySelectorAll(".review-score:not(.raty-applied)").forEach((elem) => {
-    const score = parseFloat(elem.dataset.score);
-    const starOn = "<%= asset_path('star-on.png') %>";
-    const starOff = "<%= asset_path('star-off.png') %>";
-    const starHalf = "<%= asset_path('star-half.png') %>";
-    raty(elem, {
-      readonly: true,
-      score: score,
-      number: 5,
-      starOn: starOn,
-      starOff: starOff,
-      starHalf: starHalf,
-    });
-    elem.classList.add('raty-applied');
-    elem.querySelectorAll('img').forEach((star) => {
-      star.style.pointerEvents = 'none';
-    });
-  });
-});
-</script>

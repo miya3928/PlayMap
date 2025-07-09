@@ -14,28 +14,17 @@
         <div class="text-muted small mb-2">
           <i class="fa-regular fa-clock"></i> <%= l(@review.created_at, format: :short) %>
         </div>
-
         <p class="mb-2">
           <strong>投稿者:</strong>
           <%= display_image_or_default(@review.user.image, width: 30, height: 30, classes: "rounded-circle me-1") %>
           <%= link_to @review.user.name, user_path(@review.user), class: "text-decoration-none text-primary fw-bold" %>さん
         </p>
-
         <div class="review-score mb-3" data-score="<%= @review.score %>"></div>
-
         <p class="mb-4"><%= simple_format(@review.body) %></p>
       </div>
 
-      <!-- 元の投稿の簡易表示 -->
-      <div class="card bg-light border-0 shadow-sm mb-5">
-        <div class="card-body">
-          <h5 class="text-muted fw-bold">📌 レビュー元の投稿</h5>
-          <p class="mb-1"><strong>タイトル:</strong> <%= link_to @post.title, post_path(@post), class: "text-decoration-none text-primary" %></p>
-          <p class="mb-1"><strong>カテゴリ:</strong> <%= @post.postable_type_display %></p>
-          <p class="mb-1"><strong>内容:</strong> <%= truncate(@post.body, length: 100) %></p>
-          <p class="text-muted small">投稿日時：<%= l(@post.created_at, format: :short) %></p>
-        </div>
-      </div>
+      <!-- 元の投稿の概要 -->
+      <%= render 'public/posts/summary', post: @post %>
 
       <!-- コメントセクション -->
       <div class="mt-5">
@@ -58,26 +47,3 @@
     </div>
   </div>
 </div>
-
-
-<script>
-document.addEventListener("turbolinks:load", () => {
-  document.querySelectorAll(".review-score:not(.raty-applied)").forEach((elem) => {
-    const score = parseFloat(elem.dataset.score);
-    
-    raty(elem, {
-      readonly: true,
-      score: score,
-      number: 5,
-      starOn: "<%= asset_path('star-on.png') %>",
-      starOff: "<%= asset_path('star-off.png') %>",
-      starHalf: "<%= asset_path('star-half.png') %>",
-    });
-
-    elem.classList.add('raty-applied'); // 適用済みの要素にクラスを付与
-    elem.querySelectorAll('img').forEach((star) => {
-      star.style.pointerEvents = 'none'; // 星マーク画像のクリックイベントを無効化
-    });
-  });
-});
-</script>

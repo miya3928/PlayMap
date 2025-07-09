@@ -2,14 +2,16 @@ import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
-
 import "popper.js";
 import "bootstrap";
 import "../stylesheets/application";
 import "./filters.js";
-import "./reply.js";
 import "./jpostal.js";
-
+import "./map.js"; 
+import "./post.js";
+import "./raty-display.js";
+import "./raty-form.js";
+import "./reply.js";
 
 import Raty from "../lib/raty.js";
 window.raty = function (elem, opt) {
