@@ -40,6 +40,24 @@
   color: #555;
 }
 
+.post-summary-divider {
+  border-top: 2px dashed #ccc;
+  margin: 2rem 0;
+}
+
+.post-summary-card {
+  background-color: #fffbea;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #dee2e6;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #ffffff; // ホバー時に白く
+  }
+}
+
 @media (max-width: 768px) {
   .search-results {
     padding: 5px;
