@@ -35,7 +35,8 @@
             <h5 class="card-title">
             <!-- 画像 -->
             <%= display_image_or_default(review.image, width: 300, height: 180, classes: "card-img-top") %>
-            <div class="review-score mb-2" data-score="<%= review.score %>"></div>
+            <!-- レビューの表示 -->
+            <%= render 'public/reviews/display', review: review %>
             </h5>
             <p class="card-text"><%= truncate(review.body, length: 30) %></p>
             <p class="text-muted mb-2">

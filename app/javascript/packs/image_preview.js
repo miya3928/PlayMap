@@ -1,9 +1,9 @@
-document.addEventListener("turbolinks:load", function () {
-  const previewImage = (inputSelector, previewSelector) => {
-    const input = document.querySelector(inputSelector);
-    const preview = document.querySelector(previewSelector);
+document.addEventListener("turbolinks:load", () => {
+  document.querySelectorAll("input[type='file'][id$='_image']").forEach((input) => {
+    const previewId = `${input.id}_preview`;
+    const preview = document.getElementById(previewId);
 
-    if (input && preview) {
+    if (preview) {
       input.addEventListener("change", function (e) {
         const file = e.target.files[0];
         if (file) {
@@ -16,13 +16,5 @@ document.addEventListener("turbolinks:load", function () {
         }
       });
     }
-  };
-
-  // 投稿用
-  previewImage("#post_image", "#post-image-preview");
-  // レビュー用
-  previewImage("#review_image", "#review-image-preview");
-  // マイページや場所・イベントの画像入力も同様にIDで呼び出す
-  previewImage("#place_image", "#place-image-preview");
-  previewImage("#event_image", "#event-image-preview");
+  });
 });

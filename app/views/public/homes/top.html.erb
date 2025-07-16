@@ -1,97 +1,98 @@
-<div class="container text-center my-5 py-5 bg-white rounded shadow-lg" data-aos="fade-up">
+<div class="container text-center my-5 py-5 bg-white rounded shadow-lg">
   <h1 class="display-4 fw-bold text-primary mb-3">ようこそ <strong>PlayMap</strong> へ！</h1>
   <p class="lead text-muted mb-4">子どもたちの遊び場・イベントをみんなで共有しよう</p>
-  <!-- 新規投稿ボタン -->
-  <p class="mt-4">
-    <%= link_to "投稿する", new_post_path, class: "btn btn-primary" %>
-  </p> 
-  <p class="mt-4">
-    <%= link_to "PlayMapの使い方を見る", about_path, class: "btn btn-outline-secondary" %>
-  </p>
-  <p class="mt-4">
-    <%= link_to "ゲストログインはこちら", guest_login_path, class: "btn btn-outline-success" %>
-  </p>
-  <p class="mt-4">
-    <%= link_to "新規登録はこちら", new_user_session_path, class: "btn btn-outline-primary" %>
-  </p>
 
-  <!-- サービス紹介セクション -->
+  <!-- ボタン群 -->
+  <p class="mt-4"><%= link_to "投稿する", new_post_path, class: "btn btn-primary" %></p>
+  <p class="mt-4"><%= link_to "PlayMapの使い方を見る", about_path, class: "btn btn-outline-secondary" %></p>
+  <p class="mt-4"><%= link_to "ゲストログインはこちら", guest_login_path, class: "btn btn-outline-success" %></p>
+  <p class="mt-4"><%= link_to "新規登録はこちら", new_user_session_path, class: "btn btn-outline-primary" %></p>
+
+  <!-- サービス紹介 -->
   <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
-  <div class="col">
-    <div class="card border-0 shadow-sm h-100">
-      <div class="card-body">
-        <i class="fas fa-pencil-alt fa-2x text-primary mb-3"></i>
-        <h5 class="card-title fw-bold">投稿はカンタン</h5>
-        <p class="text-muted small">気軽に投稿・レビューできます</p>
-      </div>
-    </div>
-  </div>
     <div class="col">
       <div class="card border-0 shadow-sm h-100">
-      <div class="card-body">
-      <i class="fa-solid fa-magnifying-glass fa-2x text-primary mb-3"></i>
-        <h5 class="card-title fw-bold">タグや検索</h5>
-        <p class="text-muted small">欲しい情報にすぐアクセスできます</p>
+        <div class="card-body">
+          <i class="fas fa-pencil-alt fa-2x text-primary mb-3"></i>
+          <h5 class="card-title fw-bold">投稿はカンタン</h5>
+          <p class="text-muted small">気軽に投稿・レビューできます</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <i class="fa-solid fa-magnifying-glass fa-2x text-primary mb-3"></i>
+          <h5 class="card-title fw-bold">タグや検索</h5>
+          <p class="text-muted small">欲しい情報にすぐアクセスできます</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <i class="fa-solid fa-comments fa-2x text-primary mb-3"></i>
+          <h5 class="card-title fw-bold">ユーザーとの交流</h5>
+          <p class="text-muted small">ユーザーと情報を共有できます</p>
+        </div>
       </div>
     </div>
   </div>
-    <div class="col">
-    <div class="card border-0 shadow-sm h-100">
-    <div class="card-body">
-    <i class="fa-solid fa-comments fa-2x text-primary mb-3"></i>
-      <h5 class="card-title fw-bold">ユーザーとの交流</h5>
-      <p class="text-muted small">ユーザーと情報を共有できます</p>
-    </div>
-  </div>
- </div>
-</div>
-<br>
-  <!-- 投稿セクション -->
-  <h2 class="fw-bold text-dark mb-4 border-bottom border-dark pb-2"><i class="fas fa-list text-dark me-1"></i>最新の投稿</h2>
+
+  <br>
+
+  <!-- 最新の投稿 -->
+  <h2 class="fw-bold text-dark mb-4 border-bottom border-dark pb-2">
+    <i class="fas fa-list text-dark me-1"></i>最新の投稿
+  </h2>
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
     <% @posts.limit(3).each do |post| %>
       <div class="col">
         <div class="card h-100 shadow-sm border-0 hover-shadow">
           <div class="card-body">
-          <%= display_image_or_default(post.image, width: 300, height: 180, classes: "card-img-top") %>
+            <%= display_image_or_default(post.image, width: 300, height: 180, classes: "card-img-top") %>
             <h5 class="card-title text-primary font-weight-bold"><%= post.title %></h5>
             <p class="card-text text-muted"><%= truncate(post.body, length: 20) %></p>
             <%= link_to '続きを読む', post_path(post), class: 'btn btn-outline-primary btn-sm mt-3' %>
           </div>
           <div class="card-footer bg-transparent border-0 text-muted small text-start">
-      <i class="fas fa-user"></i> <%= post.user&.name || "匿名" %><br>
-      <i class="fas fa-clock"></i> <%= post.created_at.strftime("%Y/%m/%d") %>
-    </div>
+            <i class="fas fa-user"></i> <%= post.user&.name || "匿名" %><br>
+            <i class="fas fa-clock"></i> <%= post.created_at.strftime("%Y/%m/%d") %>
+          </div>
         </div>
       </div>
     <% end %>
   </div>
   <p class="mt-4">
-  <%= link_to "すべての投稿を見る", posts_path, class: "btn btn-outline-primary" %>
-</p>
-<br>
+    <%= link_to "すべての投稿を見る", posts_path, class: "btn btn-outline-primary" %>
+  </p>
 
+  <br>
+
+  <!-- 最新のレビュー -->
   <h2 class="fw-bold text-dark mb-4 border-bottom border-dark pb-2">
-   <i class="fas fa-star me-1"></i>最新のレビュー
+    <i class="fas fa-star me-1"></i>最新のレビュー
   </h2>
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
     <% @reviews.limit(3).each do |review| %>
       <div class="col">
         <div class="card h-100 shadow-sm border-0 hover-shadow">
           <div class="card-body">
-          <div class="review-score" data-score="<%= review.score %>"></div>
+            <%= render 'public/reviews/display', review: review %>
             <p class="card-text text-muted"><%= truncate(review.body, length: 20) %></p>
             <%= link_to '続きを読む', post_review_path(review.post, review), class: 'btn btn-outline-primary btn-sm mt-3' %>
           </div>
           <div class="card-footer bg-transparent border-0 text-muted small text-start">
-          <i class="fas fa-user"></i> <%= review.user&.name || "匿名" %><br>
-          <i class="fas fa-clock"></i> <%= review.created_at.strftime("%Y/%m/%d") %>
-        </div>
+            <i class="fas fa-user"></i> <%= review.user&.name || "匿名" %><br>
+            <i class="fas fa-clock"></i> <%= review.created_at.strftime("%Y/%m/%d") %>
+          </div>
         </div>
       </div>
     <% end %>
   </div>
   <p class="mt-4">
-  <%= link_to "すべてのレビューを見る", reviews_path, class: "btn btn-outline-success" %>
-</p>
+    <%= link_to "すべてのレビューを見る", reviews_path, class: "btn btn-outline-success" %>
+  </p>
 </div>

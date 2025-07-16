@@ -11,8 +11,9 @@ import "./image_preview.js";
 import "./jpostal.js";
 import "./map.js"; 
 import "./post.js";
-import "./raty_display.js";
 import "./raty_form.js";
+import "./raty_display.js";
+
 import "./reply.js";
 
 import Raty from "../lib/raty.js";

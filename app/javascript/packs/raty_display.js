@@ -1,5 +1,5 @@
 document.addEventListener("turbolinks:load", () => {
-  document.querySelectorAll(".review-score:not(.raty-applied)").forEach((elem) => {
+  document.querySelectorAll(".review-score-static:not(.raty-applied)").forEach((elem) => {
     const score = parseFloat(elem.dataset.score);
 
     raty(elem, {
