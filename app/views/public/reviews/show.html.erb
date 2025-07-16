@@ -1,9 +1,10 @@
 <div class="container my-5">
   <div class="card shadow-lg border-0 rounded-lg overflow-hidden">
     <div class="card-body">
+
       <!-- 戻るボタン -->
       <div class="mb-4 d-flex justify-content-between align-items-center">
-        <%= link_to post_path(@review.post), class: "btn btn-secondary rounded-circle p-3 d-flex justify-content-center align-items-center shadow-sm", style: "width:3rem;height:3rem;" do %>
+        <%= link_to post_path(@review.post), class: "btn btn-secondary rounded-circle p-3 d-flex justify-content-center align-items-center shadow-sm", style: "width:3rem; height:3rem;" do %>
           <i class="fa-solid fa-arrow-left"></i> 
         <% end %>
       </div>
@@ -11,39 +12,56 @@
       <!-- レビュー情報 -->
       <div class="mb-4">
         <h2 class="text-success fw-bold">レビュー詳細</h2>
+
+        <!-- 投稿日時 -->
         <div class="text-muted small mb-2">
           <i class="fa-regular fa-clock"></i> <%= l(@review.created_at, format: :short) %>
         </div>
+
+        <!-- レビュー画像 -->
+        <% if @review.image.attached? %>
+          <div class="text-center mb-3">
+            <%= display_image_or_default(@review.image, width: 400, height: 250, classes: "img-fluid rounded shadow-sm") %>
+          </div>
+        <% end %>
+
+        <!-- 投稿者 -->
         <p class="mb-2">
           <strong>投稿者:</strong>
           <%= display_image_or_default(@review.user.image, width: 30, height: 30, classes: "rounded-circle me-1") %>
           <%= link_to @review.user.name, user_path(@review.user), class: "text-decoration-none text-primary fw-bold" %>さん
         </p>
-        <div class="review-score mb-3" data-score="<%= @review.score %>"></div>
-        <p class="mb-4"><%= simple_format(@review.body) %></p>
+
+        <!-- 星評価 -->
+        <%= render 'public/reviews/display', review: @review %>
       </div>
 
       <!-- 元の投稿の概要 -->
       <%= render 'public/posts/summary', post: @post %>
 
       <!-- コメントセクション -->
-      <div class="mt-5">
-        <h3 class="text-info mb-3">コメント</h3>
+      <div class="mt-5 p-4 bg-light rounded shadow-sm">
+        <h3 class="text-info mb-4">コメント</h3>
+
+        <!-- コメントフォーム -->
         <%= render 'public/comments/form', commetable: @review %>
 
+        <!-- コメント一覧 -->
         <div class="mt-4">
-          <h4 class="text-secondary mb-4">みんなのコメント</h4>
+          <h4 class="text-secondary mb-3">みんなのコメント</h4>
           <%= render 'public/comments/lists', commetable: @review %>
         </div>
       </div>
 
+      <!-- 削除ボタン（本人のみ） -->
       <% if @review.user == current_user %>
         <div class="text-end mt-4">
           <%= link_to "レビューを削除", post_review_path(@post, @review), method: :delete,
-              data: { confirm: '本当に削除しますか？' },
-              class: "btn btn-outline-danger" %>
+                      data: { confirm: '本当に削除しますか？' },
+                      class: "btn btn-outline-danger" %>
         </div>
       <% end %>
+
     </div>
   </div>
 </div>

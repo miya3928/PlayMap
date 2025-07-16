@@ -1,26 +1,23 @@
 
-<%= form_with model: @post, url: posts_path, local: true , multipart: true do |form| %>
+<%= form_with model: @post, url: posts_path, local: true , multipart: true do |f| %>
   <div class="container my-5">
     <div class="card shadow-sm">
       <div class="card-body">
       <h1 class = "text-center text-primary fw-bold mb-4">新規投稿フォーム</h1>
         <!-- タイトル -->
         <div class="mb-3">
-          <%= form.label :title, "タイトル", class: "form-label" %>
-          <%= form.text_field :title, class: "form-control", placeholder: "綺麗な図書館" %>
+          <%= f.label :title, "タイトル", class: "form-label" %>
+          <%= f.text_field :title, class: "form-control", placeholder: "綺麗な図書館" %>
         </div>
   
         <!-- 本文 -->
         <div class="mb-3">
-          <%= form.label :body, "本文", class: "form-label" %>
-          <%= form.text_area :body, class: "form-control", rows: 5, placeholder: "子供向けのスペースが広く、落ちついて読書をしていました。" %>
+          <%= f.label :body, "本文", class: "form-label" %>
+          <%= f.text_area :body, class: "form-control", rows: 5, placeholder: "子供向けのスペースが広く、落ちついて読書をしていました。" %>
         </div>
 
         <!-- 画像 -->
-        <div class="mb-3">
-          <%= form.label :image, "画像を追加", class: "form-label" %>
-          <%= form.file_field :image, accept: "image/*",  class: "form-control" %>
-        </div>
+        <%= render 'public/shared/image_upload', f: f, field_name: :image, preview_id: 'post_image' %>
   
         <!-- タグ -->
         <div class="mb-3">
@@ -38,8 +35,8 @@
 
         <!-- 投稿カテゴリ選択 -->
         <div class="mb-3">
-          <%= form.label :postable_type, "カテゴリー", class: "form-label" %>
-          <%= form.select :postable_type, options_for_select([['場所', 'Place'], ['イベント', 'Event']]), { prompt: "選択してください（場所またはイベント）" }, class: "form-select" %>
+          <%= f.label :postable_type, "カテゴリー", class: "form-label" %>
+          <%= f.select :postable_type, options_for_select([['場所', 'Place'], ['イベント', 'Event']]), { prompt: "選択してください（場所またはイベント）" }, class: "form-select" %>
         </div>
   
         <!-- 場所の選択 -->
@@ -72,7 +69,7 @@
   
         <!-- 投稿ボタン -->
         <div class="text-end">
-          <%= form.submit "投稿する", class: "btn btn-primary" %>
+          <%= f.submit "投稿する", class: "btn btn-primary" %>
         </div>
       </div>
     </div>

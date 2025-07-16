@@ -90,7 +90,8 @@
                 <div class="card shadow-sm h-100">
                   <div class="card-body d-flex flex-column">
                     <h5 class="card-title">
-                      <div class="review-score mb-2" data-score="<%= review.score %>"></div>
+                      <!-- 星評価 -->
+                      <%= render 'public/reviews/display', review: review %>
                     </h5>
                     <p class="card-text text-muted mb-3"><%= truncate(review.body, length: 30) %></p>
                     <% if review.user == current_user %>

@@ -1,62 +1,76 @@
 <!DOCTYPE html>
-<head>
-  <title>PlayMap</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
+<html>
+  <head>
+    <title>PlayMap</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
 
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.jpostal/2.13.0/jquery.jpostal.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/raty/2.9.0/jquery.raty.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/raty/2.7.1/jquery.raty.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-  <script src="https://kit.fontawesome.com/e070c49e1d.js" crossorigin="anonymous"></script>
-  
+    <!-- CDN Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.jpostal/2.13.0/jquery.jpostal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raty/2.9.0/jquery.raty.min.js"></script>
 
-  <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-  <script>
-  window.MAPS_API_KEY = "<%= ENV['MAPS_API_KEY'] %>";
-</script>
-</head>
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/raty/2.7.1/jquery.raty.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+    <!-- JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://kit.fontawesome.com/e070c49e1d.js" crossorigin="anonymous"></script>
+
+    <!-- Webpacker -->
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <!-- Maps API Key -->
+    <script>
+      window.MAPS_API_KEY = "<%= ENV['MAPS_API_KEY'] %>";
+    </script>
+  </head>
 
   <body>
     <div class="d-flex flex-column min-vh-100">
-    <% if controller_path.start_with?("admin/") %>
-    <nav class="navbar admin-navbar navbar-expand-lg navbar-light">
-      <ul class="navbar-nav ml-auto"> 
-        <li class="nav-item">
-          <span class="navbar-text mr-3">ようこそ、管理者さん！</span>
-        </li>
-        <li class="nav-item">
-          <%= link_to "ダッシュボード", admin_root_path, class: "btn btn-outline-primary mx-3" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "ユーザー管理", admin_users_path, class: "btn btn-outline-secondary mx-3" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "投稿管理", admin_posts_path, class: "btn btn-outline-secondary mx-3" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "レビュー管理", admin_reviews_path, class: "btn btn-outline-secondary mx-3" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: "btn btn-outline-danger mx-3" %>
-        </li>
-      </ul>
-    </nav>
-     <% else %>
-      <%= render 'layouts/header' %>
-    <% end %>
-      <% flash.each do |key, message| %> 
-        <div class="alert alert-<%= key %>"><%= message %></div> 
+
+      <% if controller_path.start_with?("admin/") %>
+        <!-- 管理者用ナビゲーション -->
+        <nav class="navbar admin-navbar navbar-expand-lg navbar-light">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <span class="navbar-text mr-3">ようこそ、管理者さん！</span>
+            </li>
+            <li class="nav-item">
+              <%= link_to "ダッシュボード", admin_root_path, class: "btn btn-outline-primary mx-3" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "ユーザー管理", admin_users_path, class: "btn btn-outline-secondary mx-3" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "投稿管理", admin_posts_path, class: "btn btn-outline-secondary mx-3" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "レビュー管理", admin_reviews_path, class: "btn btn-outline-secondary mx-3" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: "btn btn-outline-danger mx-3" %>
+            </li>
+          </ul>
+        </nav>
+      <% else %>
+        <%= render 'layouts/header' %>
       <% end %>
+
+      <% flash.each do |key, message| %>
+        <div class="alert alert-<%= key %>"><%= message %></div>
+      <% end %>
+
       <main class="flex-grow-1">
-      <%= yield %>
-        </main>
+        <%= yield %>
+      </main>
+
       <%= render 'layouts/footer' %>
     </div>
   </body>

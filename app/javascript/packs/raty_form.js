@@ -1,19 +1,18 @@
 document.addEventListener("turbolinks:load", () => {
-  const $elem = $("#review-score");
-  const $scoreInput = $("#score-input");
+  const elem = document.querySelector("#review-score-form");
+  const input = document.querySelector("#score-input");
 
-  if ($elem.length && $scoreInput.length) {
-    $elem.raty({
-      scoreName: "review[score]",
+  if (elem && input) {
+    window.raty(elem, {
+      score: parseFloat(input.value || 0),
       number: 5,
       half: true,
       starOn: "/assets/star-on.png",
       starOff: "/assets/star-off.png",
       starHalf: "/assets/star-half.png",
-      score: $scoreInput.val() || 0,
       click: function(score) {
-        $scoreInput.val(score);
-      },
+        input.value = score;
+      }
     });
   }
 });
