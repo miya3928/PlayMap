@@ -1,19 +1,22 @@
 document.addEventListener("turbolinks:load", () => {
   document.querySelectorAll(".review-score-static:not(.raty-applied)").forEach((elem) => {
     const score = parseFloat(elem.dataset.score);
+    const starOn = elem.dataset.starOn;
+    const starOff = elem.dataset.starOff;
+    const starHalf = elem.dataset.starHalf;
 
     raty(elem, {
       readonly: true,
       score: score,
       number: 5,
-      starOn: "/assets/star-on.png",
-      starOff: "/assets/star-off.png",
-      starHalf: "/assets/star-half.png",
+      starOn: starOn,
+      starOff: starOff,
+      starHalf: starHalf,
     });
 
-    elem.classList.add('raty-applied'); // 適用済みの要素にクラスを付与
+    elem.classList.add('raty-applied');
     elem.querySelectorAll('img').forEach((star) => {
-      star.style.pointerEvents = 'none'; // 星マーク画像のクリックイベントを無効化
+      star.style.pointerEvents = 'none';
     });
   });
 });

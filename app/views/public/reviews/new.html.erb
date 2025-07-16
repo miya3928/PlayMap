@@ -31,7 +31,12 @@
         <p class="text-muted">この投稿について、星の数で評価してください</p>
 
         <%= form_with model: [@post, @review], local: true, html: { id: "review-form-element" } do |f| %>
-          <div id="review-score-form" data-score="3" class="mb-3"></div>
+          <div id="review-score-form" class="mb-3"
+            data-score="<%= @review.score || 0 %>"
+            data-star-on="<%= asset_path('star-on.png') %>"
+            data-star-off="<%= asset_path('star-off.png') %>"
+            data-star-half="<%= asset_path('star-half.png') %>">
+          </div>
           <%= f.hidden_field :score, id: "score-input" %>
 
           <div class="mb-3">
