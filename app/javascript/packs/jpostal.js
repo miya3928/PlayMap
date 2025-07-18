@@ -1,19 +1,14 @@
 document.addEventListener("DOMContentLoaded", function() {
   const zipcodeInput = document.getElementById("zipcode");
   
-  if (!zipcodeInput) {
-    console.error("zipcode の input 要素が見つかりません");
-    return;
-  }
+  if (!zipcodeInput) return;
 
   zipcodeInput.addEventListener("blur", function() {
-    let zipcode = zipcodeInput.value.replace("-", "").trim();
+    const zipcode = zipcodeInput.value.replace("-", "").trim();
     if (zipcode.length === 7) {
-      fetch(`/search_address?postal_code=${zipcode}`)
+      fetch(`/search_address?zipcode=${zipcode}`)
         .then(response => {
-          if (!response.ok) {
-            throw new Error(`HTTP エラー: ${response.status}`);
-          }
+          if (!response.ok) throw new Error(`HTTP エラー: ${response.status}`);
           return response.json();
         })
         .then(data => {

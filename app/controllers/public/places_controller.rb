@@ -52,10 +52,10 @@ class Public::PlacesController < ApplicationController
   end
 
   def search_address
-      postal_code = params[:postal_code]
+      zipcode = params[:zipcode]
   
-      if postal_code.present?
-        uri = URI("https://zipcloud.ibsnet.co.jp/api/search?zipcode=#{postal_code}")
+      if zipcode.present?
+        uri = URI("https://zipcloud.ibsnet.co.jp/api/search?zipcode=#{zipcode}")
         response = Net::HTTP.get(uri)
         result = JSON.parse(response)
   

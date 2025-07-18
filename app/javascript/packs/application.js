@@ -1,15 +1,21 @@
-import Rails from "@rails/ujs"
-import Turbolinks from "turbolinks"
-import * as ActiveStorage from "@rails/activestorage"
-import "channels"
-import "popper.js";
-import "bootstrap";
+// import $ from 'jquery';
+// window.$ = $;
+// window.jQuery = $;
+
+import 'select2/dist/js/select2.min';
+import 'select2/dist/css/select2.min.css';
+
+import 'bootstrap';
 import "../stylesheets/application";
+
+import Rails from "@rails/ujs";
+import Turbolinks from "turbolinks";
+import * as ActiveStorage from "@rails/activestorage";
 
 import "./filters.js";
 import "./image_preview.js";
 import "./jpostal.js";
-import "./map.js"; 
+import "./map.js";
 import "./post_form_modal.js";
 import "./post.js";
 import "./raty_display.js";
@@ -23,10 +29,6 @@ window.raty = function (elem, opt) {
   return raty;
 };
 
-import $ from 'jquery';
-window.$ = $;
-window.jQuery = $;
-
-Rails.start()
-Turbolinks.start()
-ActiveStorage.start()
+Rails.start();
+Turbolinks.start();
+ActiveStorage.start();

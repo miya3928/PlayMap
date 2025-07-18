@@ -1,75 +1,60 @@
-
 <%= form_with model: @post, url: posts_path, local: true , multipart: true do |f| %>
   <div class="container my-5">
     <div class="card shadow-sm">
-      <div class="card-body">
-      <h1 class = "text-center text-primary fw-bold mb-4">新規投稿フォーム</h1>
+      <div class="card-body p-4">
+        <h1 class="text-center text-primary font-weight-bold mb-4">新規投稿フォーム</h1>
+
         <!-- タイトル -->
-        <div class="mb-3">
-          <%= f.label :title, "タイトル", class: "form-label" %>
+        <div class="form-group">
+          <%= f.label :title, "タイトル", class: "form-label font-weight-bold" %>
           <%= f.text_field :title, class: "form-control", placeholder: "綺麗な図書館" %>
         </div>
-  
+
         <!-- 本文 -->
-        <div class="mb-3">
-          <%= f.label :body, "本文", class: "form-label" %>
+        <div class="form-group">
+          <%= f.label :body, "本文", class: "form-label font-weight-bold" %>
           <%= f.text_area :body, class: "form-control", rows: 5, placeholder: "子供向けのスペースが広く、落ちついて読書をしていました。" %>
         </div>
 
         <!-- 画像 -->
         <%= render 'public/shared/image_upload', f: f, field_name: :image, preview_id: 'post_image' %>
-  
+
         <!-- タグ -->
-        <div class="mb-3">
-          
-          <h5>タグ一覧</h5>
+        <div class="form-group">
+          <h5 class="text-secondary font-weight-bold">タグ一覧</h5>
           <div class="d-flex flex-wrap">
             <% @tags.each do |tag| %>
-              <div class="form-check me-3">
-                <%= check_box_tag "post[tag_list][]", tag.name, false, class: "form-check-input" %>
-                <%= label_tag "tag_#{tag.id}", tag.name, class: "form-check-label" %>
+              <div class="form-check mr-3 mb-2">
+                <%= check_box_tag "post[tag_list][]", tag.name, false, class: "form-check-input", id: "tag_\#{tag.id}" %>
+                <%= label_tag "tag_\#{tag.id}", tag.name, class: "form-check-label" %>
               </div>
             <% end %>
           </div>
         </div>
 
         <!-- 投稿カテゴリ選択 -->
-        <div class="mb-3">
-          <%= f.label :postable_type, "カテゴリー", class: "form-label" %>
-          <%= f.select :postable_type, options_for_select([['場所', 'Place'], ['イベント', 'Event']]), { prompt: "選択してください（場所またはイベント）" }, class: "form-select" %>
+        <div class="form-group">
+          <%= f.label :postable_type, "カテゴリー", class: "form-label font-weight-bold" %>
+          <%= f.select :postable_type, options_for_select([['場所', 'Place'], ['イベント', 'Event']]), { prompt: "選択してください（場所またはイベント）" }, class: "form-control", id: "postable_type_select" %>
         </div>
-  
+
         <!-- 場所の選択 -->
-        <div class="mb-3" id="place-selection">
-          <h5>場所を選択</h5>
-          <div class="d-flex flex-wrap">
-            <% @places.each do |place| %>
-            <div class="form-check me-3">
-              <%= check_box_tag "post[place_ids][]", place.id, false, class: "form-check-input" %>
-              <%= label_tag "post_place_#{place.id}", place.name, class: "form-check-label" %>
-            </div>
-            <% end %>
-          </div>
-          <button type="button" class="btn btn-link" data-toggle="modal" data-target="#addPlaceModal">場所を追加</button>
+        <div class="form-group" id="place-selection" style="display: none;">
+          <h5 class="text-secondary font-weight-bold">場所を選択</h5>
+          <%= f.collection_select :place_ids, @places, :id, :name, {}, { multiple: true, class: "form-control select2" } %>
+          <button type="button" class="btn btn-sm btn-outline-primary mt-2" data-toggle="modal" data-target="#addPlaceModal">＋ 場所を追加</button>
         </div>
-  
+
         <!-- イベントの選択 -->
-        <div class="mb-3" id="event-selection">
-          <h5>イベントを選択</h5>
-          <div class="d-flex flex-wrap">
-            <% @events.each do |event| %>
-            <div class="form-check me-3">
-              <%= check_box_tag "post[event_ids][]", event.id, false, class: "form-check-input" %>
-              <%= label_tag "post_event_#{event.id}", event.title, class: "form-check-label" %>
-            </div>
-            <% end %>
-          </div>
-          <button type="button" class="btn btn-link" data-toggle="modal" data-target="#addEventModal">イベントを追加</button>
+        <div class="form-group" id="event-selection" style="display: none;">
+          <h5 class="text-secondary font-weight-bold">イベントを選択</h5>
+          <%= f.collection_select :event_ids, @events, :id, :title, {}, { multiple: true, class: "form-control select2" } %>
+          <button type="button" class="btn btn-sm btn-outline-primary mt-2" data-toggle="modal" data-target="#addEventModal">＋ イベントを追加</button>
         </div>
-  
+
         <!-- 投稿ボタン -->
-        <div class="text-end">
-          <%= f.submit "投稿する", class: "btn btn-primary" %>
+        <div class="text-center mt-4">
+          <%= f.submit "投稿する", class: "btn btn-primary btn-lg px-5" %>
         </div>
       </div>
     </div>
@@ -97,8 +82,16 @@
          <%= text_field_tag :zipcode, nil, class: "form-control", placeholder: "郵便番号", id: "zipcode" %>
         </div>
         <div class="mb-3">
-          <%= f.label :address, "住所", class: "form-label" %>
-          <%= f.text_field :address, class: "form-control" %>
+          <%= f.label :address, "都道府県", class: "form-label" %>
+          <%= f.text_field :prefecture, class: "form-control", id: "prefecture" %>
+        </div>
+        <div class="mb-3">
+          <%= f.label :address, "市町村", class: "form-label" %>
+          <%= f.text_field :city, class: "form-control", id: "city" %>
+        </div>
+        <div class="mb-3">
+          <%= f.label :address, "番地", class: "form-label" %>
+          <%= f.text_field :street, class: "form-control", id: "street" %>
         </div>
         <div class="mb-3">
           <%= f.label :description, "説明", class: "form-label" %>
