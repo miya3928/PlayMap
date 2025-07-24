@@ -41,18 +41,23 @@
         <!-- レビュー本文 -->
         <p class="mb-3"><%= simple_format(@review.body) %></p>
 
-        <!-- 削除ボタン -->
-        <% if @review.user == current_user %>
-          <div class="text-end">
-            <%= link_to post_review_path(@post, @review), method: :delete,
-                data: { confirm: "本当に削除しますか？" },
-                class: "btn btn-danger btn-sm d-inline-flex align-items-center gap-1 shadow-sm" do %>
-              <i class="fa-solid fa-trash"></i>
-              <span>レビューを削除</span>
-            <% end %>
-          </div>
-        <% end %>
+        <div class="mb-3">
+        <%= render 'public/review_likes/likes', review: @review %>
       </div>
+
+      <!-- 編集削除ボタン -->
+      <% if @review.user == current_user %>
+        <div class="d-flex justify-content-end gap-2">
+          <%= link_to edit_post_review_path(@post, @review), class: "btn btn-outline-success btn-sm shadow-sm" do %>
+            <i class="fa-solid fa-pen me-1"></i>編集
+          <% end %>
+          <%= link_to post_review_path(@post, @review), method: :delete,
+                      data: { confirm: "本当に削除しますか？" },
+                      class: "btn btn-outline-danger btn-sm shadow-sm" do %>
+            <i class="fa-solid fa-trash me-1"></i>削除
+          <% end %>
+        </div>
+      <% end %>
 
       <!-- 元の投稿の概要 -->
       <div class="post-summary-divider"></div>

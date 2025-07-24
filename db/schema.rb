@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_07_02_073543) do
+ActiveRecord::Schema.define(version: 2025_07_24_031930) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -126,6 +126,16 @@ ActiveRecord::Schema.define(version: 2025_07_02_073543) do
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
+  create_table "review_likes", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "review_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["review_id"], name: "index_review_likes_on_review_id"
+    t.index ["user_id", "review_id"], name: "index_review_likes_on_user_id_and_review_id", unique: true
+    t.index ["user_id"], name: "index_review_likes_on_user_id"
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "post_id", null: false
@@ -169,6 +179,8 @@ ActiveRecord::Schema.define(version: 2025_07_02_073543) do
   add_foreign_key "post_tags", "posts"
   add_foreign_key "post_tags", "tags"
   add_foreign_key "posts", "users"
+  add_foreign_key "review_likes", "reviews"
+  add_foreign_key "review_likes", "users"
   add_foreign_key "reviews", "posts"
   add_foreign_key "reviews", "users"
 end

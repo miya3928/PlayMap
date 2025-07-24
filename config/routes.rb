@@ -39,6 +39,7 @@ Rails.application.routes.draw do
     end
     resources :reviews do
       resources :comments, only: [:create, :destroy]
+      resource :review_like, only: [:create, :destroy]
     end
     resources :comments do
       resource :comment_likes, only: [:create, :destroy]

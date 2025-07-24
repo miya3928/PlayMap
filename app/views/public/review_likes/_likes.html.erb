@@ -1,0 +1,13 @@
+<div id="review-<%= review.id %>-likes">
+  <% if current_user.review_likes.exists?(review: review) %>
+    <%= link_to review_review_like_path(review), method: :delete, remote: true, class: "btn btn-sm btn-outline-danger", data: { turbo: false } do %>
+      <i class="fa-solid fa-heart"></i>
+      <small><%= review.review_likes.count %></small>
+    <% end %>
+  <% else %>
+    <%= link_to review_review_like_path(review), method: :post, remote: true, class: "btn btn-sm btn-outline-dark", data: { turbo: false } do %>
+      <i class="fa-regular fa-heart"></i>
+      <small><%= review.review_likes.count %></small>
+    <% end %>
+  <% end %>
+</div>
