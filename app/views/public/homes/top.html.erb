@@ -80,6 +80,7 @@
       <div class="col">
         <div class="card h-100 shadow-sm border-0 hover-shadow">
           <div class="card-body">
+            <%= display_image_or_default(review.image, width: 300, height: 180, classes: "card-img-top") %>
             <%= render 'public/reviews/display', review: review %>
             <p class="card-text text-muted"><%= truncate(review.body, length: 20) %></p>
             <%= link_to '続きを読む', post_review_path(review.post, review), class: 'btn btn-outline-primary btn-sm mt-3' %>

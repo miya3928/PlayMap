@@ -15,16 +15,12 @@ document.addEventListener("turbolinks:load", () => {
   toggleSelection();
 });
 
-// 郵便番号から住所入力
-document.addEventListener("turbolinks:load", function () {
-  if (document.getElementById("zipcode")) {
-    $("#zipcode").jpostal({
-      postcode: ["#zipcode"],
-      address: {
-        "#address": "%3%4%5" // %3 都道府県, %4 市区町村, %5 以下住所
-      }
-    });
-  }
+document.addEventListener("turbolinks:load", () => {
+  $('.select2').select2({
+    width: '100%',
+    placeholder: "場所を検索・選択",
+    allowClear: true
+  });
 });
 
 // モーダル初期化（任意）
