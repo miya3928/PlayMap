@@ -41,9 +41,15 @@
         <!-- レビュー本文 -->
         <p class="mb-3"><%= simple_format(@review.body) %></p>
 
+        <!-- いいねボタン -->
         <div class="mb-3">
-        <%= render 'public/review_likes/likes', review: @review %>
-      </div>
+          <%= render 'public/review_likes/likes', review: @review %>
+        </div>
+
+        <!-- ブックマーク -->
+        <div class="mb-3">
+          <%= render 'public/bookmarks/button', bookmarkable: @review %>
+        </div>
 
       <!-- 編集削除ボタン -->
       <% if @review.user == current_user %>
