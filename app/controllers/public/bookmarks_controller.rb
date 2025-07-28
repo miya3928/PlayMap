@@ -7,9 +7,11 @@ class Public::BookmarksController < ApplicationController
   
     respond_to do |format|
       if @bookmark.save
+        flash.now[:notice] = 'ブックマークを追加しました。'
         format.html { redirect_to @bookmarkable, notice: 'ブックマークを追加しました。' }
         format.js
       else
+        flash.now[:alert] = 'ブックマークの追加に失敗しました。'
         format.html { redirect_to @bookmarkable, alert: 'ブックマークの追加に失敗しました。' }
         format.js
       end
@@ -20,19 +22,19 @@ class Public::BookmarksController < ApplicationController
     @bookmarkable = find_bookmarkable
     @bookmark = current_user.bookmarks.find_by(bookmarkable: @bookmarkable)
   
-    if @bookmark&.destroy
-      respond_to do |format|
+    respond_to do |format|
+      if @bookmark&.destroy
+        flash.now[:notice] = 'ブックマークを削除しました。'
         format.html { redirect_to @bookmarkable, notice: 'ブックマークを削除しました。' }
         format.js
-      end
-    else
-      respond_to do |format|
+      else
+        flash.now[:alert] = 'ブックマークの削除に失敗しました。'
         format.html { redirect_to @bookmarkable, alert: 'ブックマークの削除に失敗しました。' }
         format.js
       end
     end
   end
-
+  
   private
 
   def find_bookmarkable
