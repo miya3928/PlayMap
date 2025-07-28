@@ -6,6 +6,10 @@ class User < ApplicationRecord
   has_many :liked_comments, through: :comment_likes, source: :comment
   has_many :review_likes, dependent: :destroy
   has_many :liked_reviews, through: :review_likes, source: :review
+  has_many :bookmarks, dependent: :destroy
+  has_many :bookmarked_reviews, through: :bookmarks, source: :bookmarkable, source_type: 'Review'
+  has_many :bookmarked_places, through: :bookmarks, source: :bookmarkable, source_type: 'Place'
+  has_many :bookmarked_events, through: :bookmarks, source: :bookmarkable, source_type: 'Event'
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable

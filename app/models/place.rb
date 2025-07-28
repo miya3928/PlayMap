@@ -8,7 +8,8 @@ class Place < ApplicationRecord
   has_many :event_places, dependent: :destroy
   has_many :events, through: :event_places
   has_many :posts, as: :postable, dependent: :destroy
-  
+  has_many :bookmarks, as: :bookmarkable, dependent: :destroy
+
   validates :name, :prefecture, :city, :street, :description, presence: true 
 
   geocoded_by :address

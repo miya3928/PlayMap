@@ -29,9 +29,11 @@ Rails.application.routes.draw do
     end  
     resources :places do
       resources :posts,only: [:new, :create]
+      resource :bookmark, only: [:create, :destroy]
     end  
     resources :events do
       resources :posts, only: [:new, :create]
+      resource :bookmark, only: [:create, :destroy]
     end 
     resources :posts do
       resources :reviews
@@ -40,6 +42,7 @@ Rails.application.routes.draw do
     resources :reviews do
       resources :comments, only: [:create, :destroy]
       resource :review_like, only: [:create, :destroy]
+      resource :bookmark, only: [:create, :destroy]
     end
     resources :comments do
       resource :comment_likes, only: [:create, :destroy]
