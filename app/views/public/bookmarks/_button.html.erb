@@ -1,13 +1,13 @@
-<div id="bookmark-button-<%= bookmarkable.id %>">
-  <% if current_user.bookmarks.exists?(bookmarkable: bookmarkable) %>
-    <%= link_to polymorphic_path([:public, bookmarkable, :bookmark]),
-              method: :delete, remote: true, class: "btn btn-outline-warning btn-sm" do %>
-      <i class="fa-solid fa-bookmark"></i> ブックマーク解除
+<div id="bookmark-button-<%= bookmarkable.class.name.downcase %>-<%= bookmarkable.id %>">  
+<% if current_user.bookmarks.exists?(bookmarkable: bookmarkable) %>
+    <%= link_to polymorphic_path([bookmarkable, :bookmark]),
+                method: :delete, remote: true, class: "btn btn-outline-warning btn-sm" do %>
+      <i class="fa-solid fa-bookmark"></i> 
     <% end %>
   <% else %>
-    <%= link_to polymorphic_path([:public, bookmarkable, :bookmark]),
-              method: :post, remote: true, class: "btn btn-outline-secondary btn-sm" do %>
-      <i class="fa-regular fa-bookmark"></i> ブックマーク
+    <%= link_to polymorphic_path([bookmarkable, :bookmark]),
+                method: :post, remote: true, class: "btn btn-outline-secondary btn-sm" do %>
+      <i class="fa-regular fa-bookmark"></i> 
     <% end %>
   <% end %>
 </div>

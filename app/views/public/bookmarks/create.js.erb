@@ -1,1 +1,1 @@
-$("#bookmark-button-<%= bookmarkable.id %>").html("<%= j render partial: 'public/bookmarks/button', locals: { bookmarkable: @bookmarkable } %>");
+$("#bookmark-button-<%= @bookmarkable.class.name.downcase %>-<%= @bookmarkable.id %>").html("<%= j render 'public/bookmarks/button', bookmarkable: @bookmarkable %>");

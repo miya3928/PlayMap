@@ -33,23 +33,25 @@
           </div>
         </div>
 
-        <!-- 星評価 -->
-        <div class="mb-3">
-          <%= render 'public/reviews/display', review: @review %>
+        <!-- 星評価・いいね・ブックマークを横並びに -->
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+        
+          <!-- 左側：星評価 -->
+          <div class="d-flex align-items-center">
+            <%= render 'public/reviews/display', review: @review %>
+          </div>
+        
+          <!-- 右側：いいね＆ブックマーク -->
+          <div class="d-flex align-items-center gap-3">
+            <%= render 'public/review_likes/likes', review: @review %>
+            <%= render 'public/bookmarks/button', bookmarkable: @review %>
+          </div>
+        
         </div>
 
         <!-- レビュー本文 -->
         <p class="mb-3"><%= simple_format(@review.body) %></p>
 
-        <!-- いいねボタン -->
-        <div class="mb-3">
-          <%= render 'public/review_likes/likes', review: @review %>
-        </div>
-
-        <!-- ブックマーク -->
-        <div class="mb-3">
-          <%= render 'public/bookmarks/button', bookmarkable: @review %>
-        </div>
 
       <!-- 編集削除ボタン -->
       <% if @review.user == current_user %>
