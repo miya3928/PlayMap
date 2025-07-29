@@ -1,7 +1,3 @@
-// import $ from 'jquery';
-// window.$ = $;
-// window.jQuery = $;
-
 import 'select2/dist/js/select2.min';
 import 'select2/dist/css/select2.min.css';
 
@@ -12,8 +8,9 @@ import Rails from "@rails/ujs";
 import Turbolinks from "turbolinks";
 import * as ActiveStorage from "@rails/activestorage";
 
+// 各コンポーネント
 import "./filters.js";
-import "./flash.js";
+import "./flash.js"; // Flash ロジックを分離してここに記述
 import "./image_preview.js";
 import "./jpostal.js";
 import "./map.js";
@@ -23,7 +20,7 @@ import "./raty_display.js";
 import "./raty_form.js";
 import "./reply.js";
 
-
+// Raty ラッパー
 import Raty from "../lib/raty.js";
 window.raty = function (elem, opt) {
   let raty = new Raty(elem, opt);
@@ -31,24 +28,7 @@ window.raty = function (elem, opt) {
   return raty;
 };
 
+// 初期化
 Rails.start();
 Turbolinks.start();
 ActiveStorage.start();
-
-function autoCloseFlashMessages() {
-  $('.message').each(function () {
-    const alert = $(this);
-    setTimeout(() => {
-      alert.fadeOut('slow', function () {
-        $(this).remove();
-      });
-    }, 5000);
-  });
-}
-
-document.addEventListener('turbolinks:load', () => {
-  console.log('Flash script loaded');
-  autoCloseFlashMessages();
-});
-
-window.autoCloseFlashMessages = autoCloseFlashMessages; // JS内で再利用できるように

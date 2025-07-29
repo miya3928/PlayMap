@@ -1,12 +1,17 @@
-document.addEventListener('turbolinks:load', () => {
-  console.log('Flash script loaded');
+function autoCloseFlashMessages() {
   $('.message').each(function () {
     const alert = $(this);
-    console.log('Alert will close in 5s');
     setTimeout(() => {
       alert.fadeOut('slow', function () {
         $(this).remove();
       });
-    }, 5000);
+    }, 3000);
   });
+}
+
+document.addEventListener('turbolinks:load', () => {
+  autoCloseFlashMessages();
 });
+
+// 他JSから使えるようにexport
+window.autoCloseFlashMessages = autoCloseFlashMessages;
