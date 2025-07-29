@@ -13,6 +13,7 @@ import Turbolinks from "turbolinks";
 import * as ActiveStorage from "@rails/activestorage";
 
 import "./filters.js";
+import "./flash.js";
 import "./image_preview.js";
 import "./jpostal.js";
 import "./map.js";
@@ -21,6 +22,7 @@ import "./post.js";
 import "./raty_display.js";
 import "./raty_form.js";
 import "./reply.js";
+
 
 import Raty from "../lib/raty.js";
 window.raty = function (elem, opt) {
@@ -32,3 +34,21 @@ window.raty = function (elem, opt) {
 Rails.start();
 Turbolinks.start();
 ActiveStorage.start();
+
+function autoCloseFlashMessages() {
+  $('.message').each(function () {
+    const alert = $(this);
+    setTimeout(() => {
+      alert.fadeOut('slow', function () {
+        $(this).remove();
+      });
+    }, 5000);
+  });
+}
+
+document.addEventListener('turbolinks:load', () => {
+  console.log('Flash script loaded');
+  autoCloseFlashMessages();
+});
+
+window.autoCloseFlashMessages = autoCloseFlashMessages; // JS内で再利用できるように

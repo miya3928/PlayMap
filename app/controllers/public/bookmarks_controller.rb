@@ -11,7 +11,7 @@ class Public::BookmarksController < ApplicationController
         format.html { redirect_to @bookmarkable, notice: 'ブックマークを追加しました。' }
         format.js
       else
-        flash.now[:alert] = 'ブックマークの追加に失敗しました。'
+        flash[:alert] = 'ブックマークの追加に失敗しました。'
         format.html { redirect_to @bookmarkable, alert: 'ブックマークの追加に失敗しました。' }
         format.js
       end
@@ -24,11 +24,11 @@ class Public::BookmarksController < ApplicationController
   
     respond_to do |format|
       if @bookmark&.destroy
-        flash.now[:notice] = 'ブックマークを削除しました。'
+        flash.now[:alert]= 'ブックマークを削除しました。'
         format.html { redirect_to @bookmarkable, notice: 'ブックマークを削除しました。' }
         format.js
       else
-        flash.now[:alert] = 'ブックマークの削除に失敗しました。'
+        flash[:alert] = 'ブックマークの削除に失敗しました。'
         format.html { redirect_to @bookmarkable, alert: 'ブックマークの削除に失敗しました。' }
         format.js
       end
