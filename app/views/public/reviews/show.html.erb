@@ -43,8 +43,8 @@
         
           <!-- 右側：いいね＆ブックマーク -->
           <div class="d-flex align-items-center gap-3">
-            <%= render 'public/review_likes/likes', review: @review %>
             <%= render 'public/bookmarks/button', bookmarkable: @review %>
+            <%= render 'public/review_likes/likes', review: @review %>
           </div>
         
         </div>

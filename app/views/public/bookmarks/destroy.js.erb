@@ -1,1 +1,3 @@
 $("#bookmark-button-<%= @bookmarkable.class.name.downcase %>-<%= @bookmarkable.id %>").html("<%= j render 'public/bookmarks/button', bookmarkable: @bookmarkable %>");
+$('#flash').html('<%= j render "public/shared/flash" %>');
+autoCloseFlashMessages();  // ← 追加したHTMLに対して再実行

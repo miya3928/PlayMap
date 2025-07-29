@@ -11,6 +11,7 @@
 
     <!-- CDN Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.jpostal/2.13.0/jquery.jpostal.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raty/2.9.0/jquery.raty.min.js"></script>
 
@@ -67,10 +68,12 @@
         <%= render 'layouts/header' %>
       <% end %>
 
-      <% flash.each do |key, message| %>
-        <div class="alert alert-<%= key %>"><%= message %></div>
-      <% end %>
-
+      <div id="flash-container" class="position-fixed top-0 end-0 p-3" style="z-index: 1055;">
+        <div id="flash">
+        <%= render 'public/shared/flash' %>
+        </div>
+      </div>
+      
       <main class="flex-grow-1">
         <%= yield %>
       </main>
