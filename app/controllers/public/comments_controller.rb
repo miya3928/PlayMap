@@ -21,7 +21,7 @@ class Public::CommentsController < ApplicationController
   def destroy
     if @comment.destroy
       respond_to do |format|
-        format.html { redirect_to @comment.commetable, notice: 'コメントを削除しました。' }
+        format.html { redirect_to @comment.commetable, alert: 'コメントを削除しました。' }
         format.js   # 成功時にJSレスポンスを返す
       end
     else
