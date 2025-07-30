@@ -1,11 +1,13 @@
-<div class="post-summary-card">
+<div class="post-summary-card card shadow-sm">
   <div class="card-body">
     <h5 class="text-muted fw-bold mb-3">📌 レビュー元の投稿</h5>
 
     <div class="row align-items-center">
       <!-- テキスト部分 -->
       <div class="col-md-8">
-        <p class="mb-2"><strong>タイトル:</strong> <%= link_to post.title, post_path(post), class: "text-decoration-none text-primary" %></p>
+        <p class="mb-2"><strong>タイトル:</strong>
+          <%= link_to post.title, post_path(post), class: "text-decoration-none text-primary" %>
+        </p>
         <p class="mb-2"><strong>カテゴリ:</strong> <%= post.postable_type_display %></p>
         <p class="mb-2"><strong>内容:</strong> <%= truncate(post.body, length: 100) %></p>
 
@@ -23,8 +25,8 @@
       </div>
 
       <!-- 画像部分 -->
-      <div class="col-md-4 text-end">
-        <%= display_image_or_default(post.image, width: 200, height: 200, classes: "img-fluid rounded shadow-sm") %>
+      <div class="col-md-4 text-md-end mt-3 mt-md-0">
+        <%= display_image_or_default(post.image, width: 200, height: 200, classes: "img-fluid rounded shadow-sm w-100" ) %>
       </div>
     </div>
   </div>
