@@ -21,7 +21,13 @@ Rails.application.routes.draw do
     get '/search', to: 'searches#search', as: 'search'
     get 'search_address', to: 'places#search_address'
 
-    resources :users, only: [:create, :show, :edit, :update, :destroy]
+    resources :users, only: [:create, :show, :edit, :update, :destroy] do
+      member do
+        post 'follow', to: 'relationships#create'
+        delete 'unfollow', to: 'relationships#destroy'
+        get :followers, :following
+      end
+    end
     resources :tags, only: [:index, :show] do
       collection do
         get 'search', to: 'tags#search'
@@ -48,6 +54,7 @@ Rails.application.routes.draw do
       resource :comment_likes, only: [:create, :destroy]
     end
   end
+
   # 管理者用
   devise_for :admin,path: 'admin', skip: [:registrations, :passwords], controllers: {
     sessions: 'admin/sessions'

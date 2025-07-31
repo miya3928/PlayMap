@@ -1,0 +1,19 @@
+<% if users.present? %>
+<% users.each do |user| %>
+  <div class="user-card">
+    <%= link_to user.name, user_path(user) %>
+
+    <% if user != current_user %>
+      <div class="follow-button">
+        <% if current_user.following?(user) %>
+          <%= button_to 'フォロー解除', unfollow_user_path(user), method: :delete, class: "btn btn-outline-danger" %>
+        <% else %>
+          <%= button_to 'フォロー', follow_user_path(user), method: :post, class: "btn btn-outline-primary" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+<% else %>
+  <p>ユーザーが見つかりません。</p>
+<% end %>
