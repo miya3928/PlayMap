@@ -17,15 +17,9 @@
           <%= f.text_area :body, class: 'form-control', placeholder: 'イベント内容を入力してください', rows: 5 %>
         </div>
 
-        <div class="form-group">
-         <%= f.label :image, "画像アップロード" %>
-         <%= f.file_field :image, class: "form-control" %>
-        </div>
-
         <!-- 画像プレビュー -->
-        <%= form.file_field :image, accept: "image/*", class: "form-control", id: "event_image" %>
+        <%= f.file_field :image, accept: "image/*", class: "form-control", id: "event_image" %>
         <img id="event-image-preview" class="img-fluid mt-2 rounded shadow-sm d-none" style="max-height: 300px;">
-        
         
         <!-- 開始日時 -->
         <div class="mb-3">
@@ -39,15 +33,11 @@
           <%= f.datetime_select :end_date, class: 'form-select' %>
         </div>
         
-        <!-- 関連する場所 -->
-        <div class="mb-4">
-          <h4 class="text-secondary">関連する場所を選択</h4>
-          <% @places.each do |place| %>
-            <div class="form-check">
-              <%= check_box_tag "event[place_ids][]", place.id, @event.place_ids.include?(place.id), class: 'form-check-input' %>
-              <%= label_tag "event_place_ids_#{place.id}", place.name, class: 'form-check-label' %>
-            </div>
-          <% end %>
+        <!-- 場所の選択 -->
+        <div class="form-group">
+          <h5 class="text-secondary font-weight-bold">場所を選択</h5>
+          <%= f.collection_select :place_ids, @places, :id, :name, {}, { multiple: true, class: "form-control select2" } %>
+          <button type="button" class="btn btn-sm btn-outline-primary mt-2" data-toggle="modal" data-target="#addPlaceModal">＋ 場所を追加</button>
         </div>
         
         <!-- 登録ボタン -->

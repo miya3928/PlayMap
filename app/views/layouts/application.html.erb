@@ -68,6 +68,12 @@
         <%= render 'layouts/header' %>
       <% end %>
 
+      <!-- 戻るボタン -->
+      <div class="mb-4 d-flex justify-content-start align-items-center px-3">
+        <%= render partial: "public/shared/back_button", locals: { back_path: request.referer } %>
+      </div>
+
+
       <div id="flash-container" class="position-fixed top-0 end-0 p-3" style="z-index: 1055;">
         <div id="flash">
         <%= render 'public/shared/flash' %>

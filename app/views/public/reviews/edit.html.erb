@@ -2,17 +2,22 @@
   <div class="card shadow-sm">
     <div class="card-body p-4">
       <div id="review-form" class="review-form">
-        <h1 class="card-title h3 mb-4 text-primary text-center fw-bold">レビュー編集</h1>
+        <h1 class="card-title h3 mb-4 text-center text-primary fw-bold">レビュー編集</h1>
 
         <!-- 以前の評価 -->
         <div class="mb-4">
-          <h5 class="text-muted">以前の評価</h5>
+          <h5 class="text-muted fw-bold mb-2">⭐ 以前の評価</h5>
           <div class="border rounded p-3 bg-light">
             <%= render 'public/reviews/display', review: @review %>
           </div>
         </div>
 
-        <h4 class="mb-3">編集してください</h4>
+        <!-- 投稿概要 -->
+        <div class="mb-4">
+          <%= render 'public/posts/summary', post: @post %>
+        </div>
+
+        <h4 class="mb-3 fw-bold">✏️ 編集してください</h4>
 
         <%= form_with model: [@review.post, @review], local: true do |f| %>
           <!-- 評価 -->

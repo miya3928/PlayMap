@@ -9,20 +9,35 @@ class Public::UsersController < ApplicationController
     @reviews = current_user.reviews
   end
 
+  def followers
+    @user = User.find(params[:id])
+    @followers = @user.followers
+  end
+  
+  def following
+    @user = User.find(params[:id])
+    @following = @user.following
+  end
+
   def edit
     @user = current_user
   end
 
-def destroy
-  current_user.update(is_active: false)  
-  sign_out current_user
-  flash.now[:alert] = '退会しました'
-  redirect_to new_user_registration_path
+  def destroy
+    current_user.update(is_active: false)  
+    sign_out current_user
+    flash.now[:alert] = '退会しました'
+    redirect_to new_user_registration_path
   end
 
   def show
+    if current_user == User.find(params[:id])
+      redirect_to mypage_path and return
+    end
+  
     @user = User.find(params[:id])
     @posts = @user.posts
+    @reviews = @user.reviews
   end
 
   def update

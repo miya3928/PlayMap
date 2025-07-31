@@ -45,6 +45,7 @@ class Public::ReviewsController < ApplicationController
   
   def edit
     @review = Review.find(params[:id])
+    @post = @review.post
   end
 
   def update
