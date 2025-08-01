@@ -32,3 +32,11 @@ window.raty = function (elem, opt) {
 Rails.start();
 Turbolinks.start();
 ActiveStorage.start();
+
+// jQueryが読み込まれている前提
+document.addEventListener('turbolinks:load', function () {
+  $('#page-top a').on('click', function (event) {
+    event.preventDefault();
+    $('html, body').animate({ scrollTop: 0 }, 800);
+  });
+});
