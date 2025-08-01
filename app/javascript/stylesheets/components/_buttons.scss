@@ -14,3 +14,33 @@
   background-color: #c82333;
   border-color: #bd2130;
 }
+
+#page-top {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  z-index: 1000;
+}
+
+#page-top a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: gray; /* Bootstrap primary */
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  text-decoration: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+#page-top a:hover {
+  background-color: blue;
+  transform: scale(1.05);
+}
+
+#page-top i {
+  font-size: 20px;
+  color: white;
+}
