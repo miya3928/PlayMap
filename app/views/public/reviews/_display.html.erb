@@ -1,3 +1,4 @@
+<% if review.present? %>
 <div class="review-score-static mb-2"
      data-score="<%= review.score %>"
      data-star-on="<%= asset_path('star-on.png') %>"
@@ -5,3 +6,4 @@
      data-star-half="<%= asset_path('star-half.png') %>">
 </div>
 <p class="text-muted small">評価: <%= review.score %> / 5</p>
+<% end %>

@@ -10,15 +10,17 @@ import * as ActiveStorage from "@rails/activestorage";
 
 // 各コンポーネント
 import "./filters.js";
-import "./flash.js"; // Flash ロジックを分離してここに記述
+import "./flash.js"; 
 import "./image_preview.js";
 import "./jpostal.js";
 import "./map.js";
+import "./page_top.js";
 import "./post_form_modal.js";
 import "./post.js";
 import "./raty_display.js";
 import "./raty_form.js";
 import "./reply.js";
+import "./search_toggle.js";
 
 // Raty ラッパー
 import Raty from "../lib/raty.js";
@@ -32,11 +34,3 @@ window.raty = function (elem, opt) {
 Rails.start();
 Turbolinks.start();
 ActiveStorage.start();
-
-// jQueryが読み込まれている前提
-document.addEventListener('turbolinks:load', function () {
-  $('#page-top a').on('click', function (event) {
-    event.preventDefault();
-    $('html, body').animate({ scrollTop: 0 }, 800);
-  });
-});
