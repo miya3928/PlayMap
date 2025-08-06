@@ -25,7 +25,3 @@
   <!-- 地図セクション -->
   <%= render "public/shared/map", place: @place %>
 </div>
-
-<script async
-  src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['MAPS_API_KEY'] %>&callback=initMap&loading=async">
-</script>
