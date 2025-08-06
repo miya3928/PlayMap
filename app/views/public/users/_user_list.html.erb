@@ -1,38 +1,42 @@
 <% if users.present? %>
   <div class="row">
     <% users.each do |user| %>
-      <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card shadow-sm border-0 h-100">
-          <div class="card-body d-flex align-items-center">
-            <!-- ユーザー画像（任意）-->
+      <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+        <div class="card shadow-sm h-100 border-0">
+          <div class="card-body d-flex">
+            <!-- プロフィール画像 -->
             <%= link_to user_path(user), class: "mr-3" do %>
               <%= display_image_or_default(user.image, classes: "rounded-circle", width: 60, height: 60) %>
             <% end %>
 
+            <!-- ユーザー情報 -->
             <div class="flex-grow-1">
-              <h5 class="card-title mb-1">
-                <%= link_to user.name, user_path(user), class: "text-dark font-weight-bold" %>さん
+              <h5 class="mb-1 font-weight-bold">
+                <%= link_to user.name, user_path(user), class: "text-primary" %>
               </h5>
-              <p class="text-muted mb-2">自己紹介</p>
-              <p class="border rounded p-3 bg-light">
-                <%= current_user.introduction.presence || "自己紹介がまだ登録されていません。" %>
+              <p class="text-muted small mb-2">
+                <%= truncate(user.introduction.presence || "自己紹介はまだありません。", length: 40) %>
               </p>
-            </div>
-
-            <% unless current_user == user %>
-              <div class="ml-3">
+              
+              <% unless current_user == user %>
                 <% if current_user.following?(user) %>
-                  <%= button_to 'フォロー解除', unfollow_user_path(user), method: :delete, class: "btn btn-sm btn-outline-danger" %>
+                  <%= button_to 'フォロー解除', unfollow_user_path(user),
+                        method: :delete,
+                        class: "btn btn-outline-danger btn-sm" %>
                 <% else %>
-                  <%= button_to 'フォロー', follow_user_path(user), method: :post, class: "btn btn-sm btn-outline-primary" %>
+                  <%= button_to 'フォロー', follow_user_path(user),
+                        method: :post,
+                        class: "btn btn-outline-primary btn-sm" %>
                 <% end %>
-              </div>
-            <% end %>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>
     <% end %>
   </div>
 <% else %>
-  <p class="text-muted font-italic">ユーザーが見つかりません。</p>
+  <div class="text-center text-muted">
+    <p class="lead mt-4">ユーザーが見つかりません。</p>
+  </div>
 <% end %>

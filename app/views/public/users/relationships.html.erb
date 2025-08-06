@@ -1,0 +1,13 @@
+<div class="container my-5 pt-5" id="top">
+  <div class="text-center mb-4">
+    <h2 class="display-4 font-weight-bold">
+      <%= @user.name %>さん<%= action_name == "followers" ? "のフォロワー" : "のフォロー" %>
+    </h2>
+  </div>
+
+  <%= render partial: 'public/users/user_list', locals: { users: @users } %>
+</div>
+
+<div class="mt-4 d-flex justify-content-center">
+  <%= paginate @users %>
+</div>
