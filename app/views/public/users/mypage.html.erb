@@ -41,6 +41,10 @@
       <p class="border rounded p-3 bg-light">
         <%= current_user.introduction.presence || "自己紹介がまだ登録されていません。" %>
       </p>
+
+      <!-- 登録日 -->
+          <p class="text-muted mt-3">アカウント作成日</p>
+          <p><%= l(@user.created_at, format: :long) %></p>
     </div>
   </div>
 
