@@ -16,7 +16,7 @@
           </h2>
 
           <!-- プロフィール画像（編集リンクなし） -->
-          <%= display_image_or_default(@user.image, classes: "rounded-circle") %>
+          <%= display_image_or_default(@user.image, classes: "rounded-circle d-block mx-auto") %>
 
           <!-- フォローボタン（他人の場合のみ表示） -->
           <% unless current_user == @user %>
@@ -69,6 +69,16 @@
                 <div class="card shadow-sm h-100">
                   <div class="card-body d-flex flex-column">
                     <h5 class="card-title text-dark"><%= post.title %></h5>
+
+                    <div class="text-muted small mb-3">
+                       <i class="far fa-clock"></i> <%= l(post.created_at, format: :short) %>
+                     </div>
+                    <% if post.image.attached? %>
+                        <div class="text-center mb-3">
+                          <%= display_image_or_default(post.image, width: 400, height: 250, classes: "img-fluid rounded shadow-sm") %>
+                        </div>
+                    <% end %>
+
                     <p class="card-text text-muted mb-3"><%= truncate(post.body, length: 50) %></p>
 
                     <% if post.user == current_user %>
@@ -105,6 +115,16 @@
               <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card shadow-sm h-100">
                   <div class="card-body d-flex flex-column">
+
+                   <div class="text-muted small mb-3">
+                      <i class="far fa-clock"></i> <%= l(review.created_at, format: :short) %>
+                    </div>
+
+                    <% if review.image.attached? %>
+                      <div class="text-center mb-3">
+                        <%= display_image_or_default(review.image, width: 400, height: 250, classes: "img-fluid rounded shadow-sm") %>
+                      </div>
+                    <% end %>
                     <h5 class="card-title">
                       <%= render 'public/reviews/display', review: review %>
                     </h5>
