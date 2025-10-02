@@ -14,6 +14,8 @@ class User < ApplicationRecord
   has_many :following, through: :active_relationships, source: :followed
   has_many :passive_relationships, class_name: "Relationship",foreign_key: "followed_id",dependent: :destroy
   has_many :followers, through: :passive_relationships, source: :follower
+  has_many :active_notifications, class_name: "Notification",foreign_key: "visitor_id",dependent: :destroy
+  has_many :passive_notifications, class_name: "Notification",foreign_key: "visited_id",dependent: :destroy
 
 
   devise :database_authenticatable, :registerable,

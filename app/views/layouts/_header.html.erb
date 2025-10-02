@@ -26,6 +26,14 @@
               <% end %>
             </li>
             <li class="nav-item">
+            <%= link_to notifications_path, class: "nav-link" do %>
+              <i class="fa fa-bell"></i>
+              <% if current_user.passive_notifications.unchecked.any? %>
+                 <span class="badge"><%= current_user.passive_notifications.unchecked.count %></span>
+              <% end %>
+            <% end %>
+            </li>
+            <li class="nav-item">
               <%= link_to posts_path, class: "nav-link" do %>
                 <i class="fas fa-list mr-1"></i> 投稿一覧
               <% end %>
