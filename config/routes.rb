@@ -53,6 +53,7 @@ Rails.application.routes.draw do
     resources :comments do
       resource :comment_likes, only: [:create, :destroy]
     end
+    resources :notifications, only: :index
   end
 
   # 管理者用
