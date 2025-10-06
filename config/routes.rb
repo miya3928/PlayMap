@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     get '/search', to: 'searches#search', as: 'search'
     get 'search_address', to: 'places#search_address'
 
-    resources :users, only: [:create, :show, :edit, :update, :destroy] do
+    resources :users, only: [:create, :show, :edit, :update, :destroy, :index] do
       member do
         post 'follow', to: 'relationships#create'
         delete 'unfollow', to: 'relationships#destroy'

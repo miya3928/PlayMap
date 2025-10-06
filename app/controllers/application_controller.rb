@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :check_guest_user, only: [:new, :create], if: :user_signed_in?
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :check_user_status, unless: :guest_user?
+  before_action :set_notifications, if: :user_signed_in?
 
   protected
 
@@ -47,5 +48,9 @@ class ApplicationController < ActionController::Base
 
   def guest_user?
     current_user&.guest?
+  end
+
+  def set_notifications
+    @unchecked_notifications = current_user.passive_notifications.unchecked
   end
 end
