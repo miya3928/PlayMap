@@ -1,0 +1,23 @@
+<div class="container my-4 pt-5">
+  <h2 class="mb-4">ユーザーリスト</h2>
+  <div class="row">
+    <% @users.each do |user| %>
+      <div class="col-md-3 mb-3">
+        <div class="card h-100 text-center p-3">
+          <%= display_image_or_default(user.image, classes: "rounded-circle mx-auto mb-2") %>
+          <h6><%= user.name %></h6>
+
+          <% if current_user.following?(user) %>
+            <%= button_to 'フォロー解除', unfollow_user_path(user),
+                  method: :delete, class: "btn btn-outline-danger btn-sm" %>
+          <% else %>
+            <%= button_to 'フォローする', follow_user_path(user),
+                  method: :post, class: "btn btn-outline-primary btn-sm" %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <%= paginate @users %>
+</div>

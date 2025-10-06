@@ -1,2 +1,26 @@
-<h1>Public::Notifications#index</h1>
-<p>Find me in app/views/public/notifications/index.html.erb</p>
+<div class="container my-4 mt-5">
+  <h2 class="mb-4"><i class="fa fa-bell text-warning"></i> 通知一覧</h2>
+
+  <% if @notifications.any? %>
+    <% @notifications.each do |notification| %>
+      <div class="card shadow-sm mb-3 border-left-primary">
+        <div class="card-body d-flex align-items-center">
+          <%= image_tag notification.visitor.image, class: "rounded-circle mr-3", size: "50x50" if notification.visitor.image.attached? %>
+
+          <div>
+            <% if notification.action == "follow" %>
+              <p class="mb-1">
+                <%= link_to notification.visitor.name, user_path(notification.visitor), class: "font-weight-bold" %> さんにフォローされました
+              </p>
+            <% else %>
+              <p class="mb-1">通知: <%= notification.action %></p>
+            <% end %>
+            <small class="text-muted"><%= time_ago_in_words(notification.created_at) %>前</small>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <p>通知はまだありません</p>
+  <% end %>
+</div>

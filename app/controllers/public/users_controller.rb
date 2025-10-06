@@ -21,7 +21,11 @@ class Public::UsersController < ApplicationController
     @users = @user.following.page(params[:page]).per(9)
     @relationship_type = :following
     render :relationships
-  end
+  end 
+
+  def index
+  @users = User.where.not(email: "guest@example.com", id: current_user.id).page(params[:page]).per(12)
+end
 
   def edit
     @user = current_user
