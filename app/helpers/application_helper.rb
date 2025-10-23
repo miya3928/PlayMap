@@ -8,3 +8,9 @@ module ApplicationHelper
     end
   end
 end
+
+
+def unchecked_notifications_count
+  return 0 unless user_signed_in?
+  current_user.passive_notifications.unchecked.count
+end
