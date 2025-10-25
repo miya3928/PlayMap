@@ -24,8 +24,10 @@ class Public::UsersController < ApplicationController
   end 
 
   def index
-  @users = User.where.not(email: "guest@example.com", id: current_user.id).page(params[:page]).per(12)
-end
+    @users = User.where.not(email: User::GUEST_USER_EMAIL)
+    @users = @users.where.not(id: current_user.id) if user_signed_in?
+    @users = @users.page(params[:page]).per(9)
+  end
 
   def edit
     @user = current_user

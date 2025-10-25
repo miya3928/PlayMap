@@ -2,21 +2,24 @@ class User < ApplicationRecord
   has_one_attached :image
   has_many :posts, dependent: :destroy
   has_many :reviews, dependent: :destroy
+
   has_many :comment_likes, dependent: :destroy
   has_many :liked_comments, through: :comment_likes, source: :comment
   has_many :review_likes, dependent: :destroy
   has_many :liked_reviews, through: :review_likes, source: :review
+
   has_many :bookmarks, dependent: :destroy
   has_many :bookmarked_reviews, through: :bookmarks, source: :bookmarkable, source_type: 'Review'
   has_many :bookmarked_places, through: :bookmarks, source: :bookmarkable, source_type: 'Place'
   has_many :bookmarked_events, through: :bookmarks, source: :bookmarkable, source_type: 'Event'
+
   has_many :active_relationships, class_name: "Relationship",foreign_key: "follower_id",dependent: :destroy
   has_many :following, through: :active_relationships, source: :followed
   has_many :passive_relationships, class_name: "Relationship",foreign_key: "followed_id",dependent: :destroy
   has_many :followers, through: :passive_relationships, source: :follower
+
   has_many :active_notifications, class_name: "Notification",foreign_key: "visitor_id",dependent: :destroy
   has_many :passive_notifications, class_name: "Notification",foreign_key: "visited_id",dependent: :destroy
-
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
