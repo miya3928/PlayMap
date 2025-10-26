@@ -30,6 +30,7 @@ window.raty = function (elem, opt) {
   return raty;
 };
 
+
 // 初期化
 Rails.start();
 Turbolinks.start();

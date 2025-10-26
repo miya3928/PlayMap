@@ -1,71 +1,76 @@
 <header>
-  <nav class="navbar navbar-expand-md navbar-light bg-light shadow-sm fixed-top">
-    <div class="container d-flex justify-content-between align-items-center">
+  <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm fixed-top py-2">
+    <div class="container-fluid d-flex align-items-center px-3">
 
-      <!-- 左：ハンバーガーメニュー -->
-      <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navbarMenu"
+      <!-- ハンバーガー（左端） -->
+      <button class="navbar-toggler mr-2" type="button" data-toggle="collapse" data-target="#navbarMenu"
         aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <!-- タイトル -->
-      <%= link_to "PlayMap", root_path, class: "navbar-brand font-weight-bold mb-0 ml-2" %>
+      <!-- ロゴ -->
+      <%= link_to "PlayMap", root_path, class: "navbar-brand font-weight-bold h4 text-primary mr-auto" %>
 
-      <!-- 右：虫眼鏡アイコン -->
-      <button class="btn btn-link text-dark p-0 ml-3" id="searchToggle">
-        <i class="fas fa-search fa-lg"></i>
-      </button>
-
-      <!-- ハンバーガーメニューの中身 -->
-      <div class="collapse navbar-collapse" id="navbarMenu">
-        <ul class="navbar-nav ml-3">
-          <% if current_user %>
-            <li class="nav-item">
-              <%= link_to mypage_path, class: "nav-link" do %>
-                <i class="fas fa-user mr-1"></i> マイページ
-              <% end %>
-            </li>
-            <li class="nav-item position-relative">
-            <%= link_to notifications_path, class: "nav-link" do %>
-              <i class="fa fa-bell"></i> 通知
+      <!-- 右上アイコン群 -->
+      <div class="d-flex align-items-center">
+        <% if current_user %>
+          <!-- 通知ベル -->
+          <div class="dropdown position-relative ml-3 mr-3">
+            <%= link_to notifications_path, class: "text-dark position-relative" do %>
+              <i class="fa fa-bell fa-lg"></i>
               <% if unchecked_notifications_count.positive? %>
-                <span class="badge badge-danger"><%= unchecked_notifications_count %></span>
+                <span class="badge badge-danger position-absolute" style="top: 0; right: 0; transform: translate(50%, -50%);">
+                  <%= unchecked_notifications_count %>
+                </span>
               <% end %>
             <% end %>
-          </li>
+          </div>
+        <% end %>
+
+        <!-- 検索アイコン -->
+        <button class="btn btn-link text-dark p-0" id="searchToggle">
+          <i class="fas fa-search fa-lg"></i>
+        </button>
+      </div>
+
+      <!-- メニュー（折りたたみ時は下にスライド） -->
+      <div class="collapse navbar-collapse mt-2 mt-md-0" id="navbarMenu">
+        <ul class="navbar-nav ml-auto align-items-md-center">
+
+          <% if current_user %>
+            <!-- マイページ -->
             <li class="nav-item">
-              <%= link_to users_path, class: "nav-link" do %>
-                <i class="fas fa-users mr-1"></i> ユーザーリスト
+              <%= link_to mypage_path, class: "nav-link d-flex align-items-center" do %>
+                <i class="fas fa-user mr-2"></i> マイページ
               <% end %>
             </li>
-            <li class="nav-item">
-              <%= link_to posts_path, class: "nav-link" do %>
-                <i class="fas fa-list mr-1"></i> 投稿一覧
-              <% end %>
+
+            <!-- 一覧ドロップダウン -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="listDropdown"
+                 role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-list mr-2"></i> 一覧
+              </a>
+              <div class="dropdown-menu" aria-labelledby="listDropdown">
+                <%= link_to "投稿一覧", posts_path, class: "dropdown-item" %>
+                <%= link_to "レビューリスト", reviews_path, class: "dropdown-item" %>
+                <%= link_to "場所一覧", places_path, class: "dropdown-item" %>
+                <%= link_to "イベント一覧", events_path, class: "dropdown-item" %>
+                <%= link_to "ユーザーリスト", users_path, class: "dropdown-item" %>
+              </div>
             </li>
+
+            <!-- ログアウト -->
             <li class="nav-item">
-              <%= link_to reviews_path, class: "nav-link" do %>
-                <i class="fas fa-star me-1"></i> レビューリスト
-              <% end %>
-            </li>
-            <li class="nav-item">
-              <%= link_to places_path, class: "nav-link" do %>
-                <i class="fas fa-map-marker-alt me-1"></i> 場所一覧
-              <% end %>
-            </li>
-            <li class="nav-item">
-              <%= link_to events_path, class: "nav-link" do %>
-                <i class="fas fa-calendar-alt me-1"></i> イベント一覧
-              <% end %>
-            </li>
-            <li class="nav-item">
-              <%= link_to destroy_user_session_path, method: :delete, class: "nav-link text-danger" do %>
-                <i class="fas fa-sign-out-alt mr-1"></i> ログアウト
+              <%= link_to destroy_user_session_path, method: :delete,
+                  class: "nav-link text-danger d-flex align-items-center" do %>
+                <i class="fas fa-sign-out-alt mr-2"></i> ログアウト
               <% end %>
             </li>
           <% else %>
-            <li class="nav-item">
-              <%= link_to new_user_registration_path, class: "btn btn-outline-primary mr-2" do %>
+            <!-- 未ログイン時 -->
+            <li class="nav-item mr-2">
+              <%= link_to new_user_registration_path, class: "btn btn-outline-primary" do %>
                 <i class="fas fa-user-plus mr-1"></i> 新規登録
               <% end %>
             </li>
@@ -75,13 +80,15 @@
               <% end %>
             </li>
           <% end %>
+
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- 検索フォーム（初期非表示） -->
-  <div id="searchFormWrapper" class="bg-light px-3 py-2 shadow-sm d-none position-fixed w-100" style="top: 56px; z-index: 1050;">
+  <!-- 検索フォーム -->
+  <div id="searchFormWrapper" class="bg-light px-3 py-2 shadow-sm position-fixed w-100 d-none"
+       style="top: 60px; z-index: 1050;">
     <%= render 'public/shared/search_form' %>
   </div>
 </header>
