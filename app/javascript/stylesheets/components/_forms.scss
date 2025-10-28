@@ -7,3 +7,56 @@
     margin: 0 auto;
   }
 }
+
+#searchFormWrapper {
+  background-color: #f8f9fa;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  justify-content: center;
+
+  form {
+    width: 100%;
+    max-width: 1200px; /* フォーム全体の最大幅 */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+
+    select,
+    input[type="text"],
+    input[type="search"] {
+      height: 45px;
+      font-size: 1rem;
+      border-radius: 25px;
+      padding: 0 1rem;
+      border: 1px solid #ced4da;
+
+      /* 👇ここを変更 */
+      flex: 3; /* 入力欄をより大きくする */
+      min-width: 300px; /* 最小幅を広げる（以前は180px） */
+
+      &:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+      }
+    }
+
+    select {
+      max-width: 160px;
+      flex: 0 0 auto;
+    }
+
+    input[placeholder="市町村"] {
+      max-width: 250px; /* 市町村も少し広く */
+      flex: 0 0 auto;
+    }
+
+    .btn {
+      height: 45px;
+      border-radius: 25px;
+      padding: 0 1.5rem;
+      flex: 0 0 auto;
+    }
+  }
+}
