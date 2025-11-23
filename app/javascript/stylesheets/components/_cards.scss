@@ -16,3 +16,55 @@
   transform: scale(1.02);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
+
+.feature-card-animated {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #eee !important; // 境界線を薄く追加
+
+  &:hover {
+    transform: translateY(-5px); // ホバーで少し浮き上がる
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .icon-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.post-card-hover, .review-card-hover {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: scale(1.02); // 少し拡大
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  // 画像にもアニメーションの準備
+  .post-image-effect, .review-image-effect {
+    transition: transform 0.5s ease;
+    object-fit: cover;
+  }
+
+  &:hover .post-image-effect, &:hover .review-image-effect {
+    transform: scale(1.05); // ホバーで画像も少し拡大し、奥行きを出す
+  }
+}
+
+// セクションヘッダーの強調
+.section-header-line {
+  border-left: 5px solid #007bff; // primaryカラーの太い線
+  padding-left: 15px !important;
+}
+
+// レビューの星を大きく
+.review-star-large .fa-star {
+  font-size: 1.2rem;
+}
