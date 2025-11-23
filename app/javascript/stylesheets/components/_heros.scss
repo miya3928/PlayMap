@@ -1,0 +1,43 @@
+.hero-section-new {
+  // 明るく楽しいグラデーション
+  background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+  border-radius: 20px;
+  // 背景に動的な動きを加える
+  background-size: 400% 400%;
+  animation: gradient-animation 15s ease infinite;
+
+  .text-shadow-soft {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .subtitle-shadow {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  // ボタンのサイズとホバーエフェクト
+  .hero-btn {
+    padding: 1rem 2.5rem;
+    font-size: 1.25rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-3px); // 上に少し浮き上がる
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  .hero-btn-outline {
+    // アウトラインボタンもホバーで色が変わる
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-color: #fff;
+    }
+  }
+
+  // 背景アニメーションの定義
+  @keyframes gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+}
