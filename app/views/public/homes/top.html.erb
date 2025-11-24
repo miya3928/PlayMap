@@ -9,13 +9,18 @@
     </p>
 
     <div class="d-flex flex-column flex-md-row justify-content-center mb-3">
+      
       <%= link_to "✨ 投稿する", new_post_path, class: "btn btn-primary btn-xl rounded-pill mx-2 mb-2 hero-btn shadow-sm" %>
-      <%= link_to "📝 使い方を見る", about_path, class: "btn btn-outline-light btn-xl rounded-pill mx-2 mb-2 hero-btn-outline" %>
+      
+      <%= link_to "📝 使い方を見る", about_path, class: "btn btn-info btn-xl rounded-pill mx-2 mb-2 hero-btn shadow-sm" %>
+      
       <%= link_to "🏃 ゲストログイン", guest_login_path, class: "btn btn-success btn-xl rounded-pill mx-2 mb-2 hero-btn shadow-sm" %>
     </div>
+    
     <div class="text-center mt-3">
-      <%= link_to "新規登録はこちら", new_user_registration_path, class: "text-white small registration-link" %>
+      <%= link_to "💡 新規登録はこちら", new_user_registration_path, class: "btn btn-warning btn-lg rounded-pill px-5 hero-btn shadow-sm" %>
     </div>
+    
   </div>
 
 
