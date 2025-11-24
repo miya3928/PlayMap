@@ -1,0 +1,52 @@
+// ヘッダーデザイン
+.about-header-bg {
+  // $playmap-primary変数を使用
+  background: linear-gradient(45deg, $playmap-primary, #a8d5ff);
+  border-radius: 1rem;
+}
+
+// セクションタイトルの強調
+.section-title-styled-primary {
+  color: $playmap-primary;
+  position: relative;
+  &::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: $playmap-primary;
+    margin: 10px auto 0;
+    border-radius: 2px;
+  }
+}
+
+// カードデザイン（使い方ステップ）
+.step-card {
+  border: none !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  // ホバーで浮き上がるアニメーション
+  &:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  // ステップアイコンの丸
+  .step-icon-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+}
+
+// 特徴リストの調整
+.feature-list span {
+  font-size: 0.95rem;
+}
+.feature-list .fa-check-circle {
+  min-width: 25px;
+}

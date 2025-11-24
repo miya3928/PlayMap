@@ -1,6 +1,8 @@
 @use '~bootstrap/scss/bootstrap';
 
 @import "base";
+@import "variable";
+
 
 @import "components/buttons";
 @import "components/cards";
@@ -13,5 +15,6 @@
 @import "pages/admin/tags";
 @import "pages/admin/users";
 
+@import "pages/public/about";
 @import "pages/public/posts";
 @import "pages/public/reviews";
