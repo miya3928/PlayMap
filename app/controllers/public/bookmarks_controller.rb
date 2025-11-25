@@ -1,5 +1,16 @@
 class Public::BookmarksController < ApplicationController
   before_action :authenticate_user!
+  
+  def index
+      # ブックマークしたレコードをまとめて取得
+      @bookmarks = current_user.bookmarks.includes(:bookmarkable)
+  
+      # 各種類ごとにまとめる（必要なら）
+      @posts   = @bookmarks.where(bookmarkable_type: "Post").map(&:bookmarkable)
+      @reviews = @bookmarks.where(bookmarkable_type: "Review").map(&:bookmarkable)
+      @places  = @bookmarks.where(bookmarkable_type: "Place").map(&:bookmarkable)
+      @events  = @bookmarks.where(bookmarkable_type: "Event").map(&:bookmarkable)
+  end
 
   def create
     @bookmarkable = find_bookmarkable

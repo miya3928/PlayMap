@@ -27,6 +27,12 @@
           </div>
         <% end %>
 
+        <div class="dropdown position-relative mr-3">
+            <%= link_to bookmarks_path, class: "text-dark position-relative" do %>
+              <i class="fa-solid fa-bookmark"></i> 
+            <% end %>  
+        </div>
+      
         <!-- 検索アイコン -->
         <button class="btn btn-link text-dark p-0" id="searchToggle">
           <i class="fas fa-search fa-lg"></i>

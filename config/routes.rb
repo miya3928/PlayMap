@@ -44,6 +44,7 @@ Rails.application.routes.draw do
     resources :posts do
       resources :reviews
       resources :comments, only: [:create, :destroy]
+      resource :bookmark, only: [:create, :destroy]
     end
     resources :reviews do
       resources :comments, only: [:create, :destroy]
@@ -53,6 +54,7 @@ Rails.application.routes.draw do
     resources :comments do
       resource :comment_likes, only: [:create, :destroy]
     end
+    resources :bookmarks, only: :index
     resources :notifications, only: :index
   end
 
