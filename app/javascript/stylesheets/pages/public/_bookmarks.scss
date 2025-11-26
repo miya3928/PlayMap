@@ -1,0 +1,14 @@
+.bookmark-card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px); 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+.border-w-3 {
+  border-left-width: 3px !important;
+}
+.review-star-medium .fa-star {
+  font-size: 1.1rem; /* レビューの星を少し大きくする */
+}
