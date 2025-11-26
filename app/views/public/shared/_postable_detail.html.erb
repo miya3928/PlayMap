@@ -1,0 +1,67 @@
+<%# 共通パーシャル: 場所またはイベントの詳細表示に使用 %>
+<%# 受け取るローカル変数: item (場所またはイベント), item_type (文字列: 'place' または 'event') %>
+<%
+  # item_typeに基づいて関連情報の変数を決定
+  is_place = (item_type == 'place')
+  
+  # メインカードの関連情報
+  related_title = is_place ? "関連イベント" : "関連場所"
+  related_items = is_place ? item.events : item.places
+  empty_message = is_place ? "関連するイベントはありません。" : "関連する場所はありません。"
+  
+  # 関連コンテンツの表示ロジック
+  related_content_lambda = -> (related_item) {
+    if is_place
+      # 場所 => イベント
+      concat(content_tag(:p, "イベント名: #{related_item.title}", class: "text-muted"))
+      concat(content_tag(:p, "開始日時: #{l(related_item.start_date)}"))
+      concat(content_tag(:p, "終了時刻: #{l(related_item.end_date)}"))
+    else
+      # イベント => 場所
+      concat(content_tag(:p, "場所名: #{related_item.name}", class: "text-muted"))
+      concat(content_tag(:p, "説明: #{truncate(related_item.description, length: 50)}"))
+      concat(content_tag(:p, "住所: #{related_item.address}"))
+    end
+    concat(link_to("詳細を見る", is_place ? event_path(related_item) : place_path(related_item), class: "btn btn-outline-secondary btn-sm mb-3"))
+  }
+  
+  # フッターリンク
+  footer_links_content = is_place ? (
+    link_to("編集", edit_place_path(item), class: "btn btn-outline-success btn-lg mx-1") +
+    link_to("場所一覧", places_path, class: "btn btn-outline-secondary btn-lg mx-1") +
+    link_to("新規イベント", new_event_path, class: "btn btn-outline-primary btn-lg mx-1")
+  ) : (
+    link_to("編集", edit_event_path(item), class: "btn btn-outline-success btn-lg mx-1") +
+    link_to("イベント一覧", events_path, class: "btn btn-outline-secondary btn-lg mx-1") +
+    link_to("場所追加", new_place_path, class: "btn btn-outline-primary btn-lg mx-1")
+  )
+%>
+
+<%# 1. メイン情報カードのレンダリング %>
+<%= render "public/shared/card",
+  title: is_place ? item.name : item.title,
+  description: is_place ? item.description : item.body,
+  image: item.image,
+  related_title: related_title,
+  related_items: related_items,
+  empty_message: empty_message,
+  related_content: related_content_lambda,
+  footer_links: footer_links_content
+%>
+
+<div class="container my-5">
+  <%# 2. 関連投稿セクション %>
+  <%= render "public/shared/post_list", 
+    posts: item.posts, 
+    title: "この#{is_place ? '場所' : 'イベント'}の投稿" %>
+    
+  <%# 3. 関連レビューセクション %>
+  <%= render "public/shared/review_list", 
+    reviews: item.posts.flat_map(&:reviews), 
+    title: "この#{is_place ? '場所' : 'イベント'}のレビュー" %>
+    
+  <%# 4. 地図セクション (場所ページのみ) %>
+  <% if is_place %>
+    <%= render "public/shared/map", place: item %>
+  <% end %>
+</div>
