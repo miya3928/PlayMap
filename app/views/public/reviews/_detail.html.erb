@@ -1,0 +1,51 @@
+<%# レビュー詳細表示パーシャル %>
+<%# 受け取るローカル変数: review (必須), post (必須) %>
+<div class="review-detail-content">
+
+  <div class="d-flex align-items-center mb-3 p-3 bg-light rounded-pill">
+    <%= display_image_or_default(review.user.image, width: 40, height: 40, classes: "rounded-circle me-3") %>
+    <div>
+      <strong><%= link_to review.user.name, user_path(review.user), class: "text-decoration-none text-primary fw-bold" %></strong> さん
+      <span class="text-muted small ms-2"><i class="fa-regular fa-clock"></i> <%= l(review.created_at, format: :short) %></span>
+    </div>
+  </div>
+
+  <% if review.image.attached? %>
+    <div class="text-center mb-4">
+      <%= display_image_or_default(review.image, width: 600, height: 350, classes: "img-fluid rounded shadow-sm review-image-full") %>
+    </div>
+  <% end %>
+
+  <div class="d-flex align-items-center justify-content-between flex-wrap p-3 mb-4 border-bottom">
+  
+    <div class="d-flex align-items-center">
+      <%= render 'public/reviews/display', review: review %>
+    </div>
+  
+    <div class="d-flex align-items-center gap-3">
+      <%= render 'public/bookmarks/button', bookmarkable: review %>
+      <%= render 'public/review_likes/likes', review: review %>
+    </div>
+  </div>
+
+  <p class="mb-5 p-3 lead"><%= simple_format(review.body) %></p>
+
+
+  <% if review.user == current_user %>
+    <div class="d-flex justify-content-end gap-2 mb-4">
+      <%= link_to edit_post_review_path(post, review), class: "btn btn-outline-success btn-sm shadow-sm rounded-pill px-3" do %>
+        <i class="fa-solid fa-pen me-1"></i>編集
+      <% end %>
+      <%= link_to post_review_path(post, review), method: :delete,
+                  data: { confirm: "本当に削除しますか？" },
+                  class: "btn btn-outline-danger btn-sm shadow-sm rounded-pill px-3" do %>
+        <i class="fa-solid fa-trash me-1"></i>削除
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="post-summary-divider my-5"></div>
+  <h4 class="text-secondary fw-bold mb-3"><i class="fas fa-link me-2"></i>関連投稿</h4>
+  <%= render 'public/posts/summary', post: post %>
+
+</div>

@@ -1,87 +1,20 @@
 <div class="container my-5">
   <div class="card shadow-lg border-0 rounded-lg overflow-hidden">
-    <div class="card-body">
+    <div class="card-body p-md-5">
 
-      <!-- 戻るボタン -->
-      <div class="mb-4 d-flex justify-content-between align-items-center">
-        <%= link_to post_path(@review.post), class: "btn btn-secondary rounded-circle p-3 d-flex justify-content-center align-items-center shadow-sm", style: "width:3rem; height:3rem;" do %>
-          <i class="fa-solid fa-arrow-left"></i> 
-        <% end %>
-      </div>
+      <h2 class="text-success fw-bolder mb-5 border-bottom pb-3"><i class="fas fa-star me-2"></i> レビュー詳細</h2>
 
-      <!-- レビュー情報 -->
-      <div class="mb-4">
-        <h2 class="text-success fw-bold mb-3">レビュー詳細</h2>
-
-        <!-- 投稿日時 -->
-        <div class="text-muted small mb-3">
-          <i class="fa-regular fa-clock"></i> <%= l(@review.created_at, format: :short) %>
-        </div>
-
-        <!-- レビュー画像 -->
-        <% if @review.image.attached? %>
-          <div class="text-center mb-4">
-            <%= display_image_or_default(@review.image, width: 400, height: 250, classes: "img-fluid rounded shadow-sm") %>
-          </div>
-        <% end %>
-
-        <!-- 投稿者情報 -->
-        <div class="d-flex align-items-center mb-3">
-          <%= display_image_or_default(@review.user.image, width: 40, height: 40, classes: "rounded-circle me-2") %>
-          <div>
-            <strong><%= link_to @review.user.name, user_path(@review.user), class: "text-decoration-none text-primary fw-bold" %></strong> さん
-          </div>
-        </div>
-
-        <!-- 星評価・いいね・ブックマークを横並びに -->
-        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+      <%= render 'public/reviews/detail', review: @review, post: @post %>
         
-          <!-- 左側：星評価 -->
-          <div class="d-flex align-items-center">
-            <%= render 'public/reviews/display', review: @review %>
-          </div>
-        
-          <!-- 右側：いいね＆ブックマーク -->
-          <div class="d-flex align-items-center gap-3">
-            <%= render 'public/bookmarks/button', bookmarkable: @review %>
-            <%= render 'public/review_likes/likes', review: @review %>
-          </div>
+      <div class="mt-5 pt-4 border-top">
+        <h3 class="text-info fw-bold mb-4"><i class="fas fa-comment me-2"></i> コメントする</h3>
+
+        <div class="p-4 bg-light rounded-lg shadow-sm mb-5">
+          <%= render 'public/comments/form', commetable: @review %>
         </div>
 
-        <!-- レビュー本文 -->
-        <p class="mb-3"><%= simple_format(@review.body) %></p>
-
-
-      <!-- 編集削除ボタン -->
-      <% if @review.user == current_user %>
-        <div class="d-flex justify-content-end gap-2">
-          <%= link_to edit_post_review_path(@post, @review), class: "btn btn-outline-success btn-sm shadow-sm" do %>
-            <i class="fa-solid fa-pen me-1"></i>編集
-          <% end %>
-          <%= link_to post_review_path(@post, @review), method: :delete,
-                      data: { confirm: "本当に削除しますか？" },
-                      class: "btn btn-outline-danger btn-sm shadow-sm" do %>
-            <i class="fa-solid fa-trash me-1"></i>削除
-          <% end %>
-        </div>
-      <% end %>
-
-      <!-- 元の投稿の概要 -->
-      <div class="post-summary-divider"></div>
-        <%= render 'public/posts/summary', post: @post %>
-        
-      <!-- コメントセクション -->
-      <div class="mt-5 p-4 bg-light rounded shadow-sm">
-        <h3 class="text-info mb-4">コメント</h3>
-
-        <!-- コメントフォーム -->
-        <%= render 'public/comments/form', commetable: @review %>
-
-        <!-- コメント一覧 -->
-        <div class="mt-4">
-          <h4 class="text-secondary mb-3">みんなのコメント</h4>
-          <%= render 'public/comments/lists', commetable: @review %>
-        </div>
+        <h4 class="text-secondary fw-bold mb-3"><i class="fas fa-comments me-2"></i> みんなのコメント</h4>
+        <%= render 'public/comments/lists', commetable: @review %>
       </div>
 
     </div>

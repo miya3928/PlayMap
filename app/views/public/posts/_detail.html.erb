@@ -1,0 +1,42 @@
+<%# 投稿詳細表示パーシャル %>
+<%# 受け取るローカル変数: post (必須), postable (必須) %>
+<div class="post-detail-content">
+
+  <h1 class="card-title text-primary fw-bolder mb-3 display-5"><%= post.title %></h1>
+
+  <div class="d-flex align-items-center justify-content-between flex-wrap mb-4 pb-3 border-bottom">
+    <div class="d-flex align-items-center">
+      <%= display_image_or_default(post.user.image, width: 40, height: 40, classes: "rounded-circle me-2") %>
+      <div>
+        <strong><%= link_to post.user.name, user_path(post.user), class: "text-decoration-none text-primary fw-bold" %></strong> さん
+        <div class="text-muted small"><i class="fa-regular fa-clock me-1"></i> <%= l(post.created_at, format: :short) %></div>
+      </div>
+    </div>
+    
+    <div class="mt-2 mt-sm-0">
+      <%= render 'public/bookmarks/button', bookmarkable: post %>
+    </div>
+  </div>
+
+  <div class="text-center my-4">
+    <%= display_image_or_default(post.image, width: 800, height: 450, classes: "img-fluid rounded-lg shadow-lg post-image-full") %>
+  </div>
+
+  <div class="d-flex flex-wrap gap-2 mb-4">
+    <% post.tags.each do |tag| %>
+      <span class="badge bg-primary text-white tag-pill-style">
+        <%= link_to tag.name, tag_path(tag), class: "text-white text-decoration-none small" %>
+      </span>
+    <% end %>
+  </div>
+
+  <div class="mb-5 p-3 border-start border-primary border-w-5">
+    <p class="card-text lead"><%= simple_format(post.body) %></p>
+  </div>
+
+  <h3 class="text-secondary fw-bold mb-3"><i class="fas fa-info-circle me-2"></i>関連情報</h3>
+  <div class="p-3 bg-light rounded-lg shadow-sm mb-5">
+    <%= render_postable_details(postable) %>
+  </div>
+  
+</div>
