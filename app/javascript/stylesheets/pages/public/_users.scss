@@ -1,0 +1,50 @@
+// プロフィールカードの装飾
+.profile-card {
+  background: linear-gradient(180deg, #f8f9fa, #fff);
+  .profile-image-wrapper {
+    width: 120px;
+    height: 120px;
+    // ... 必要なら画像ホバーエフェクト
+  }
+}
+
+// 投稿/レビューカードのアニメーション
+.post-card-animated, .review-card-animated {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+  }
+  .post-image-effect, .review-image-effect {
+    object-fit: cover;
+  }
+}
+
+// タブのデザイン調整
+.user-page-tabs {
+  .nav-link {
+    color: #495057;
+    background-color: #e9ecef;
+    border-radius: 0.5rem;
+    margin: 0 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    &.active {
+      background-color: $playmap-primary; // 定義済みの青
+      color: white;
+    }
+  }
+}
+
+// 自己紹介ボックスの装飾
+.introduction-box {
+  min-height: 100px;
+  border: 1px dashed #ced4da !important;
+}
+
+// コンテンツなしメッセージの装飾
+.border-dashed {
+  border: 2px dashed #ced4da !important;
+  border-radius: 0.5rem;
+}

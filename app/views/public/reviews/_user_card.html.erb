@@ -1,0 +1,30 @@
+<%# ユーザーページ用のレビューカード %>
+<%# review (レビューオブジェクト), current_user (現在のユーザー) %>
+<div class="card shadow-sm h-100 review-card-animated border-0 rounded-lg overflow-hidden">
+  <% if review.image.attached? %>
+    <%= display_image_or_default(review.image, width: 400, height: 200, classes: "card-img-top review-image-effect") %>
+  <% end %>
+  <div class="card-body d-flex flex-column p-3">
+    
+    <div class="text-muted small mb-2">
+      <i class="far fa-clock me-1"></i> <%= l(review.created_at, format: :short) %>
+    </div>
+    
+    <div class="mb-2">
+      <%= render 'public/reviews/display', review: review %>
+    </div>
+    
+    <p class="card-text text-muted small mb-3"><%= truncate(review.body, length: 40) %></p>
+    
+    <div class="text-end mb-3">
+      <%= link_to "続きを読む", post_review_path(review.post, review), class: "btn btn-outline-primary btn-sm rounded-pill" %>
+    </div>
+
+    <% if review.user == current_user %>
+      <div class="mt-auto d-flex justify-content-end gap-2 pt-2 border-top">
+        <%= link_to "編集", edit_post_review_path(review.post, review), class: "btn btn-outline-success btn-sm rounded-pill" %>
+        <%= link_to "削除", post_review_path(review.post, review), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-outline-danger btn-sm rounded-pill" %>
+      </div>
+    <% end %>
+  </div>
+</div>

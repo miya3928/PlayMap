@@ -1,158 +1,113 @@
-<div class="container my-5">
-  <!-- ユーザーページタイトル -->
-  <div class="text-center mb-4">
-    <h1 class="display-4">
-      <strong><%= @user.name %> さんのページ</strong>
+<div class="container my-5 pt-3">
+  
+  <div class="text-center mb-5">
+    <h1 class="display-4 fw-bolder text-dark">
+      <i class="fas fa-user-circle me-2 text-primary"></i> <%= @user.name %> さんのページ
     </h1>
   </div>
 
   <div class="row">
-    <!-- 左側（プロフィール） -->
-    <div class="col-md-4">
-      <div class="card shadow-sm">
-        <div class="card-body text-center">
-          <h2 class="card-title text-primary">
-            <strong><%= @user.name %></strong>さん
+    
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-lg h-100 profile-card border-0 rounded-lg">
+        <div class="card-body text-center p-4">
+
+          <div class="profile-image-wrapper mx-auto mb-3">
+            <%= display_image_or_default(@user.image, width: 120, height: 120, classes: "rounded-circle border border-primary border-w-3 shadow-sm") %>
+          </div>
+          
+          <h2 class="card-title text-primary fw-bold mb-3">
+            <%= @user.name %>
           </h2>
 
-          <!-- プロフィール画像（編集リンクなし） -->
-          <%= display_image_or_default(@user.image, classes: "rounded-circle d-block mx-auto") %>
+          <% if current_user == @user %>
+            <%= link_to edit_user_registration_path, class: "btn btn-warning btn-sm rounded-pill mb-4 px-4 shadow-sm" do %>
+              <i class="fas fa-cog me-1"></i> プロフィールを編集
+            <% end %>
+          <% end %>
 
-          <!-- フォローボタン（他人の場合のみ表示） -->
+          <div class="d-flex justify-content-around py-2 border-top border-bottom mb-4">
+            <div>
+              <%= link_to "#{number_with_delimiter(@user.following.count)} フォロー", following_user_path(@user), class: "text-decoration-none fw-bold" %>
+            </div>
+            <div>
+             <%= link_to "#{number_with_delimiter(@user.followers.count)} フォロワー", followers_user_path(@user), class: "text-decoration-none fw-bold" %>
+            </div>
+          </div>
+          
           <% unless current_user == @user %>
             <div class="my-3">
               <% if current_user.following?(@user) %>
-                <%= button_to 'フォロー解除', unfollow_user_path(@user), method: :delete, class: "btn btn-outline-danger" %>
+                <%= button_to 'フォロー解除', unfollow_user_path(@user), method: :delete, class: "btn btn-outline-danger rounded-pill px-4" %>
               <% else %>
-                <%= button_to 'フォローする', follow_user_path(@user), method: :post, class: "btn btn-outline-primary" %>
+                <%= button_to 'フォローする', follow_user_path(@user), method: :post, class: "btn btn-primary rounded-pill px-4" %>
               <% end %>
             </div>
           <% end %>
 
 
-          <div class="d-flex justify-content-around my-3">
-            <div>
-              <%= link_to "#{@user.following.count} フォロー", following_user_path(@user) %>
-            </div>
-            <div>
-             <%= link_to "#{@user.followers.count} フォロワー", followers_user_path(@user) %>
-            </div>
+          <h5 class="text-secondary mt-4 mb-2">自己紹介</h5>
+          <div class="text-start border rounded p-3 bg-light introduction-box small">
+            <%= simple_format(@user.introduction.presence || "自己紹介がまだ登録されていません。") %>
           </div>
 
-          <!-- 自己紹介 -->
-          <p class="text-muted mb-2">自己紹介</p>
-          <p class="border rounded p-3 bg-light">
-            <%= @user.introduction.presence || "自己紹介がまだ登録されていません。" %>
-          </p>
-
-          <!-- 登録日 -->
-          <p class="text-muted mt-3">アカウント作成日</p>
-          <p><%= l(@user.created_at, format: :long) %></p>
+          <p class="text-muted small mt-3 mb-0">アカウント作成日: <%= l(@user.created_at, format: :long) %></p>
         </div>
       </div>
     </div>
 
-    <!-- 右側（投稿・レビュー） -->
     <div class="col-md-8">
-      <!-- 投稿一覧 -->
-      <div class="mb-5">
-        <div class="text-center">
-          <h2 class="text-primary">
-            <i class="fas fa-pencil-alt me-1"></i><%= @user.name %> さんの投稿
-          </h2>
-        </div>
+      <div class="card shadow-lg border-0 rounded-lg p-md-4">
+        
+        <ul class="nav nav-pills nav-fill mb-4 user-page-tabs" id="userContentTabs" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">
+              <i class="fas fa-pencil-alt me-1"></i> 投稿 (<%= @posts.count %>)
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">
+              <i class="fas fa-star me-1"></i> レビュー (<%= @reviews.count %>)
+            </a>
+          </li>
+          </ul>
 
-        <% if @posts.present? %>
-          <div class="row mt-4">
-            <% @posts.each do |post| %>
-              <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card shadow-sm h-100">
-                  <div class="card-body d-flex flex-column">
-                    <h5 class="card-title text-dark"><%= post.title %></h5>
-
-                    <div class="text-muted small mb-3">
-                       <i class="far fa-clock"></i> <%= l(post.created_at, format: :short) %>
-                     </div>
-                    <% if post.image.attached? %>
-                        <div class="text-center mb-3">
-                          <%= display_image_or_default(post.image, width: 400, height: 250, classes: "img-fluid rounded shadow-sm") %>
-                        </div>
-                    <% end %>
-
-                    <p class="card-text text-muted mb-3"><%= truncate(post.body, length: 50) %></p>
-
-                    <% if post.user == current_user %>
-                      <div class="mt-auto">
-                        <%= link_to "編集", edit_post_path(post), class: "btn btn-outline-success btn-sm mr-2" %>
-                        <%= link_to "削除", post_path(post), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-outline-danger btn-sm" %>
-                      </div>
-                    <% end %>
+        <div class="tab-content">
+          
+          <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+            <% if @posts.present? %>
+              <div class="row row-cols-1 row-cols-md-2 g-4">
+                <% @posts.each do |post| %>
+                  <div class="col mb-4">
+                    <%= render 'public/posts/user_card', post: post, current_user: current_user %>
                   </div>
-                </div>
+                <% end %>
               </div>
+            <% else %>
+              <%= render 'public/shared/empty_content', message: "まだ投稿がありません。" %>
             <% end %>
-          </div>
-        <% else %>
-          <div class="card shadow-sm h-100">
-            <div class="card-body text-center">
-              <p class="mt-4">まだ投稿がありません。</p>
+            <div class="text-center mt-4">
+              <%= link_to "すべての投稿を見る", posts_path, class: "btn btn-info rounded-pill px-4" %>
             </div>
           </div>
-        <% end %>
-      </div>
 
-      <!-- レビュー一覧 -->
-      <div class="mb-5">
-        <div class="text-center">
-          <h2 class="text-primary">
-            <i class="fas fa-star me-1"></i><%= @user.name %> さんのレビュー
-          </h2>
-        </div>
-
-        <% if @reviews.any? %>
-          <div class="row mt-4">
-            <% @reviews.each do |review| %>
-              <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card shadow-sm h-100">
-                  <div class="card-body d-flex flex-column">
-
-                   <div class="text-muted small mb-3">
-                      <i class="far fa-clock"></i> <%= l(review.created_at, format: :short) %>
-                    </div>
-
-                    <% if review.image.attached? %>
-                      <div class="text-center mb-3">
-                        <%= display_image_or_default(review.image, width: 400, height: 250, classes: "img-fluid rounded shadow-sm") %>
-                      </div>
-                    <% end %>
-                    <h5 class="card-title">
-                      <%= render 'public/reviews/display', review: review %>
-                    </h5>
-                    <p class="card-text text-muted mb-3"><%= truncate(review.body, length: 30) %></p>
-                    <% if review.user == current_user %>
-                      <div class="mt-auto">
-                        <%= link_to "編集", edit_review_path(review), class: "btn btn-outline-success btn-sm mr-2" %>
-                        <%= link_to "削除", review_path(review), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-outline-danger btn-sm" %>
-                      </div>
-                    <% end %>
+          <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+            <% if @reviews.any? %>
+              <div class="row row-cols-1 row-cols-md-2 g-4">
+                <% @reviews.each do |review| %>
+                  <div class="col mb-4">
+                    <%= render 'public/reviews/user_card', review: review, current_user: current_user %>
                   </div>
-                </div>
+                <% end %>
               </div>
+            <% else %>
+              <%= render 'public/shared/empty_content', message: "まだレビューがありません。" %>
             <% end %>
-          </div>
-        <% else %>
-          <div class="card shadow-sm h-100">
-            <div class="card-body text-center">
-              <p class="mt-4">まだレビューがありません。</p>
+            <div class="text-center mt-4">
+              <%= link_to "すべてのレビューを見る", reviews_path, class: "btn btn-success rounded-pill px-4" %>
             </div>
           </div>
-        <% end %>
-      </div>
-
-      <!-- アクションボタン -->
-      <div class="text-center mt-4">
-        <%= link_to "投稿一覧", posts_path, class: "btn btn-info btn-custom btn-lg mx-2" %>
-        <%= link_to "レビューリスト", reviews_path, class: "btn btn-success btn-custom btn-lg mx-2" %>
+        </div>
       </div>
     </div>
   </div>
