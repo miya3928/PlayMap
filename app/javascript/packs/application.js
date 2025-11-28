@@ -21,7 +21,25 @@ import "./raty_display.js";
 import "./raty_form.js";
 import "./reply.js";
 import "./search_toggle.js";
+import Swiper from 'swiper';
+import 'swiper/css';
+import { gsap } from "gsap";
 
+document.addEventListener("turbo:load", () => {
+  // スライドショー
+  const heroSwiper = new Swiper('.hero-swiper', {
+    loop: true,
+    autoplay: {
+      delay: 5000,
+    },
+    speed: 1400,
+    effect: "fade"
+  });
+
+  // テキストフェード
+  const heroTexts = document.querySelectorAll(".animate-hero-text");
+  heroTexts.forEach(text => text.classList.add("active"));
+});
 // Raty ラッパー
 import Raty from "../lib/raty.js";
 window.raty = function (elem, opt) {

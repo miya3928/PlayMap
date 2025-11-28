@@ -1,3 +1,30 @@
+<section class="hero-slider position-relative">
+  <div class="swiper hero-swiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide hero-slide" style="background-image: url(<%= asset_path 'hero1.jpg' %>);"></div>
+      <div class="swiper-slide hero-slide" style="background-image: url(<%= asset_path 'hero2.jpg' %>);"></div>
+      <div class="swiper-slide hero-slide" style="background-image: url(<%= asset_path 'hero3.jpg' %>);"></div>
+    </div>
+  </div>
+
+  <div class="hero-text position-absolute w-100 h-100 d-flex flex-column justify-content-center align-items-center text-white">
+    <h1 class="display-2 fw-bold mb-4 animate-hero-text">
+      ようこそ <strong>PlayMap</strong> へ
+    </h1>
+    <p class="lead mb-4 animate-hero-text delay-1">
+      子どもたちの遊び場・イベントをみんなで共有しよう
+    </p>
+
+    <div class="d-flex flex-column flex-md-row justify-content-center mt-3 animate-hero-text delay-2">
+      <%= link_to "✨ 投稿する", new_post_path, class: "btn btn-primary btn-xl rounded-pill mx-2 mb-2 shadow-lg" %>
+      <%= link_to "📝 使い方を見る", about_path, class: "btn btn-info btn-xl rounded-pill mx-2 mb-2 shadow-lg" %>
+      <%= link_to "🏃 ゲストログイン", guest_login_path, class: "btn btn-success btn-xl rounded-pill mx-2 mb-2 shadow-lg" %>
+    </div>
+
+    <%= link_to "💡 新規登録はこちら", new_user_registration_path, class: "btn btn-warning btn-lg rounded-pill px-5 shadow-lg mt-4 animate-hero-text delay-3" %>
+  </div>
+</section>
+
 <div class="container my-5">
 
   <div class="text-center py-5 px-3 rounded shadow-lg hero-section-new mb-5">
