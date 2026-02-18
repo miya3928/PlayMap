@@ -1,9 +1,27 @@
+/* --- Base Typography --- */
 body {
   font-family: 'Noto Sans JP', sans-serif;
-  padding-top: 30px;
-  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  color: #222;
+  letter-spacing: 0.05em; /* 文字間隔を少し広げる */
+  background-color: #fff;
 }
 
 main {
-  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  /* mainに強い色は付けず、セクションごとの余白で魅せる */
+  background: transparent;
+  padding-bottom: 50px;
+}
+
+/* アイコン用の微調整 */
+.modern-btn i {
+  margin-right: 8px;
+  font-size: 1.1em;
+  vertical-align: middle;
+}
+
+/* セクション間の区切りをより繊細に */
+hr.opacity-25 {
+  border: 0;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  margin: 4rem 0;
 }

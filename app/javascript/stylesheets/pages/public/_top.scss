@@ -1,0 +1,138 @@
+
+
+.py-custom { padding-top: 100px; padding-bottom: 100px; }
+.mb-section { margin-bottom: 120px; }
+
+/* --- Titles (Upvege Style) --- */
+.en-title {
+  display: block;
+  font-family: 'Helvetica', sans-serif;
+  font-weight: bold;
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  color: #aaa;
+  margin-bottom: 10px;
+}
+.jp-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+}
+
+/* --- Hero (Upvege Style) --- */
+.hero-slider-minimal {
+  position: relative;
+  height: 100vh;
+  background: #000;
+}
+.hero-slide {
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.6; /* 写真を少し暗くして文字を浮かせる */
+}
+.hero-content-center {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  z-index: 10;
+  color: #fff;
+}
+.hero-main-title {
+  font-size: 5rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  margin-bottom: 20px;
+}
+.hero-sub-title {
+  letter-spacing: 0.5em;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+/* スクロールダウンの縦線 */
+.scroll-line {
+  position: absolute;
+  bottom: 0; left: 50%;
+  width: 1px; height: 80px;
+  background: rgba(255,255,255,0.5);
+}
+
+/* --- Upvege Buttons --- */
+.upvege-btn {
+  display: inline-block;
+  padding: 15px 60px;
+  border: 1px solid #fff;
+  color: #fff;
+  text-decoration: none !important;
+  transition: all 0.5s ease;
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 0.2em;
+}
+.upvege-btn:hover {
+  background: #fff;
+  color: #000;
+}
+
+/* --- Cards (Clean & Image Focus) --- */
+.upvege-card {
+  position: relative;
+  transition: all 0.3s ease;
+}
+.img-zoom-box {
+  overflow: hidden;
+  border-radius: 4px; /* 弱めの角丸 */
+}
+.upvege-img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  transition: transform 1s ease;
+}
+.upvege-card:hover .upvege-img {
+  transform: scale(1.05);
+}
+
+.card-date {
+  font-family: 'Helvetica';
+  font-size: 0.75rem;
+  color: #999;
+  margin-bottom: 5px;
+}
+.card-title-min {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+.read-more-link {
+  font-size: 0.8rem;
+  color: #222;
+  font-weight: bold;
+  border-bottom: 1px solid #222;
+  text-decoration: none !important;
+  padding-bottom: 2px;
+}
+
+/* --- Features --- */
+.minimal-feature-box {
+  border-left: 1px solid #eee;
+  padding-left: 30px;
+}
+.feature-num {
+  font-family: 'Helvetica';
+  font-size: 0.9rem;
+  color: #ccc;
+  font-weight: bold;
+}
+
+.view-all-link {
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  color: #222;
+  text-decoration: none;
+  border-bottom: 1px solid #222;
+}
