@@ -1,16 +1,23 @@
-import 'select2/dist/js/select2.min';
-import 'select2/dist/css/select2.min.css';
-
-import 'bootstrap';
-import "../stylesheets/application";
-
 import Rails from "@rails/ujs";
 import Turbolinks from "turbolinks";
 import * as ActiveStorage from "@rails/activestorage";
+import "bootstrap";
+
+import "select2/dist/js/select2.min";
+import "../stylesheets/application";
+
+import Swiper from 'swiper';
+import { Navigation, Pagination } from 'swiper/modules';
+// import Swiper and modules styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
 
 // 各コンポーネント
 import "./filters.js";
-import "./flash.js"; 
+import "./flash.js";
+import "./hero_swiper.js";
 import "./image_preview.js";
 import "./jpostal.js";
 import "./map.js";
@@ -22,14 +29,13 @@ import "./raty_form.js";
 import "./reply.js";
 import "./search_toggle.js";
 
-// Raty ラッパー
+// Raty
 import Raty from "../lib/raty.js";
 window.raty = function (elem, opt) {
   let raty = new Raty(elem, opt);
   raty.init();
   return raty;
 };
-
 
 // 初期化
 Rails.start();

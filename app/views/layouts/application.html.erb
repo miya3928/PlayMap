@@ -8,12 +8,17 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+
 
     <!-- CDN Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.jpostal/2.13.0/jquery.jpostal.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raty/2.9.0/jquery.raty.min.js"></script>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <!-- CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/raty/2.7.1/jquery.raty.min.css">
@@ -34,6 +39,12 @@
     <!-- Maps API Key -->
     <script>
       window.MAPS_API_KEY = "<%= ENV['MAPS_API_KEY'] %>";
+    </script>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        AOS.init({ duration: 1000, once: true });
+      });
     </script>
   </head>
 
@@ -79,9 +90,7 @@
         </div>
       </div>
 
-      <div class="my-4 text-center">
-          <%= image_tag "banner1.png", alt: "バナー広告", class: "img-fluid rounded shadow" %>
-      </div>
+     
       
       <main class="flex-grow-1">
         <%= yield %>

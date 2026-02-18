@@ -1,112 +1,108 @@
-<div class="container my-5">
+<% 
+features = [
+  { en: "POST", jp: "投稿がカンタン", text: "写真と場所情報で、遊び場・レビューを気軽に投稿・共有。", color: "#4facfe" },
+  { en: "SEARCH", jp: "検索が便利", text: "エリアや設備、評価でフィルタリング。ほしい情報にすぐアクセス。", color: "#00f2fe" },
+  { en: "COMMUNITY", jp: "ユーザー交流", text: "コメントや「いいね」で、ママ・パパ友と情報交換。", color: "#28a745" }
+] 
+%>
 
-  <div class="text-center py-5 px-3 rounded shadow-lg hero-section-new mb-5">
-    <h1 class="display-3 font-weight-bolder text-white mb-3 text-shadow-soft">
-      ようこそ <strong>PlayMap</strong> へ！
-    </h1>
-    <p class="lead text-light mb-5 subtitle-shadow">
-      <i class="fas fa-map-marker-alt mr-2"></i> 子どもたちの遊び場・イベントをみんなで共有しよう
-    </p>
-
-    <div class="d-flex flex-column flex-md-row justify-content-center mb-3">
-      
-      <%= link_to "✨ 投稿する", new_post_path, class: "btn btn-primary btn-xl rounded-pill mx-2 mb-2 hero-btn shadow-sm" %>
-      
-      <%= link_to "📝 使い方を見る", about_path, class: "btn btn-info btn-xl rounded-pill mx-2 mb-2 hero-btn shadow-sm" %>
-      
-      <%= link_to "🏃 ゲストログイン", guest_login_path, class: "btn btn-success btn-xl rounded-pill mx-2 mb-2 hero-btn shadow-sm" %>
+<section class="hero-slider-minimal">
+  <div class="swiper hero-swiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide hero-slide" style="background-image: url(<%= asset_path 'hero1.jpg' %>);"></div>
+      <div class="swiper-slide hero-slide" style="background-image: url(<%= asset_path 'hero2.jpg' %>);"></div>
     </div>
-    
-    <div class="text-center mt-3">
-      <%= link_to "💡 新規登録はこちら", new_user_registration_path, class: "btn btn-warning btn-lg rounded-pill px-5 hero-btn shadow-sm" %>
+  </div>
+  <div class="hero-content-center">
+    <div class="hero-inner text-center" data-aos="fade-up">
+      <p class="hero-sub-title">SHARE YOUR FAVORITE PLACES</p>
+      <h1 class="hero-main-title">PlayMap</h1>
+      <p class="hero-lead">子どもたちの遊び場・イベントを<br class="d-md-none">みんなで共有しよう</p>
+      
+      <div class="hero-actions mt-5">
+        <%= link_to new_post_path, class: "upvege-btn" do %>
+          <span>POST <i class="fas fa-arrow-right ml-2"></i></span>
+        <% end %>
+      </div>
     </div>
+  </div>
+  <div class="scroll-line"></div>
+</section>
+
+<div class="bg-white">
+  <main class="container py-custom">
     
-  </div>
-
-
-  <h2 class="text-center font-weight-bold mb-5 section-title-styled">
-    <i class="fas fa-hand-point-right text-primary mr-2"></i> PlayMap の特徴
-  </h2>
-  <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
-    <% features = [
-      { icon: "fas fa-pencil-alt", title: "投稿がカンタン", text: "写真と場所情報で、遊び場・レビューを気軽に投稿・共有できます！", color: "primary" },
-      { icon: "fa fa-search", title: "検索が便利", text: "エリアや設備、評価でフィルタリング。ほしい情報にすぐアクセス！", color: "info" },
-      { icon: "fa fa-users", title: "ユーザー交流", text: "レビューへのコメントや「いいね」で、ママ・パパ友と情報交換できます。", color: "success" }
-    ] %>
-
-    <% features.each do |f| %>
-      <div class="col mb-4">
-        <div class="card text-center shadow-lg feature-card-animated h-100 p-4 border-0 rounded-lg">
-          <div class="icon-circle mb-3 mx-auto bg-<%= f[:color] %>">
-            <i class="<%= f[:icon] %> fa-3x text-white"></i>
-          </div>
-          <h5 class="font-weight-bold mt-2"><%= f[:title] %></h5>
-          <p class="text-secondary small"><%= f[:text] %></p>
-        </div>
+    <section class="mb-section">
+      <div class="text-center mb-5" data-aos="fade-up">
+        <span class="en-title">FEATURES</span>
+        <h2 class="jp-title">PlayMapの特徴</h2>
       </div>
-    <% end %>
-  </div>
-  
-  <hr class="my-5">
-
-
-  <h2 class="font-weight-bold text-dark mb-4 section-header-line">
-    <i class="fas fa-list text-primary mr-2"></i> 最新の投稿
-  </h2>
-
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
-    <% @posts.limit(3).each do |post| %>
-      <div class="col mb-4">
-        <div class="card shadow-lg post-card-hover h-100 border-0 rounded-lg overflow-hidden">
-          <%= display_image_or_default(post.image, width: 350, height: 200, classes: "card-img-top rounded-top post-image-effect") %>
-          <div class="card-body">
-            <h5 class="card-title text-dark font-weight-bold mb-2"><%= post.title %></h5>
-            <p class="text-muted small mb-3"><%= truncate(post.body, length: 40) %></p>
-            <%= link_to "詳細を見る", post_path(post), class: "btn btn-outline-primary btn-sm rounded-pill" %>
-          </div>
-          <div class="card-footer bg-light border-0 text-muted small d-flex justify-content-between">
-            <span><i class="fas fa-user mr-1"></i> <%= post.user&.name || "匿名" %></span>
-            <span><i class="fas fa-clock mr-1"></i> <%= post.created_at.strftime("%Y/%m/%d") %></span>
-          </div>
-        </div>
-      </div>
-    <% end %>
-  </div>
-
-  <div class="text-center mt-4 mb-5">
-    <%= link_to "すべての投稿を見る (全件表示)", posts_path, class: "btn btn-primary btn-lg rounded-pill px-5 shadow-lg" %>
-  </div>
-  
-  <hr class="my-5">
-
-
-  <h2 class="font-weight-bold text-dark mb-4 section-header-line">
-    <i class="fas fa-star text-warning mr-2"></i> 最新のレビュー
-  </h2>
-
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
-    <% @reviews.limit(3).each do |review| %>
-      <div class="col mb-4">
-        <div class="card shadow-lg review-card-hover h-100 border-0 rounded-lg overflow-hidden">
-          <%= display_image_or_default(review.image, width: 350, height: 200, classes: "card-img-top rounded-top review-image-effect") %>
-          <div class="card-body">
-            <div class="mb-2 text-warning font-weight-bold review-star-large">
-              <%= render 'public/reviews/display', review: review %>
+      
+      <div class="row">
+        <% features.each_with_index do |f, i| %>
+          <div class="col-md-4 mb-5" data-aos="fade-up" data-aos-delay="<%= i * 100 %>">
+            <div class="minimal-feature-box">
+              <span class="feature-num">0<%= i + 1 %></span>
+              <h3 class="font-weight-bold mt-3"><%= f[:jp] %></h3>
+              <p class="text-secondary mt-3"><%= f[:text] %></p>
             </div>
-            <p class="text-muted small mb-3"><%= truncate(review.body, length: 40) %></p>
-            <%= link_to "レビューを読む", post_review_path(review.post, review), class: "btn btn-outline-success btn-sm rounded-pill" %>
           </div>
-          <div class="card-footer bg-light border-0 text-muted small d-flex justify-content-between">
-            <span><i class="fas fa-user mr-1"></i> <%= review.user&.name || "匿名" %></span>
-            <span><i class="fas fa-clock mr-1"></i> <%= review.created_at.strftime("%Y/%m/%d") %></span>
+        <% end %>
+      </div>
+    </section>
+
+    <section class="mb-section">
+      <div class="d-flex justify-content-between align-items-end mb-4" data-aos="fade-up">
+        <div>
+          <span class="en-title">LATEST POSTS</span>
+          <h2 class="jp-title text-left">最新の投稿</h2>
+        </div>
+        <%= link_to "VIEW ALL", posts_path, class: "view-all-link d-none d-md-block" %>
+      </div>
+
+      <div class="row">
+        <% @posts.limit(3).each do |post| %>
+          <div class="col-md-4 mb-4" data-aos="fade-up">
+            <div class="upvege-card">
+              <div class="img-zoom-box">
+                <%= display_image_or_default(post.image, classes: "upvege-img") %>
+              </div>
+              <div class="card-content pt-3">
+                <p class="card-date"><%= post.created_at.strftime("%Y.%m.%d") %></p>
+                <h4 class="card-title-min"><%= post.title %></h4>
+                <%= link_to "Read More", post_path(post), class: "read-more-link" %>
+              </div>
+            </div>
           </div>
+        <% end %>
+      </div>
+    </section>
+
+    <section class="mb-section">
+      <div class="d-flex justify-content-between align-items-end mb-4" data-aos="fade-up">
+        <div>
+          <span class="en-title">REVIEWS</span>
+          <h2 class="jp-title text-left">最新のレビュー</h2>
         </div>
       </div>
-    <% end %>
-  </div>
 
-  <div class="text-center mt-4">
-    <%= link_to "すべてのレビューを見る (全件表示)", reviews_path, class: "btn btn-success btn-lg rounded-pill px-5 shadow-lg" %>
-  </div>
+      <div class="row">
+        <% @reviews.limit(3).each do |review| %>
+          <div class="col-md-4 mb-4" data-aos="fade-up">
+            <div class="upvege-card review-style">
+              <div class="img-zoom-box">
+                <%= display_image_or_default(review.image, classes: "upvege-img") %>
+              </div>
+              <div class="card-content pt-3">
+                <div class="star-rating mb-2"><%= render 'public/reviews/display', review: review %></div>
+                <h4 class="card-title-min"><%= truncate(review.body, length: 25) %></h4>
+                <p class="card-user text-muted small"><i class="fas fa-user-circle"></i> <%= review.user&.name %></p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </section>
 
+  </main>
 </div>
