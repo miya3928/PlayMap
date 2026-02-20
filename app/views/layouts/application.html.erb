@@ -10,8 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-
-
     <!-- CDN Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
@@ -37,15 +35,19 @@
     <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" %>
     
     <!-- Maps API Key -->
+    <!-- AOS  -->
     <script>
       window.MAPS_API_KEY = "<%= ENV['MAPS_API_KEY'] %>";
-    </script>
-    
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        AOS.init({ duration: 1000, once: true });
+
+      document.addEventListener('turbolinks:load', function() {
+        AOS.init({ 
+          duration: 1000, 
+          once: true,
+          easing: 'ease-out-quad' 
+        });
       });
     </script>
+
   </head>
 
   <body>
