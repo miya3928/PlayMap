@@ -24,6 +24,8 @@
 .hero-slider-minimal {
   position: relative;
   height: 100vh;
+  width: 100%;       /* 追加 */
+  overflow: hidden;  /* 追加：スライダーのはみ出しを防ぐ */
   background: #000;
 }
 .hero-slide {
@@ -39,6 +41,10 @@
   width: 100%;
   z-index: 10;
   color: #fff;
+  pointer-events: none; /* 追加：下のコンテンツへスクロールしやすくする */
+}
+.hero-inner {
+  pointer-events: auto; /* 追加：ボタンはクリック可能に戻す */
 }
 .hero-main-title {
   font-size: 5rem;
@@ -135,4 +141,10 @@
   color: #222;
   text-decoration: none;
   border-bottom: 1px solid #222;
+}
+
+.bg-white {
+  position: relative; /* 追加 */
+  z-index: 5;         /* 追加：ヒーローより後ろにならないように */
+  background-color: #fff;
 }
