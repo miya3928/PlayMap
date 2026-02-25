@@ -85,6 +85,7 @@ features = [
           <span class="en-title">REVIEWS</span>
           <h2 class="jp-title text-left">最新のレビュー</h2>
         </div>
+         <%= link_to "VIEW ALL", reviews_path, class: "view-all-link d-none d-md-block" %>
       </div>
 
       <div class="row">
@@ -98,6 +99,7 @@ features = [
                 <div class="star-rating mb-2"><%= render 'public/reviews/display', review: review %></div>
                 <h4 class="card-title-min"><%= truncate(review.body, length: 25) %></h4>
                 <p class="card-user text-muted small"><i class="fas fa-user-circle"></i> <%= review.user&.name %></p>
+                <%= link_to "Read More", review_path(review), class: "read-more-link" %>
               </div>
             </div>
           </div>
