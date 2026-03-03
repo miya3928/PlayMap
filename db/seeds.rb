@@ -2,6 +2,17 @@
 # 個々のモデルに `validates :column, presence: true` のような設定がないことを確認するか、
 # `Model.create!(..., validate: false)` を検討してください（通常は非推奨）。
 # ここでは、標準的な `create!` を使用します。
+def attach_seed_image(record, filename)
+  path = Rails.root.join("app/assets/images/seed_images/#{filename}")
+  final_path = File.exist?(path) ? path : Rails.root.join("app/assets/images/seed_images/sample.jpg")
+
+  if File.exist?(final_path)
+    record.image.attach(io: File.open(final_path), filename: File.basename(final_path), content_type: 'image/jpeg')
+    puts "   -> Attached: #{File.basename(final_path)} to #{record.title}"
+  else
+    puts "   -> [Warning] No image found at #{final_path}"
+  end
+end
 
 puts "--- Seeding Data Start ---"
 
@@ -202,35 +213,54 @@ posts << post10
 # --- ここから、以前「雑記」だった投稿にも関連付けを設定 ---
 
 # 投稿 11: グルメフェスのお知らせ (Event)
-posts << Post.create!(title: "グルメフェスのお知らせ", body: "来週のグルメフェス、絶対行くべき！", user: yoko, postable_type: "Event", postable_id: events[0].id)
+post11 = Post.create!(title: "グルメフェスのお知らせ", body: "来週のグルメフェス、絶対行くべき！全国から美味しいものが集まります。", user: yoko, postable_type: "Event", postable_id: events[0].id)
+attach_seed_image(post11, "gourmet_fes.jpg")
+posts << post11
 
 # 投稿 12: 週末は星空観測 (Event)
-posts << Post.create!(title: "週末は星空観測", body: "普段見られない星も見れるかも。", user: kenta, postable_type: "Event", postable_id: events[1].id)
+post12 = Post.create!(title: "週末は星空観測", body: "普段見られない星も見れるかも。専門家の解説が楽しみです。", user: kenta, postable_type: "Event", postable_id: events[1].id)
+attach_seed_image(post12, "star_viewing.jpg")
+posts << post12
 
-# 投稿 13: （雑記）最近の悩み -> 新宿御苑 (Place) に関連付け
-posts << Post.create!(title: "リフレッシュの必要性", body: "仕事とプライベートの両立が難しい...新宿御苑の自然に癒されたい。", user: users[9], postable_type: "Place", postable_id: places[1].id)
+# 投稿 13: リフレッシュの必要性 (Place: 新宿御苑)
+post13 = Post.create!(title: "リフレッシュの必要性", body: "仕事とプライベートの両立が難しい...新宿御苑の自然に癒されたい。", user: users[9], postable_type: "Place", postable_id: places[1].id)
+attach_seed_image(post13, "shinjuku_refresh.jpg")
+posts << post13
 
-# 投稿 14: （雑記）おすすめの本 -> 大阪市立科学館 (Place) に関連付け（学びの場所）
-posts << Post.create!(title: "知識欲を刺激する本", body: "最近読んだ『〇〇の法則』が面白かったです。科学館での学びと繋がる。", user: users[8], postable_type: "Place", postable_id: places[3].id)
+# 投稿 14: 知識欲を刺激する本 (Place: 大阪市立科学館)
+post14 = Post.create!(title: "知識欲を刺激する本", body: "最近読んだ『〇〇の法則』が面白かったです。科学館での学びと繋がる深い内容でした。", user: users[8], postable_type: "Place", postable_id: places[3].id)
+attach_seed_image(post14, "science_book.jpg")
+posts << post14
 
-# 投稿 15: 来月の予定 -> クラフトビール祭り (Event) に関連付け
-posts << Post.create!(title: "来月の予定", body: "写真展とボランティア清掃に参加予定！クラフトビール祭りも楽しみ。子供が食べれるものは流石にないか", user: users[7], postable_type: "Event", postable_id: events[4].id)
+# 投稿 15: 来月の予定 (Event: クラフトビール祭り)
+post15 = Post.create!(title: "来月の予定", body: "写真展とボランティア清掃に参加予定！クラフトビール祭りも楽しみ。子供が食べれるものもあるといいな。", user: users[7], postable_type: "Event", postable_id: events[4].id)
+attach_seed_image(post15, "craft_beer.jpg")
+posts << post15
 
-# 投稿 16: カフェ巡りの記録 -> 新江ノ島水族館 (Place) 周辺に関連付け
-posts << Post.create!(title: "カフェ巡りの記録", body: "今月は5軒の新規カフェを開拓しました。海辺のカフェが特に良かった。", user: users[6], postable_type: "Place", postable_id: places[2].id)
+# 投稿 16: カフェ巡りの記録 (Place: 新江ノ島水族館周辺)
+post16 = Post.create!(title: "カフェ巡りの記録", body: "今月は5軒の新規カフェを開拓しました。海辺のテラス席で飲むコーヒーは格別。", user: users[6], postable_type: "Place", postable_id: places[2].id)
+attach_seed_image(post16, "ocean_cafe.jpg")
+posts << post16
 
-# 投稿 17: プログラミング学習 -> ITセミナー (Event) に関連付け
-posts << Post.create!(title: "子供のプログラミング学習", body: "子供がプログラミングについて勉強中。ITセミナーで質問しようかな。", user: users[5], postable_type: "Event", postable_id: events[3].id)
+# 投稿 17: 子供のプログラミング学習 (Event: ITセミナー)
+post17 = Post.create!(title: "子供のプログラミング学習", body: "子供がプログラミングに興味津々。今度のITセミナーで、教え方のコツを聞いてみます。", user: users[5], postable_type: "Event", postable_id: events[3].id)
+attach_seed_image(post17, "kids_programming.jpg")
+posts << post17
 
-# 投稿 18: 次の旅行先はどこに？ -> 札幌円山動物園 (Place) に関連付け
-posts << Post.create!(title: "次の旅行先はどこに？", body: "冬の北海道（札幌円山動物園！）か、夏の沖縄で迷っています。", user: users[4], postable_type: "Place", postable_id: places[4].id)
+# 投稿 18: 次の旅行先はどこに？ (Place: 札幌円山動物園)
+post18 = Post.create!(title: "次の旅行先はどこに？", body: "冬の北海道（札幌円山動物園！）で、雪の中の動物たちを見てみたい。", user: users[4], postable_type: "Place", postable_id: places[4].id)
+attach_seed_image(post18, "hokkaido_trip.jpg")
+posts << post18
 
-# 投稿 19: 健康診断の結果 -> リニア・鉄道館 (Place) に関連付け（ランダム）
-posts << Post.create!(title: "健康診断の結果", body: "特に問題なし！健康第一。休日は子供と鉄道館へ。", user: users[3], postable_type: "Place", postable_id: places[5].id)
+# 投稿 19: 健康診断の結果 (Place: リニア・鉄道館)
+post19 = Post.create!(title: "健康診断の結果", body: "特に問題なし！健康第一。ご褒美に今度の休みは子供を連れて鉄道館へ行きます。", user: users[3], postable_type: "Place", postable_id: places[5].id)
+attach_seed_image(post19, "health_check.jpg")
+posts << post19
 
-# 投稿 20: 今日のランチ -> 上野動物園 (Place) 周辺に関連付け
-posts << Post.create!(title: "今日のランチ", body: "オフィス近くの定食屋さん。コスパ最高！今度は上野周辺で探そう。", user: users[2], postable_type: "Place", postable_id: places[8].id)
-
+# 投稿 20: 今日のランチ (Place: 上野動物園周辺)
+post20 = Post.create!(title: "今日のランチ", body: "上野周辺で定食屋さんを開拓。コスパ最高！動物園散策のあとのランチに最適です。", user: users[2], postable_type: "Place", postable_id: places[8].id)
+attach_seed_image(post20, "ueno_lunch.jpg")
+posts << post20
 
 # 投稿をシャッフルして、ランダムにタグ付け
 posts.each do |post|

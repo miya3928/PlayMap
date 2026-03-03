@@ -11,6 +11,12 @@
       <!-- ロゴ -->
       <%= link_to "PlayMap", root_path, class: "navbar-brand font-weight-bold h4 text-primary mr-3" %>
 
+      <ul class="navbar-nav mr-auto d-none d-md-block">
+        <li class="nav-item">
+          <%= link_to "ABOUT", about_path, class: "nav-link small font-weight-bold text-secondary", style: "letter-spacing: 0.1em;" %>
+        </li>
+      </ul>
+
       <!-- 右上アイコン群 -->
       <div class="d-flex align-items-center">
         <% if current_user %>
