@@ -1,34 +1,49 @@
-<div class="container my-5 py-5 px-4 post-list-wrapper">
-  <h1 class="text-center text-primary fw-bold mb-4">投稿一覧</h1>
-
-  <!-- リンク -->
-  <div class="mb-4 d-flex justify-content-between align-items-center">
-    <%= render 'public/posts/btn' %>
-    <div>
-      <%= link_to "レビューリスト", reviews_path, class: "btn btn-outline-success btn-sm me-2" %>
-      <%= link_to "場所一覧", places_path, class: "btn btn-outline-secondary btn-sm me-2" %>
-      <%= link_to "イベント一覧", events_path, class: "btn btn-outline-secondary btn-sm" %>
-    </div>
+<div class="container py-custom px-4">
+  <div class="text-center mb-section" data-aos="fade-up">
+    <span class="en-title">POST LIST</span>
+    <h1 class="jp-title">投稿一覧</h1>
   </div>
 
-  <!-- フィルター -->
-  <div id="posts-sort">
-  <%= render partial: "public/shared/filter_sort", locals: {
-    url: posts_path,
-    local_remote: false,
-    tags: @tags,
-    places: @places,
-    events: @events
-  } %>
+  <div class="minimal-filter-section mb-5" data-aos="fade-up">
+    <%= render partial: "public/shared/filter_sort", locals: { url: posts_path, local_remote: false, tags: @tags, places: @places, events: @events } %>
   </div>
 
-  <!-- 投稿リスト -->
-  <div id="posts-list">
-    <%= render 'public/posts/posts_list', posts: @posts %>
+  <div id="posts-list" class="row g-5">
+    <% @posts.each do |post| %>
+      <div class="col-md-4 mb-4" data-aos="fade-up">
+        <div class="upvege-card shadow-none border-0 bg-transparent">
+          <div class="img-zoom-box mb-3">
+             <%= display_image_or_default(post.image, classes: "upvege-img") %>
+          </div>
+          
+          <div class="card-content">
+            <div class="d-flex align-items-center mb-2">
+              <span class="card-date me-3"><%= post.created_at.strftime("%Y.%m.%d") %></span>
+              <% if post.postable.present? %>
+                <span class="badge-minimal"><%= post.postable_type %></span>
+              <% end %>
+            </div>
+            
+            <h5 class="card-title-min">
+              <%= link_to post.title, post_path(post), class: "text-decoration-none text-dark" %>
+            </h5>
+            
+            <p class="text-muted small mb-3"><%= truncate(post.body, length: 60) %></p>
+            
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="user-info-min">
+                <%= display_image_or_default(post.user.image, width: 24, height: 24, classes: "rounded-circle me-1") %>
+                <span class="small text-secondary"><%= post.user.name %></span>
+              </div>
+              <%= link_to "Read More", post_path(post), class: "read-more-link" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
 
-  <!-- ページネーション -->
-  <div id="pagination">
-   <%= render 'public/posts/pagination', posts: @posts %>
+  <div id="pagination" class="mt-section">
+    <%= render 'public/posts/pagination', posts: @posts %>
   </div>
 </div>
