@@ -21,7 +21,7 @@ features = [
       <p class="hero-lead">子どもたちの遊び場・イベントを<br class="d-md-none">みんなで共有しよう</p>
       
       <div class="hero-actions mt-5">
-        <%= link_to new_post_path, class: "upvege-btn" do %>
+        <%= link_to new_post_path, class: "cmp-btn" do %>
           <span>POST <i class="fas fa-arrow-right ml-2"></i></span>
         <% end %>
       </div>
@@ -64,9 +64,9 @@ features = [
       <div class="row">
         <% @posts.limit(3).each do |post| %>
           <div class="col-md-4 mb-4" data-aos="fade-up">
-            <div class="upvege-card">
+            <div class="cmp-card">
               <div class="img-zoom-box">
-                <%= display_image_or_default(post.image, classes: "upvege-img") %>
+                <%= display_image_or_default(post.image, classes: "cmp-img") %>
               </div>
               <div class="card-content pt-3">
                 <p class="card-date"><%= post.created_at.strftime("%Y.%m.%d") %></p>
@@ -91,9 +91,9 @@ features = [
       <div class="row">
         <% @reviews.limit(3).each do |review| %>
           <div class="col-md-4 mb-4" data-aos="fade-up">
-            <div class="upvege-card review-style">
+            <div class="cmp-card review-style">
               <div class="img-zoom-box">
-                <%= display_image_or_default(review.image, classes: "upvege-img") %>
+                <%= display_image_or_default(review.image, classes: "cmp-img") %>
               </div>
               <div class="card-content pt-3">
                 <div class="star-rating mb-2"><%= render 'public/reviews/display', review: review %></div>

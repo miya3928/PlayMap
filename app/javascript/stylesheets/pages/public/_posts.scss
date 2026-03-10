@@ -100,21 +100,21 @@
 }
 
 /* 投稿カードのブラッシュアップ */
-.upvege-card {
+.cmp-card {
   .img-zoom-box {
     aspect-ratio: 16 / 10; /* 画像の比率を統一 */
     overflow: hidden;
     background: #eee;
   }
   
-  .upvege-img {
+  .cmp-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
   
-  &:hover .upvege-img {
+  &:hover .cmp-img {
     transform: scale(1.08);
   }
 }
