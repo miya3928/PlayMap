@@ -1,18 +1,42 @@
-# Seedデータの処理を高速化するため、一時的にバリデーションをスキップしたい場合は、
-# 個々のモデルに `validates :column, presence: true` のような設定がないことを確認するか、
-# `Model.create!(..., validate: false)` を検討してください（通常は非推奨）。
-# ここでは、標準的な `create!` を使用します。
-def attach_seed_image(record, filename)
-  path = Rails.root.join("app/assets/images/seed_images/#{filename}")
-  final_path = File.exist?(path) ? path : Rails.root.join("app/assets/images/seed_images/sample.jpg")
+# db/seeds.rb
 
-  if File.exist?(final_path)
-    record.image.attach(io: File.open(final_path), filename: File.basename(final_path), content_type: 'image/jpeg')
-    puts "   -> Attached: #{File.basename(final_path)} to #{record.title}"
+# ----------------------------------------------------------------------------
+# ヘルパーメソッドの定義（データ作成より上に配置）
+# ----------------------------------------------------------------------------
+
+# --- 画像添付用のヘルパーメソッド ---
+# Active Storageによる添付ロジックを共通化
+# record: 添付対象のインスタンス（Post, Review, Placeなど）
+# filename: seed_imagesフォルダ内のファイル名
+def attach_seed_image(record, filename)
+  # 画像のパスを構築 (app/assets/images/seed_images/ から参照)
+  path = Rails.root.join("app/assets/images/seed_images/#{filename}")
+  
+  # ファイルが存在するか確認し、存在する場合のみ添付処理を行う
+  if File.exist?(path)
+    # 適切な content_type を決定 (ファイル拡張子に基づいて判断)
+    content_type = case File.extname(filename).downcase
+                   when '.jpg', '.jpeg' then 'image/jpeg'
+                   when '.png' then 'image/png'
+                   when '.gif' then 'image/gif'
+                   else 'application/octet-stream'
+                   end
+    
+    # attachメソッドで画像を添付
+    record.image.attach(io: File.open(path), 
+                        filename: filename, 
+                        content_type: content_type)
+    
+    # ログ出力の内容を少し汎用的に変更
+    record_type = record.class.model_name.human
+    record_title = record.try(:title) || record.try(:name) || "ID:#{record.id}"
+    puts "   -> [画像添付成功] #{record_type}「#{record_title}」: #{filename}"
   else
-    puts "   -> [Warning] No image found at #{final_path}"
+    puts "   -> [画像添付スキップ] ファイルが見つかりません: #{filename}"
   end
 end
+# ----------------------------------------------------------------------------
+
 
 puts "--- Seeding Data Start ---"
 
@@ -52,7 +76,6 @@ yoko = users[0]
 kenta = users[1] 
 puts "✅ 10 Users created. (佐藤 陽子, 田中 健太...)"
 
-# ... (Place, Event, Tagの作成は省略) ...
 
 # ----------------------------------------
 # 3. Places (10 places) - 子供向け実在の場所と正確な緯度経度
@@ -134,31 +157,7 @@ puts "✅ Tags created."
 Post.destroy_all
 posts = []
 
-# --- 画像添付用のヘルパーメソッド ---
-# Active Storageによる添付ロジックを共通化
-def attach_seed_image(record, filename)
-  # 画像のパスを構築 (app/assets/images/seed_images/ から参照)
-  path = Rails.root.join("app/assets/images/seed_images/#{filename}")
-  
-  # ファイルが存在するか確認し、存在する場合のみ添付処理を行う
-  if File.exist?(path)
-    # 適切な content_type を決定 (ファイル拡張子に基づいて判断)
-    content_type = case File.extname(filename).downcase
-                   when '.jpg', '.jpeg' then 'image/jpeg'
-                   when '.png' then 'image/png'
-                   when '.gif' then 'image/gif'
-                   else 'application/octet-stream'
-                   end
-    
-    record.image.attach(io: File.open(path), 
-                        filename: filename, 
-                        content_type: content_type)
-    puts "   -> [画像添付成功] #{record.title}: #{filename}"
-  else
-    puts "   -> [画像添付スキップ] ファイルが見つかりません: #{filename}"
-  end
-end
-# --------------------------------------
+# (attach_seed_imageの定義はファイル上部に移動しました)
 
 # 投稿 1: 京都鉄道博物館 (Place)
 post1 = Post.create!(title: "京都・鉄道博物館は最高！", body: "新幹線とSLに大興奮！子供より親が楽しんだかも。", user: yoko, postable_type: "Place", postable_id: places[0].id)
@@ -201,7 +200,7 @@ attach_seed_image(post8, "dolphin_aqua.jpg")
 posts << post8
 
 # 投稿 9: 上野動物園 (Place)
-post9 = Post.create!(title: "パンダに会いに上野動物園へ", body: "レトロな雰囲気も良い。広いのでベビーカーがおすすめ。", user: users[7], postable_type: "Place", postable_id: places[8].id)
+post9 = Post.create!(title: "パンダに会いに上野動物園へ", body: "レトロな雰囲気も良い.広いのでベビーカーがおすすめ。", user: users[7], postable_type: "Place", postable_id: places[8].id)
 attach_seed_image(post9, "panda_zoo.jpg")
 posts << post9
 
@@ -209,8 +208,6 @@ posts << post9
 post10 = Post.create!(title: "富士急トーマスランドが楽しい！", body: "絶叫系は無理でも、小さい子向けのエリアで十分満足。観覧車は楽しんでた。", user: users[8], postable_type: "Place", postable_id: places[9].id)
 attach_seed_image(post10, "fuji_amusement.jpg")
 posts << post10
-
-# --- ここから、以前「雑記」だった投稿にも関連付けを設定 ---
 
 # 投稿 11: グルメフェスのお知らせ (Event)
 post11 = Post.create!(title: "グルメフェスのお知らせ", body: "来週のグルメフェス、絶対行くべき！全国から美味しいものが集まります。", user: yoko, postable_type: "Event", postable_id: events[0].id)
@@ -243,23 +240,23 @@ attach_seed_image(post16, "ocean_cafe.jpg")
 posts << post16
 
 # 投稿 17: 子供のプログラミング学習 (Event: ITセミナー)
-post17 = Post.create!(title: "子供のプログラミング学習", body: "子供がプログラミングに興味津々。今度のITセミナーで、教え方のコツを聞いてみます。", user: users[5], postable_type: "Event", postable_id: events[3].id)
+post17 = Post.create!(title: "子供のプログラミング学習", body: "子供がプログラミングに興味津々。今度のITセミナーで、教え方のコツを聞いてみます。ゲームみたいで楽しそう。", user: users[5], postable_type: "Event", postable_id: events[3].id)
 attach_seed_image(post17, "kids_programming.jpg")
 posts << post17
 
 # 投稿 18: 次の旅行先はどこに？ (Place: 札幌円山動物園)
-post18 = Post.create!(title: "次の旅行先はどこに？", body: "冬の北海道（札幌円山動物園！）で、雪の中の動物たちを見てみたい。", user: users[4], postable_type: "Place", postable_id: places[4].id)
-attach_seed_image(post18, "hokkaido_trip.jpg")
+post18 = Post.create!(title: "餌やり体験最高でした！", body: "北海道で、いろいろな動物たちを見てきた！！また子供が大きくなったらいきたい。餌やり体験が楽しかったみたいでとても良かった。また行こうね。", user: users[4], postable_type: "Place", postable_id: places[4].id)
+attach_seed_image(post18, "zoo_feeding.jpg")
 posts << post18
 
 # 投稿 19: 健康診断の結果 (Place: リニア・鉄道館)
-post19 = Post.create!(title: "健康診断の結果", body: "特に問題なし！健康第一。ご褒美に今度の休みは子供を連れて鉄道館へ行きます。", user: users[3], postable_type: "Place", postable_id: places[5].id)
-attach_seed_image(post19, "health_check.jpg")
+post19 = Post.create!(title: "京都で親子旅行", body: "娘と京都旅行.親子で着物を着付けてもらって、散歩してきた！街並みも綺麗で着物も嬉しそうだった！", user: users[3], postable_type: "Place", postable_id: places[5].id)
+attach_seed_image(post19, "kyoto_travel.jpg")
 posts << post19
 
 # 投稿 20: 今日のランチ (Place: 上野動物園周辺)
-post20 = Post.create!(title: "今日のランチ", body: "上野周辺で定食屋さんを開拓。コスパ最高！動物園散策のあとのランチに最適です。", user: users[2], postable_type: "Place", postable_id: places[8].id)
-attach_seed_image(post20, "ueno_lunch.jpg")
+post20 = Post.create!(title: "浅草で散歩。お店の人が優しかった！！", body: "浅草周辺を開拓.人は多いけどお店の人が子連れに優しく、楽しかった。", user: users[2], postable_type: "Place", postable_id: places[8].id)
+attach_seed_image(post20, "asakusa_shop.jpg")
 posts << post20
 
 # 投稿をシャッフルして、ランダムにタグ付け
@@ -283,10 +280,18 @@ puts "✅ Relationships created."
 # 9. Reviews (評価)
 # ----------------------------------------
 Review.destroy_all
-Review.create!(user: kenta, post: posts[0], score: 5.0, body: "とても参考になりました！私も行ってみます。") # Post1へのReview
-Review.create!(user: users[3], post: posts[0], score: 4.0, body: "写真が綺麗ですね。拝見して癒されました。")
-Review.create!(user: yoko, post: posts[1], score: 4.5, body: "私もよく行く公園です。芝生が気持ちいいですよね。") # Post2へのReview
-Review.create!(user: users[5], post: posts[10], score: 5.0, body: "グルメフェス楽しみ！情報ありがとう！") # Post11へのReview
+# Review 1
+review1 = Review.create!(user: kenta, post: posts[18], score: 5.0, body: "私も家族と行ってきました。着付けはしませんでしたが、子供がとても喜んでいて、めちゃくちゃはしゃいでいました！") # Post1へのReview
+attach_seed_image(review1, "kyoto_review.jpg")
+
+# Review 2
+review2 = Review.create!(user: users[3], post: posts[18], score: 4.0, body: "写真が綺麗ですね.とても癒されました。自分も親子で京都の清水寺に行ってきましたが、とても良かったです。")
+attach_seed_image(review2, "kyoto_kiyomizu_review.jpg")
+
+# Review 3
+review3 = Review.create!(user: yoko, post: posts[19], score: 4.5, body: "私もよく行く公園です.芝生が気持ちいいですよね。子育て家庭におすすめです。") # Post2へのReview
+attach_seed_image(review3, "shinjuku_review.jpg")
+
 puts "✅ Reviews created."
 
 # ----------------------------------------
