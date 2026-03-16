@@ -53,26 +53,35 @@
 }
 
 #back-button a {
+  position: fixed;
+  top: 100px;
+  left: 25px;
+  z-index: 1000;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.8); /* 半透明の白 */
+  backdrop-filter: blur(8px);           /* 背景ぼかし(高級感) */
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 12px;                  /* 少し角丸 */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: #555;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: gray;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  transition: all 0.3s ease;
   text-decoration: none;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s, transform 0.2s;
 }
 
 #back-button a:hover {
-  background-color: lightgreen;
-  transform: scale(1.05);
+  background: #fff;
+  transform: translateX(-3px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  color: #000;
 }
 
 #back-button i {
-  font-size: 20px;
-  color: white;
+  font-size: 18px;
+  color: #444;
 }
 
 /* モバイル対応 */
